@@ -50,7 +50,7 @@ const getsearchList = async () => {
     types: "前端",
   };
   const { data } = await searchList(params);
-  newList.value = data.list;
+  newList.value = data;
 };
 
 onMounted(() => {

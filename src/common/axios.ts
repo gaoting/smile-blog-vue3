@@ -10,6 +10,7 @@ export const searchList = (data: any) => {
   return get("/api/article/searchList", data);
 };
 
-export const findById = (id: number) => {
-  return get("/api/article/list", id);
+export const findById = (data: any) => {
+  console.log(data);
+  return get("/api/article/list", data);
 };

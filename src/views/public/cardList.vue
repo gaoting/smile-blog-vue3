@@ -2,9 +2,10 @@
   <div class="card2 card">
     <div class="flex card-title">
       <h3>
-        <img src="../../assets/img/f14.png" alt="" class="animal" />热门文章
+        <img src="../../assets/img/f14.png" alt="" class="animal" />
+        {{ header.title }}
       </h3>
-      <a href="">更多</a>
+      <a :href="header.url">更多</a>
     </div>
     <ul>
       <li v-for="(item, index) in newList" :key="item.id" class="flex">
@@ -27,8 +28,8 @@ const timeStr = (date: string) => {
 };
 
 const props = defineProps({
-  newList: Array,
-  default: () => [] as Array<Articles[]>,
+  newList: { type: Array, default: () => [] as Array<Articles[]> },
+  header: { type: Object, default: { title: "热门推荐", url: "/" } },
 });
 
 let state = reactive({

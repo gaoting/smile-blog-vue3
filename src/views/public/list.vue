@@ -32,9 +32,7 @@
                 ><clock-circle-outlined />{{ timeStr(item.updateTime) }}</span
               >
             </div>
-            <button class="read" @click="goUrl(item.url, item.id)">
-              阅 读
-            </button>
+            <button class="read" @click="goUrl(item.id)">阅 读</button>
           </div>
         </div>
       </li>
@@ -48,7 +46,7 @@
   </div>
 </template>
 
-<script lang="ts" setup="props,context">
+<script lang="ts" setup>
 import { onMounted, reactive, ref } from "vue";
 import {
   TagsTwoTone,
@@ -77,11 +75,11 @@ const props = defineProps({
     },
   },
 });
+const router = useRouter();
 
-const goUrl = (url: string, id: number) => {
-  console.log(url, id);
-  const router = useRouter();
-  router.push(url);
+const goUrl = (id: number) => {
+  console.log(id);
+  router.push({ path: "/content", query: { id } });
 };
 
 const textStr = (text: string) => {

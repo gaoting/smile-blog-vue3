@@ -8,9 +8,12 @@ interface Articles {
   description: string;
   content: string;
   url: string;
+  prevId: number;
+  nextId: number;
+  prevTitle: string;
+  nextTitle: string;
   createTime: string;
   updateTime: string;
 }
 
-
-export default Articles
+export default Articles;
