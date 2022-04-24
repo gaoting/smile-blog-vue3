@@ -23,7 +23,7 @@ export default defineConfig({
   // 配置文件别名，vite1.0是/@/， 2.0改为/@
   resolve: {
     alias: {
-      '/@': resolve(__dirname, ".", 'src'),
+      '@': resolve(__dirname,  'src'),
     },
   },
 

@@ -4,28 +4,38 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/public/index.vue"),
+    component: () => import("../views/home/index.vue"),
   },
   {
     path: "/frondPage",
     name: "FrondPage",
-    component: () => import("../views/public/frondPage.vue"),
+    component: () => import("../views/home/frondPage.vue"),
   },
   
   {
     path: "/backstage",
     name: "Backstage",
-    component: () => import("../views/public/backstage.vue"),
+    component: () => import("../views/home/backstage.vue"),
   },
   {
     path: "/content",
     name: "Content",
-    component: () => import("../views/public/content.vue"),
+    component: () => import("../views/home/content.vue"),
+  },
+  {
+    path: "/about",
+    name: "About",
+    component: () => import("../views/home/about.vue"),
   },
   {
     path: "/test",
     name: "Test",
     component: () => import("../views/test/index.vue"),
+  },
+  {
+    path: "/articleAdd",
+    name: "AddArticle",
+    component: () => import("../views/admin/addArticle.vue"),
   },
 ];
 

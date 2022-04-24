@@ -1,12 +1,14 @@
 interface Articles {
   id: number;
+
   author: string;
   tags: string;
   types: string;
-  lookNum: number;
   title: string;
   description: string;
   content: string;
+  
+  lookNum: number;
   url: string;
   prevId: number;
   nextId: number;
