@@ -9,6 +9,8 @@ interface Articles {
   content: string;
   
   lookNum: number;
+  loveNum: number;
+  
   url: string;
   prevId: number;
   nextId: number;

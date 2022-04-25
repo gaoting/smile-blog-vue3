@@ -13,6 +13,7 @@
               <div class="flex">
                 <p>{{ $utils.myTimeToLocal(newDate.updateTime) }}</p>
                 <p>浏览：{{ newDate.lookNum }}</p>
+                <p>收藏：{{ newDate.loveNum }}</p>
               </div>
             </div>
           </div>
@@ -27,10 +28,14 @@
             </a-button>
           </div>
         </div>
+
+        <!-- 内容 -->
         <div class="article-content">
-          <strong>{{ newDate.description ? newDate.description : "" }}</strong>
-          <div></div>
+          <p>{{ newDate.description }}</p>
+          <div class="content-text"></div>
         </div>
+        <!-- 内容 -->
+
         <div class="myMsg flex" @click="goUrl('/content')">
           <img src="../../assets/img/photo.png" alt="" />
           <div class="msg-content">
@@ -99,6 +104,7 @@ import {
   LeftCircleFilled,
   CheckCircleFilled,
 } from "@ant-design/icons-vue";
+import { updateNum } from "../../common/axios";
 
 const props = defineProps({
   id: Number,
@@ -108,18 +114,21 @@ let getId = ref(0);
 const route = useRoute();
 let newDate = ref({} as Articles);
 
+// 获取详情   设置content description 标签转译
 const getRightsList = async () => {
   const { data } = await findById({ id: getId.value });
   newDate.value = data as any;
   console.log(newDate.value);
+  newDate.value.lookNum += 1;
   nextTick(() => {
-    let doms = document.querySelector(".article-content");
-    if (doms) {
-      doms.innerHTML += newDate.value.content;
-    }
+    let doms = document.querySelector(".content-text");
+    let desc = document.querySelector(".article-content>b");
+    doms ? (doms.innerHTML += newDate.value.content) : "";
+    desc ? (desc.innerHTML += newDate.value.description) : "";
   });
 };
 
+// 热门文章
 let newList = ref([] as Articles[]);
 const getNewList = async () => {
   const { data } = await searchList({ types: "前端" });
@@ -134,7 +143,7 @@ const handleCreate = () => {
 
 // 收藏 / 取消收藏
 let love = ref(false);
-const goLove = (bool: boolean) => {
+const goLove = async (bool: boolean) => {
   love.value = !love.value;
   let getData = localStorage.getItem("myLove");
 
@@ -142,15 +151,27 @@ const goLove = (bool: boolean) => {
     let arr = [...JSON.parse(getData)];
 
     if (bool) {
+      console.log("tttttttttt");
       let index = arr.findIndex((v) => v.id == getId.value);
       if (index == -1) {
         arr.push(newDate.value);
         localStorage.setItem("myLove", JSON.stringify(arr));
+        console.log(newDate.value.loveNum);
+        const { data } = await updateNum({
+          id: newDate.value.id,
+          loveNum: newDate.value.lookNum,
+        });
+        newDate.value.loveNum = data.loveNum;
       }
     } else {
       arr = arr.filter((v) => v.id !== getId.value);
-
       localStorage.setItem("myLove", JSON.stringify(arr));
+      const { data } = await updateNum({
+        id: newDate.value.id,
+        loveNum: newDate.value.lookNum - 2,
+      });
+      console.log(newDate.value.lookNum - 2, data.loveNum);
+      newDate.value.loveNum = data.loveNum;
     }
   } else {
     let arr = [];
@@ -161,6 +182,7 @@ const goLove = (bool: boolean) => {
   handleCreate();
 };
 
+// 判断是否收藏
 const getLove = () => {
   let getData = localStorage.getItem("myLove");
   if (getData && JSON.parse(getData).length >= 0) {

@@ -21,7 +21,7 @@
       </a-form-item>
       <a-form-item label="   ">
         <a-button type="success" size="large" @click="onSubmit">提交</a-button>
-        <a-button size="large"  style="margin-left: 10px">取消</a-button>
+        <a-button size="large" style="margin-left: 10px">取消</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -38,6 +38,8 @@ import {
 } from "vue";
 import Editor from "@/components/TinymceEditor/index.vue";
 import type { UnwrapRef } from "vue";
+import { createArticle } from "../../common/axios";
+import { message } from "ant-design-vue";
 
 let detail = ref("");
 
@@ -55,23 +57,23 @@ interface Articles {
 
 const formState: UnwrapRef<Articles> = reactive({
   author: "smile",
-  tags: "",
-  types: "",
-  title: "",
-  description: "",
+  tags: "vue",
+  types: "前端",
+  title: "dsaasss",
+  description: "达士大夫撒；唠嗑",
   content: "",
 });
-const onSubmit = () => {
+const onSubmit = async () => {
+  formState.content = detail.value;
   console.log("submit!", toRaw(formState));
+  const data = await createArticle(formState);
+  console.log(data);
+  message.success("文章创建成功");
 };
 
 const handleChangeEditor = (content: any) => {
   detail.value = content;
-  console.log(detail);
 };
-
-
-
 </script>
 
 <style scoped lang="scss">
@@ -79,9 +81,9 @@ const handleChangeEditor = (content: any) => {
   padding: 40px 20px;
   width: 100%;
   height: calc(100% - 60px);
-  background: url('../../assets/img/bg55.png') no-repeat ;
+  background: url("../../assets/img/bg55.png") no-repeat;
   // background-position: bottom right;
   background-size: 100% 100%;
-  background-attachment:fixed;
+  background-attachment: fixed;
 }
 </style>

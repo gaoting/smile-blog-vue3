@@ -152,7 +152,7 @@ onMounted(() => {
     top: 20%;
     left: 50%;
     width: 100%;
-    min-height: 200px;
+    min-height: 148px;
     background-color: rgba(0, 0, 0, 0.35);
     transform: translate(-50%, -50%);
     // border: 4px solid #fff;
@@ -169,7 +169,7 @@ onMounted(() => {
     }
     h2 {
       width: 100%;
-      font-size: 40px;
+      font-size: 2.2vw;
       text-align: center;
       line-height: 1.75em;
     }

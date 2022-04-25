@@ -45,7 +45,7 @@ p {
 .content-box {
     width: 1200px;
     margin: auto;
-    padding: 16px 0;
+    padding: 24px 0;
     justify-content: space-between;
 
     .cont-left {
@@ -59,7 +59,7 @@ p {
                 padding: 20px;
                 border-radius: 4px;
                 margin-bottom: 16px;
-                height: 184px;
+                height: 196px;
                 // border-bottom: 2px solid pink;
 
                 &:hover {
@@ -135,7 +135,7 @@ p {
 
         .card2 {
             .card-title {
-                // background: #549e8f;
+                // background: #2e8e7b;
                 border-bottom: 1px solid #f2f2f2;
                 padding: 0px 16px;
                 margin-bottom: 8px;
@@ -145,7 +145,7 @@ p {
                 h3 {
                     color: rgb(0, 0, 0, 0.85);
                     font-size: 18px;
-                    border-bottom: 3px solid #549e8f;
+                    border-bottom: 3px solid #2e8e7b;
                     line-height: 40px;
                     // padding: 0 8px;
                 }
@@ -171,7 +171,7 @@ p {
                     span {
                         font-size: 15px;
                         margin-right: 4px;
-                        color: #549e8f;
+                        color: #2e8e7b;
                         // background: #ea646f;
                         width: 24px;
                         height: 24px;
@@ -182,7 +182,7 @@ p {
 
                         &.order {
                             color: #fff;
-                            background: #549e8f;
+                            background: #2e8e7b;
                         }
                     }
                 }
@@ -211,7 +211,7 @@ p {
 
     .articleImg {
         width: 240px;
-        height: 144px;
+        height: 154px;
         overflow: hidden;
 
         .cont-img {
@@ -236,17 +236,22 @@ p {
         flex-wrap: wrap;
         align-content: space-between;
         padding: 0 0 0 16px;
-        height: 144px;
+        height: 158px;
 
         &>p {
             font-size: 14px;
             width: 100%;
             line-height: 1.75em;
-            text-indent: 2em;
-            font-family: "Helvetica Neue";
+            // text-indent: 2em;
+            // font-family: "Helvetica Neue";
             opacity: 0.85;
             color: #757575;
-
+            margin: 18px 0 12px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+            text-indent: 2em;
         }
 
         .flex {
@@ -255,21 +260,26 @@ p {
             &.text-list {
                 width: 100%;
                 align-items: end;
+
+                &>.flex {
+                    // transform: 
+                    align-items: flex-end;
+                }
             }
 
             &>button {
-                width: 60px;
-                padding: 2px 0;
+                width: 80px;
+                padding: 6px 0;
                 display: block;
                 color: #fff;
-                background: #71c1b1;
+                background: #36af97;
                 border: 1px solid #10a07e;
                 font-size: 13px;
                 font-weight: 400;
 
                 &:hover {
-                    background: #549e8f;
-                    border: 1px solid #71c1b1;
+                    background: #2e8e7b;
+                    border: 1px solid #36af97;
                 }
 
                 border-radius: 4px;
@@ -324,17 +334,18 @@ button.ant-btn.ant-btn-red {
 }
 
 button.ant-btn.ant-btn-success {
-    background: #71c1b1;
+    background: #36af97;
     border: 1px solid #56b19f;
     color: #fff;
 
 
     &:hover {
         background: #56b19f;
-        border: 1px solid #71c1b1;
+        border: 1px solid #36af97;
     }
 }
-.ant-form-item-label > label::after {
+
+.ant-form-item-label>label::after {
     content: '';
     position: relative;
     top: -0.5px;
@@ -343,9 +354,38 @@ button.ant-btn.ant-btn-success {
 
 .ant-btn:hover,
 .ant-btn:focus {
-    color: #71c1b1;
+    color: #36af97;
     border-color: #56b19f;
     background: #fff;
+}
+
+.article-content {
+    &>p {
+        background: #f2f2f2;
+        padding: 8px 16px;
+        margin-bottom: 2em;
+        border-radius: 4px;
+        text-indent: 2em;
+        line-height: 30px;
+        font-size: 15px;
+        letter-spacing: 2px;
+    }
+
+    .content-text {
+        padding: 0 20px 20px;
+
+        span {
+            // margin: 0 0 20px 0;
+            line-height: 30px;
+            text-indent: 2em;
+            display: inline-block;
+            font-family: -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, Microsoft Yahei, Arial, sans-serif;
+            // font-size: 16px;
+            color: #4c4e4d;
+            // font-weight: 400;
+            letter-spacing: 1px;
+        }
+    }
 }
 
 @-webkit-keyframes animal {

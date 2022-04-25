@@ -3,18 +3,19 @@
     <ul>
       <li v-for="item in allArticleList" :key="item.id" class="flex">
         <div class="articleImg">
-          <img :src="imgStr" alt="" class="cont-img" />
+          <img :src="imgStr" alt="" class="cont-img" @click="goUrl(item.id)" />
         </div>
         <div class="box-text">
           <h4>
-            <a :href="item.url">{{ item.title }}</a>
+            <a :href="`/content?id=${item.id}`">{{ item.title }}</a>
           </h4>
           <p>
-            {{
-              item.content?.length > 110
-                ? textStr(item.content) + "……"
-                : item.content
-            }}
+            {{ textHtml(item.description) }}
+            <!-- {{
+              item.descrition?.length > 110
+                ? textStr(item.descrition) + "……"
+                : item.descrition
+            }} -->
           </p>
           <div class="flex text-list">
             <div class="flex">
@@ -47,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, nextTick } from "vue";
 import {
   TagsTwoTone,
   UserOutlined,
@@ -58,6 +59,7 @@ import {
 import Pagination from "../../components/Pagination.vue";
 import Articles from "../interface/index";
 import { useRoute, useRouter } from "vue-router";
+import { object } from "vue-types";
 
 const props = defineProps({
   allArticleList: {
@@ -107,10 +109,17 @@ function randomStr(arr: Array<string>) {
   return newArr[0];
 }
 
+// 去除描述的html标签
+const textHtml = (str: string) => {
+  const reg4 = /(<\/?font.*?>)|(<\/?span.*?>)|(<\/?a.*?>)/gi;
+  return str.replace(reg4, "");
+};
+
 onMounted(() => {
   imgStr.value = "/src/assets/img/" + randomStr(imgList);
 });
 
+// 分页交互
 const emit = defineEmits(["onShowSizeChange"]);
 const onShowSizeChange = (data: any) => {
   state.page.pageSize = data.pageSize;

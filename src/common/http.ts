@@ -14,6 +14,10 @@ const http: AxiosInstance = axios.create({
 
 http.interceptors.request.use(
   (config: AxiosRequestConfig) => {
+    console.log(config, "ccccccccccccccc");
+    if (config.url === "/api/article/upload") {
+      config.headers = { Accept: "multipart/form-data" };
+    }
     return config;
   },
   (error) => {

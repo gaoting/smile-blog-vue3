@@ -14,10 +14,7 @@
           <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span>
           {{ item.title }}
         </a>
-        <span style="color: #ea3657">
-          <fire-filled style="color: #ea3657; font-size: 16px" />
-          {{ item.lookNum }}
-        </span>
+        <span>{{ timeStr(item.updateTime) }}</span>
       </li>
     </ul>
 
@@ -27,8 +24,10 @@
           <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span>
           {{ item.title }}
         </a>
-
-        <span>{{ timeStr(item.updateTime) }}</span>
+        <span style="color: #ea3657">
+          <fire-filled style="color: #ea3657; font-size: 16px" />
+          {{ item.lookNum }}
+        </span>
       </li>
     </ul>
   </div>
@@ -83,7 +82,7 @@ watch(
   () => props.timer,
   (newVal, oldVal) => {
     console.log(newVal, oldVal);
-    getLove()
+    getLove();
   }
 );
 
