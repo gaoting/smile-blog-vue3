@@ -167,6 +167,7 @@ p {
 
                 a {
                     color: #333;
+                    align-items: center;
 
                     span {
                         font-size: 15px;
@@ -174,9 +175,9 @@ p {
                         color: #2e8e7b;
                         // background: #ea646f;
                         width: 24px;
-                        height: 24px;
+                        // height: 24px;
                         border-radius: 2px;
-                        line-height: 24px;
+                        // line-height: 24px;
                         text-align: center;
                         display: inline-block;
 
@@ -184,6 +185,28 @@ p {
                             color: #fff;
                             background: #2e8e7b;
                         }
+                    }
+
+
+                    .icon-style {
+                        width: 44px;
+                        color: #000;
+                        text-align: left;
+                        display: inline-flex;
+                        span {
+                            font-size: 18px;
+                            margin-right: 0;
+
+                        }
+
+                        h5 {
+                            font-size: 16px;
+                            display: inline-block;
+                            line-height: 0.7em;
+                            vertical-align: middle;
+                            color: #2e8e7b;
+                        }
+
                     }
                 }
 
@@ -237,16 +260,16 @@ p {
         align-content: space-between;
         padding: 0 0 0 16px;
         height: 158px;
-
+        overflow: hidden;
         &>p {
             font-size: 14px;
             width: 100%;
-            line-height: 1.75em;
+            line-height: 26px;
             // text-indent: 2em;
             // font-family: "Helvetica Neue";
             opacity: 0.85;
             color: #757575;
-            margin: 18px 0 12px;
+            margin: 12px 0;
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 3;
@@ -268,8 +291,8 @@ p {
             }
 
             &>button {
-                width: 80px;
-                padding: 6px 0;
+                width: 70px;
+                padding: 4px 0;
                 display: block;
                 color: #fff;
                 background: #36af97;
@@ -362,17 +385,17 @@ button.ant-btn.ant-btn-success {
 .article-content {
     &>p {
         background: #f2f2f2;
-        padding: 8px 16px;
-        margin-bottom: 2em;
+        padding: 16px;
         border-radius: 4px;
         text-indent: 2em;
         line-height: 30px;
         font-size: 15px;
         letter-spacing: 2px;
+        border-left: 4px solid #ccc;
     }
 
     .content-text {
-        padding: 0 20px 20px;
+        padding: 50px 20px 60px;
 
         span {
             // margin: 0 0 20px 0;

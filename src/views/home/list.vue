@@ -24,9 +24,12 @@
                 <tags-two-tone two-tone-color="#52c41a" />
                 {{ item.tags }}
               </span>
-              <span> <user-outlined />{{ item.author }}</span>
               <span>
-                <eye-outlined />
+                <star-filled :style="{ color: '#f98102' }" />
+                {{ item.loveNum }}</span
+              >
+              <span>
+                <eye-outlined :style="{ color: '#333' }"/>
                 {{ item.lookNum }}
               </span>
               <span
@@ -55,6 +58,7 @@ import {
   EyeOutlined,
   ClockCircleOutlined,
   ForwardOutlined,
+  StarFilled,
 } from "@ant-design/icons-vue";
 import Pagination from "../../components/Pagination.vue";
 import Articles from "../interface/index";

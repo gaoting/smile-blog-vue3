@@ -149,17 +149,16 @@ const goLove = async (bool: boolean) => {
 
   if (getData && JSON.parse(getData).length > 0) {
     let arr = [...JSON.parse(getData)];
-
+    console.log(newDate.value.loveNum, "tttttttttt");
     if (bool) {
-      console.log("tttttttttt");
       let index = arr.findIndex((v) => v.id == getId.value);
       if (index == -1) {
         arr.push(newDate.value);
         localStorage.setItem("myLove", JSON.stringify(arr));
-        console.log(newDate.value.loveNum);
+
         const { data } = await updateNum({
           id: newDate.value.id,
-          loveNum: newDate.value.lookNum,
+          loveNum: newDate.value.loveNum + 1,
         });
         newDate.value.loveNum = data.loveNum;
       }
@@ -168,9 +167,8 @@ const goLove = async (bool: boolean) => {
       localStorage.setItem("myLove", JSON.stringify(arr));
       const { data } = await updateNum({
         id: newDate.value.id,
-        loveNum: newDate.value.lookNum - 2,
+        loveNum: newDate.value.loveNum - 1,
       });
-      console.log(newDate.value.lookNum - 2, data.loveNum);
       newDate.value.loveNum = data.loveNum;
     }
   } else {
@@ -222,8 +220,8 @@ onMounted(() => {
   }
   .msg-title {
     align-items: center;
-    margin: 10px 0 30px;
-    padding: 8px 0 20px;
+    // margin: 10px 0 20px;
+    padding: 30px 0 40px;
     // border-bottom: 1px solid #f2f2f2;
     justify-content: space-between;
     h5 {
@@ -244,12 +242,12 @@ onMounted(() => {
     }
   }
   .myMsg {
-    background: rgba(84, 158, 143, 0.9);
+    border: 1px solid rgba(84, 158, 143, 0.9);
     padding: 16px;
     margin: 32px 0;
     border-radius: 4px;
     align-items: center;
-
+    background: rgb(130 212 195 / 80%);
     .msg-content {
       width: calc(100% - 100px);
       padding: 0 16px;

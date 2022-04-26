@@ -19,11 +19,11 @@ const navList = reactive([{ url: "" }]);
 
 <style scoped lang="scss">
 .footer {
-  background: #71b1a4;
-  padding: 6px;
+  background: rgba(130, 212, 195, 0.8);
+  padding: 8px;
   .footer-text {
     text-align: center;
-    color: #fff;
+    color: #0b8068;
   }
 }
 </style>

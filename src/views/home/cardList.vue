@@ -8,17 +8,38 @@
       <a href="/">更多</a>
     </div>
 
+    <!-- 我的收藏 -->
     <ul v-if="loveList && loveList.length > 0">
       <li v-for="(item, index) in loveList" :key="item.id" class="flex">
-        <a href="`/content?=${id}`">
-          <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span>
-          {{ item.title }}
+        <a href="`/content?=${id}`" class="flex">
+          <!-- <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span> -->
+          <heart-filled :style="{ color: '#fe91a5' }" />
+         <p> {{ item.title }}</p>
         </a>
         <span>{{ timeStr(item.updateTime) }}</span>
       </li>
     </ul>
 
-    <ul v-else-if="newList && newList.length > 0">
+    <!-- 收藏最多 -->
+    <ul v-else-if="props.header.title == '收藏最多'">
+      <li v-for="(item, index) in newList" :key="item.id" class="flex">
+        <a href="`/content?=${id}`" class="flex">
+          <!-- <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span> -->
+          <span class="icon-style flex">
+            <field-number-outlined />
+            <h5>{{ index + 1 }}</h5>
+          </span>
+          <p>{{ item.title }}</p>
+        </a>
+        <span style="color: #f98102">
+          <star-filled :style="{ color: '#f98102' }" />
+          {{ item.loveNum }}
+        </span>
+      </li>
+    </ul>
+
+    <!-- 热门推荐 -->
+    <ul v-else-if="props.header.title == '热门推荐'">
       <li v-for="(item, index) in newList" :key="item.id" class="flex">
         <a href="`/content?=${id}`">
           <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span>
@@ -36,7 +57,12 @@
 <script setup lang="ts">
 import { nextTick, onMounted, reactive, ref, watch } from "vue";
 import Articles from "../interface/index";
-import { FireFilled } from "@ant-design/icons-vue";
+import {
+  FireFilled,
+  HeartFilled,
+  StarFilled,
+  FieldNumberOutlined,
+} from "@ant-design/icons-vue";
 
 const timeStr = (date: string) => {
   return date?.substring(0, 10);
@@ -91,5 +117,5 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 </style>
