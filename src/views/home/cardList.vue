@@ -11,43 +11,48 @@
     <!-- 我的收藏 -->
     <ul v-if="loveList && loveList.length > 0">
       <li v-for="(item, index) in loveList" :key="item.id" class="flex">
-        <a href="`/content?=${id}`" class="flex">
+        <a :href="`/content?id=${item.id}`" class="flex">
           <!-- <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span> -->
-          <heart-filled :style="{ color: '#fe91a5' }" />
-         <p> {{ item.title }}</p>
-        </a>
-        <span>{{ timeStr(item.updateTime) }}</span>
-      </li>
-    </ul>
-
-    <!-- 收藏最多 -->
-    <ul v-else-if="props.header.title == '收藏最多'">
-      <li v-for="(item, index) in newList" :key="item.id" class="flex">
-        <a href="`/content?=${id}`" class="flex">
-          <!-- <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span> -->
-          <span class="icon-style flex">
-            <field-number-outlined />
-            <h5>{{ index + 1 }}</h5>
-          </span>
+          <!-- <heart-filled :style="{ color: '#fe91a5' }" /> -->
+          <span class="point"></span>
           <p>{{ item.title }}</p>
         </a>
-        <span style="color: #f98102">
-          <star-filled :style="{ color: '#f98102' }" />
-          {{ item.loveNum }}
-        </span>
+        <span>{{ timeStr(item.updateTime) }}</span>
       </li>
     </ul>
 
     <!-- 热门推荐 -->
     <ul v-else-if="props.header.title == '热门推荐'">
       <li v-for="(item, index) in newList" :key="item.id" class="flex">
-        <a href="`/content?=${id}`">
+        <a :href="`/content?id=${item.id}`">
           <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span>
           {{ item.title }}
         </a>
-        <span style="color: #ea3657">
-          <fire-filled style="color: #ea3657; font-size: 16px" />
+        <span style="">
+          <fire-filled
+            style="color: #f9768e; font-size: 16px"
+            v-if="index < 3"
+          />
           {{ item.lookNum }}
+        </span>
+      </li>
+    </ul>
+
+    <!-- 收藏最多 -->
+    <ul v-else-if="props.header.title == '收藏最多'">
+      <li v-for="(item, index) in newList" :key="item.id" class="flex">
+        <a :href="`/content?id=${item.id}`" class="flex">
+          <!-- <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span> -->
+          <!-- <span class="icon-style flex" v-if="index < 3">
+            <field-number-outlined />
+            <h5>{{ index + 1 }}</h5>
+          </span> -->
+            <span class="point"></span>
+          <p>{{ item.title }}</p>
+        </a>
+        <span style="color: #f97858">
+          <star-filled :style="{ color: '#f97858' }" />
+          {{ item.loveNum }}
         </span>
       </li>
     </ul>

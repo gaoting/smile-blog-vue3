@@ -29,7 +29,12 @@
           </div>
         </div>
         <TagList></TagList>
+        <CardList :header="{ title: '我的收藏', url: '/' }"></CardList>
         <CardList :newList="newList"></CardList>
+        <CardList
+          :newList="collectList"
+          :header="{ title: '收藏最多', url: '/' }"
+        ></CardList>
       </div>
     </div>
   </div>
@@ -65,11 +70,24 @@ const getAllList = async () => {
   page.total = data.total;
 };
 
+// 热门推荐
 let newList = ref([] as Articles[]);
 const getsearchList = async () => {
-  const params = {};
+  const params = {
+    orderByDesc: ["lookNum"],
+  };
   const { data } = await searchList(params);
   newList.value = data.list;
+};
+
+// 收藏列表
+let collectList = ref([] as Articles[]);
+const getCollectList = async () => {
+  const params = {
+    orderByDesc: ["loveNum"],
+  };
+  const { data } = await searchList(params);
+  collectList.value = data.list;
 };
 
 // 随机文字
@@ -128,6 +146,7 @@ let banner = ref("");
 onMounted(() => {
   getAllList();
   getsearchList();
+  getCollectList();
   nextTick(() => {
     title.value = randomStr(textList);
     banner.value = "../../src/assets/img/" + randomStr(imgList);
@@ -137,29 +156,31 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+.box {
+  margin-top: -60px;
+}
 .banner {
   position: relative;
   .banner-img {
-    max-height: calc(100vh - 60px);
+    max-height: 100vh;
     overflow: hidden;
     img {
       display: block;
       width: 100%;
+      // height: calc(100vh - 60px);
     }
   }
   .banner-text {
     position: absolute;
-    top: 20%;
+    top: 70%;
     left: 50%;
-    width: 100%;
+    width: 76%;
     min-height: 148px;
     background-color: rgba(0, 0, 0, 0.35);
     transform: translate(-50%, -50%);
-    // border: 4px solid #fff;
-    padding: 2%;
+    padding: 4vh;
     flex-wrap: wrap;
     justify-content: center;
-    // border-radius: 50px;
     .mask {
       background: -webkit-linear-gradient(left, yellow, #05f8c7) 0 0 no-repeat; /*设置线性渐变*/
       -webkit-background-size: 20% 400px; /*设置背景大小*/

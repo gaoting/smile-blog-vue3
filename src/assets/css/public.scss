@@ -42,6 +42,10 @@ p {
     cursor: pointer;
 }
 
+#app {
+    padding-top: 60px;
+}
+
 .content-box {
     width: 1200px;
     margin: auto;
@@ -135,7 +139,7 @@ p {
 
         .card2 {
             .card-title {
-                // background: #2e8e7b;
+         
                 border-bottom: 1px solid #f2f2f2;
                 padding: 0px 16px;
                 margin-bottom: 8px;
@@ -145,7 +149,7 @@ p {
                 h3 {
                     color: rgb(0, 0, 0, 0.85);
                     font-size: 18px;
-                    border-bottom: 3px solid #2e8e7b;
+                    border-bottom: 3px solid #02bfbb;
                     line-height: 40px;
                     // padding: 0 8px;
                 }
@@ -174,7 +178,7 @@ p {
                         margin-right: 4px;
                         color: #2e8e7b;
                         // background: #ea646f;
-                        width: 24px;
+                        width: 20px;
                         // height: 24px;
                         border-radius: 2px;
                         // line-height: 24px;
@@ -183,16 +187,18 @@ p {
 
                         &.order {
                             color: #fff;
-                            background: #2e8e7b;
+                            background: #5ec1ae;
+
                         }
                     }
 
 
                     .icon-style {
-                        width: 44px;
+                        width: 32px;
                         color: #000;
                         text-align: left;
                         display: inline-flex;
+
                         span {
                             font-size: 18px;
                             margin-right: 0;
@@ -221,9 +227,16 @@ p {
                     color: #000;
                 }
 
-                &:nth-child(1) {
-                    list-style-type: disc;
+                &:nth-child(3) span.order {
+                    background: #019997;
                 }
+                &:nth-child(2) span.order {
+                    background: #02bfbb;
+                }
+                &:nth-child(1) span.order {
+                    background: #69CFC8;
+                }
+
 
                 &:last-child {
                     border-bottom: none;
@@ -261,6 +274,7 @@ p {
         padding: 0 0 0 16px;
         height: 158px;
         overflow: hidden;
+
         &>p {
             font-size: 14px;
             width: 100%;
@@ -268,7 +282,7 @@ p {
             // text-indent: 2em;
             // font-family: "Helvetica Neue";
             opacity: 0.85;
-            color: #757575;
+            color: #8590a6;
             margin: 12px 0;
             display: -webkit-box;
             -webkit-box-orient: vertical;
@@ -291,17 +305,17 @@ p {
             }
 
             &>button {
-                width: 70px;
+                width: 60px;
                 padding: 4px 0;
                 display: block;
                 color: #fff;
-                background: #36af97;
-                border: 1px solid #10a07e;
+                background: #5ec1ae;
+                border: 1px solid #04B7AC;
                 font-size: 13px;
                 font-weight: 400;
 
                 &:hover {
-                    background: #2e8e7b;
+                    background: #04B7AC;
                     border: 1px solid #36af97;
                 }
 
@@ -310,7 +324,7 @@ p {
 
             &>span {
                 padding-right: 20px;
-                color: #bbb;
+                color: #8590a6;
 
                 &>span {
                     font-size: 16px;
@@ -327,7 +341,7 @@ p {
 
             a {
                 display: block;
-                // color: #10a07e;
+                // color: #04B7AC;
                 color: #666;
                 font-size: 19px;
                 line-height: 1.1em;
@@ -352,7 +366,9 @@ button.ant-btn.ant-btn-red {
     }
 
     &:hover {
-        color: #333;
+        color: #fff;
+        background: #fd4467;
+        border: 1px solid #ea3657;
     }
 }
 
@@ -387,11 +403,12 @@ button.ant-btn.ant-btn-success {
         background: #f2f2f2;
         padding: 16px;
         border-radius: 4px;
-        text-indent: 2em;
+        // text-indent: 2em;
         line-height: 30px;
         font-size: 15px;
         letter-spacing: 2px;
         border-left: 4px solid #ccc;
+        color: #7d818a;
     }
 
     .content-text {
@@ -409,6 +426,15 @@ button.ant-btn.ant-btn-success {
             letter-spacing: 1px;
         }
     }
+}
+
+.point {
+    width: 6px !important;
+    height: 6px;
+    border-radius: 100%;
+    background: #5ec1ae;
+    display: inline-block;
+    margin-right: 8px !important;
 }
 
 @-webkit-keyframes animal {

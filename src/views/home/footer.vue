@@ -1,4 +1,7 @@
 <template>
+  <div id="upTop">
+    <arrow-up-outlined />
+  </div>
   <div class="footer">
     <!-- <ul class="flex">
       <li v-for="(item, index) in navList" :key="index">
@@ -13,17 +16,39 @@
 
 <script setup lang="ts">
 import { reactive } from "@vue/reactivity";
+import { ArrowUpOutlined } from "@ant-design/icons-vue";
 
 const navList = reactive([{ url: "" }]);
 </script>
 
 <style scoped lang="scss">
 .footer {
-  background: rgba(130, 212, 195, 0.8);
+  background: #333;
   padding: 8px;
   .footer-text {
     text-align: center;
-    color: #0b8068;
+    color: #8590a6;
+  }
+}
+#upTop {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 48px;
+  right: 16px;
+  bottom: 60px;
+  color: #8590a6;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 3px 3px #ccc;
+  span {
+    font-size: 24px;
+    font-weight: bolder;
+  }
+  &:hover {
+    background: #d3d3d3;
+    color: #76839b;
   }
 }
 </style>

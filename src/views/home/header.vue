@@ -31,6 +31,10 @@ nav {
   height: 60px;
   padding: 0 20px;
   align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
   ul {
     width: 600px;
     margin: 10px 0;

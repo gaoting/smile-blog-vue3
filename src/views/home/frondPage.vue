@@ -9,11 +9,12 @@
     <div class="cont-right">
       <TagList></TagList>
       <CardList :header="{ title: '我的收藏', url: '/' }"></CardList>
+      <CardList :newList="newList"></CardList>
       <CardList
         :newList="collectList"
         :header="{ title: '收藏最多', url: '/' }"
       ></CardList>
-      <CardList :newList="newList"></CardList>
+      
     </div>
   </div>
 </template>

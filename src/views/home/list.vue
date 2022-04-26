@@ -21,17 +21,18 @@
             <div class="flex">
               <span>分类：{{ item.types }}</span>
               <span>
-                <tags-two-tone two-tone-color="#52c41a" />
+                <tags-two-tone two-tone-color="#69CFC8" />
                 {{ item.tags }}
               </span>
               <span>
-                <star-filled :style="{ color: '#f98102' }" />
-                {{ item.loveNum }}</span
-              >
-              <span>
-                <eye-outlined :style="{ color: '#333' }"/>
+                <eye-outlined :style="{ color: '#02bfbb' }" />
                 {{ item.lookNum }}
               </span>
+              <span>
+                <star-filled :style="{ color: '' }" />
+                {{ item.loveNum }}</span
+              >
+
               <span
                 ><clock-circle-outlined />{{ timeStr(item.updateTime) }}</span
               >

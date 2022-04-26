@@ -66,8 +66,8 @@ onMounted(() => {});
       display: block;
       text-align: center;
       line-height: 16px;
-      font-size: 12px;
-      font-weight: 500;
+      font-size: 13px;
+      font-weight: 400;
       &:nth-child(3n) {
         border-right: 0;
       }

@@ -11,7 +11,7 @@
                 {{ newDate.author }}
               </h5>
               <div class="flex">
-                <p>{{ $utils.myTimeToLocal(newDate.updateTime) }}</p>
+                <p>发布时间：{{ $utils.myTimeToLocal(newDate.updateTime) }}</p>
                 <p>浏览：{{ newDate.lookNum }}</p>
                 <p>收藏：{{ newDate.loveNum }}</p>
               </div>
@@ -131,7 +131,10 @@ const getRightsList = async () => {
 // 热门文章
 let newList = ref([] as Articles[]);
 const getNewList = async () => {
-  const { data } = await searchList({ types: "前端" });
+  const { data } = await searchList({
+    types: "前端",
+    orderByDesc: ["lookNum"],
+  });
   newList.value = data.list;
 };
 
@@ -212,25 +215,27 @@ onMounted(() => {
 <style scoped lang="scss">
 .article-box {
   background: #fff;
-  padding: 20px;
+  padding: 40px 20px;
   border-radius: 4px;
   .article-title {
     font-size: 32px;
     text-align: center;
   }
   .msg-title {
-    align-items: center;
+    align-items: end;
     // margin: 10px 0 20px;
     padding: 30px 0 40px;
     // border-bottom: 1px solid #f2f2f2;
     justify-content: space-between;
     h5 {
-      font-size: 16px;
+      font-size: 17px;
       color: #333;
+      line-height: 1.4em;
+      font-weight: bolder;
     }
     p {
       margin-right: 40px;
-      color: #757575;
+      color: #7d818a;
       font-size: 14px;
     }
     img {
@@ -242,12 +247,11 @@ onMounted(() => {
     }
   }
   .myMsg {
-    border: 1px solid rgba(84, 158, 143, 0.9);
     padding: 16px;
     margin: 32px 0;
     border-radius: 4px;
     align-items: center;
-    background: rgb(130 212 195 / 80%);
+    background: #019997;
     .msg-content {
       width: calc(100% - 100px);
       padding: 0 16px;
@@ -281,16 +285,17 @@ onMounted(() => {
     padding: 16px 0;
     justify-content: space-between;
     font-size: 15px;
-    color: #444;
+    color: #7d818a;
     border-top: 1px solid #f2f2f2;
     // margin: 16px 0;
     span {
       & > .anticon {
         margin-right: 4px;
         font-size: 18px;
+        vertical-align: text-bottom;
       }
       &:hover {
-        color: #549e8f;
+        color: #333;
       }
     }
   }
@@ -302,7 +307,8 @@ onMounted(() => {
       margin-right: 40px;
       span {
         background: #c8efe7;
-        color: #0e826a;
+        //  background: rgb(105 207 200 / 45%);
+        color: #019997;
         border-radius: 4px;
         padding: 6px 16px;
       }

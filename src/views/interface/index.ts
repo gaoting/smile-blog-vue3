@@ -11,7 +11,8 @@ interface Articles {
   lookNum: number;
   loveNum: number;
   
-  url: string;
+  picture: string;
+  
   prevId: number;
   nextId: number;
   prevTitle: string;
