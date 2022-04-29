@@ -17,7 +17,15 @@
         <a-textarea v-model:value="formState.description" />
       </a-form-item>
       <a-form-item label="编辑内容">
-        <editor :value="detail" @change="handleChangeEditor($event)"> </editor>
+        <a-tabs v-model:activeKey="activeKey" type="card">
+          <a-tab-pane key="1" tab="markdown">
+            <md-editor v-model="detail" style="height: 800px" />
+          </a-tab-pane>
+          <a-tab-pane key="2" tab="富文本编辑器">
+            <editor :value="detail" @change="handleChangeEditor($event)">
+            </editor
+          ></a-tab-pane>
+        </a-tabs>
       </a-form-item>
       <a-form-item label="   ">
         <a-button type="success" size="large" @click="onSubmit">提交</a-button>
@@ -40,8 +48,16 @@ import Editor from "@/components/TinymceEditor/index.vue";
 import type { UnwrapRef } from "vue";
 import { createArticle } from "../../common/axios";
 import { message } from "ant-design-vue";
+// markdown    ---------
+import MdEditor from "md-editor-v3";
+import "md-editor-v3/lib/style.css";
+
+const props = defineProps({
+  newData: { type: Object, default: {} },
+});
 
 let detail = ref("");
+let activeKey = ref("1");
 
 const labelCol = reactive({ style: { width: "150px" } });
 const wrapperCol = reactive({ span: 20 });
@@ -53,6 +69,7 @@ interface Articles {
   title: string;
   description: string;
   content: string;
+  activeKey: string;
 }
 
 const formState: UnwrapRef<Articles> = reactive({
@@ -62,7 +79,9 @@ const formState: UnwrapRef<Articles> = reactive({
   title: "dsaasss",
   description: "达士大夫撒；唠嗑",
   content: "",
+  activeKey: activeKey.value,
 });
+
 const onSubmit = async () => {
   formState.content = detail.value;
   console.log("submit!", toRaw(formState));
@@ -81,9 +100,10 @@ const handleChangeEditor = (content: any) => {
   padding: 40px 20px;
   width: 100%;
   height: calc(100% - 60px);
-  background: url("../../assets/img/bg55.png") no-repeat;
+  // background: url("../../assets/img/bg55.png") no-repeat;
   // background-position: bottom right;
-  background-size: 100% 100%;
+  // background-size: 100% 100%;
   background-attachment: fixed;
+  background-image: linear-gradient(#94dacc, #def3ee, #fff);
 }
 </style>

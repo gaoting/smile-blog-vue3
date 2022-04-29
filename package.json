@@ -9,17 +9,22 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
+    "@kangc/v-md-editor": "^2.3.15",
     "@tinymce/tinymce-vue": "^4.0.5",
     "ant-design-vue": "^3.1.1",
     "axios": "^0.26.1",
+    "md-editor-v3": "^1.11.12",
     "pinia": "^2.0.13",
+    "prismjs": "^1.28.0",
     "vue": "^3.2.25",
     "vue-router": "^4.0.14"
   },
   "devDependencies": {
     "@types/node": "^17.0.25",
+    "@types/prismjs": "^1.26.0",
     "@vitejs/plugin-vue": "^2.3.1",
     "autoprefixer": "^10.4.4",
+    "babel-plugin-prismjs": "^2.1.0",
     "postcss": "^8.4.12",
     "sass": "^1.50.0",
     "typescript": "^4.5.4",

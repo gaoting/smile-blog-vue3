@@ -11,11 +11,7 @@
           </h4>
           <p>
             {{ textHtml(item.description) }}
-            <!-- {{
-              item.descrition?.length > 110
-                ? textStr(item.descrition) + "……"
-                : item.descrition
-            }} -->
+        
           </p>
           <div class="flex text-list">
             <div class="flex">
@@ -26,11 +22,11 @@
               </span>
               <span>
                 <eye-outlined :style="{ color: '#02bfbb' }" />
-                {{ item.lookNum }}
+                {{ item.lookNum }}次浏览
               </span>
               <span>
                 <star-filled :style="{ color: '' }" />
-                {{ item.loveNum }}</span
+                {{ item.loveNum }}个收藏</span
               >
 
               <span

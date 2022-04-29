@@ -7,12 +7,13 @@ interface Articles {
   title: string;
   description: string;
   content: string;
-  
+
   lookNum: number;
   loveNum: number;
-  
+
   picture: string;
-  
+  activeKey: string;
+
   prevId: number;
   nextId: number;
   prevTitle: string;

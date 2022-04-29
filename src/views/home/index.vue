@@ -21,12 +21,30 @@
 
       <div class="cont-right">
         <div class="card card1">
-          <div class="card-box">
-            <div class="flex">
-              <img src="../../assets/img/xh.png" alt="" class="animal" />
-              <h3>Smile Blog</h3>
-            </div>
+          <img src="../../assets/img/photo.png" alt="" class="photo" />
+
+          <div class="flex blog-name">
+            <img src="../../assets/img/xh.png" alt="" class="animal" />
+            <h3>Smile Blog</h3>
           </div>
+          <div class="card-msg">
+            <p>哪里有天才，我是把别人喝咖啡的工夫都用在学习上的。</p>
+            <ul class="flex">
+              <li class="flex">
+                <span>99</span>
+                <span> 文章数量</span>
+              </li>
+              <li class="flex">
+                <span>99</span>
+                <span> 运行天数</span>
+              </li>
+              <li class="flex">
+                <span>4577</span>
+                <span> 浏览人数</span>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="card-box"></div> -->
         </div>
         <TagList></TagList>
         <CardList :header="{ title: '我的收藏', url: '/' }"></CardList>
@@ -47,6 +65,11 @@ import { allList, searchList } from "../../common/axios";
 import List from "./list.vue";
 import CardList from "./cardList.vue";
 import TagList from "./tagList.vue";
+import {
+  SnippetsOutlined,
+  FieldTimeOutlined,
+  EyeOutlined,
+} from "@ant-design/icons-vue";
 
 let page = reactive({
   current: 1,

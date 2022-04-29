@@ -4,7 +4,12 @@
       <h3><img src="../../assets/img/f14.png" alt="" class="animal" />标签</h3>
     </div>
     <ul class="flex tag-list">
-      <li v-for="(item, index) in cardList" :key="index" @click="tagMsg(item)">
+      <li
+        v-for="(item, index) in cardList"
+        :key="index"
+        @click="tagMsg(item)"
+        :style="{ background: rand(colorList) }"
+      >
         {{ item }}
       </li>
     </ul>
@@ -33,10 +38,33 @@ const cardList = reactive([
   "linux",
   "读书笔记",
   "壁纸",
-
   "日志",
 ]);
 
+const colorList = reactive([
+  "#e18094",
+  "#02bfbb",
+  "#e3a7b5",
+
+  "#2dc3bb",
+  "#6ca9ab",
+  "#bcabcd",
+  "#cabbda",
+  "#dbabbd",
+  "#9cb9c1",
+  "#46b2d8",
+  "#f5b480",
+  "#73d2ec",
+  "#69CFC8",
+  "#ecbcce",
+
+  "#019997",
+  "#f390a5",
+]);
+const rand = (arr: Array<string>) => {
+  let index = Math.floor(Math.random() * arr.length);
+  return arr[index];
+};
 const emit = defineEmits(["tagMsg"]);
 const tagMsg = (data: string) => {
   emit("tagMsg", data);
@@ -52,34 +80,24 @@ onMounted(() => {});
   }
   ul.flex {
     flex-wrap: wrap;
-    margin-top: 16px;
+    padding: 16px;
 
     li {
       list-style-type: none;
-      width: 33.33333%;
-      height: 30px;
       cursor: pointer;
-      color: #666;
-      border-right: 1px solid #f2f2f2;
-      border-bottom: 1px solid #f2f2f2;
-
+      color: #fff;
       display: block;
       text-align: center;
-      line-height: 16px;
       font-size: 13px;
       font-weight: 400;
-      &:nth-child(3n) {
-        border-right: 0;
-      }
+      border: 0;
+      padding: 3px 12px;
+      border-radius: 2px;
+      margin: 0 4px 8px;
+      box-sizing: border-box;
 
-      &:nth-last-child(3),
-      &:nth-last-child(2),
-      &:nth-last-child(1) {
-        border-bottom: 0;
-      }
       &:hover {
-        background: #ff99ac;
-        color: #fff;
+        box-shadow: 0 3px 5px #666;
       }
     }
   }

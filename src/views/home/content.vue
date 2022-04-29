@@ -32,9 +32,28 @@
         <!-- 内容 -->
         <div class="article-content">
           <p>{{ newDate.description }}</p>
-          <div class="content-text"></div>
+          <div class="content-text" v-if="newDate.activeKey == '2'"></div>
+          <div v-if="newDate.activeKey == '1'">
+            <!-- <v-md-preview :text="newDate.content"></v-md-preview> -->
+            <md-editor v-model="newDate.content" :previewOnly="true" />
+          </div>
         </div>
         <!-- 内容 -->
+
+        <div class="flex interaction">
+          <div class="support flex">
+            <like-outlined />
+            <span>赞{{}}</span>
+          </div>
+          <div class="exceptional flex">
+            <div class="dialog-box">
+              <img src="../../assets/img/WechatIMG50.jpg" alt="" />
+              <img src="../../assets/img/WechatIMG51.jpg" alt="" />
+            </div>
+            <pay-circle-outlined />
+            <span>打赏</span>
+          </div>
+        </div>
 
         <div class="myMsg flex" @click="goUrl('/content')">
           <img src="../../assets/img/photo.png" alt="" />
@@ -46,6 +65,7 @@
           </div>
           <img src="../../assets/img/code.png" alt="" />
         </div>
+
         <div class="footer-msg flex">
           <p>
             分类： <span>{{ newDate.types }}</span>
@@ -103,8 +123,13 @@ import {
   RightCircleFilled,
   LeftCircleFilled,
   CheckCircleFilled,
+  LikeOutlined,
+  PayCircleOutlined,
 } from "@ant-design/icons-vue";
 import { updateNum } from "../../common/axios";
+// markdown    ---------
+import MdEditor from "md-editor-v3";
+
 
 const props = defineProps({
   id: Number,
@@ -121,9 +146,13 @@ const getRightsList = async () => {
   console.log(newDate.value);
   newDate.value.lookNum += 1;
   nextTick(() => {
-    let doms = document.querySelector(".content-text");
+    if (newDate.value.activeKey == "2") {
+      let doms = document.querySelector(".content-text");
+      doms ? (doms.innerHTML += newDate.value.content) : "";
+    }
+
     let desc = document.querySelector(".article-content>b");
-    doms ? (doms.innerHTML += newDate.value.content) : "";
+
     desc ? (desc.innerHTML += newDate.value.description) : "";
   });
 };
@@ -251,22 +280,22 @@ onMounted(() => {
     margin: 32px 0;
     border-radius: 4px;
     align-items: center;
-    background: #019997;
+    background-image: linear-gradient(0deg, #c8efe7, transparent);
     .msg-content {
       width: calc(100% - 100px);
       padding: 0 16px;
       box-sizing: border-box;
-
+      color: #666;
       h5 {
         font-size: 18px;
         // margin-bottom: 0.1em;
-        color: #fff;
+
         height: 1.5em;
         line-height: 1em;
       }
       p {
         font-size: 14px;
-        color: #fff;
+        // color: #fff;
         font-family: cursive;
       }
     }
@@ -299,9 +328,52 @@ onMounted(() => {
       }
     }
   }
-
+  .exceptional {
+    position: relative;
+    &:hover {
+      .dialog-box {
+        display: block;
+      }
+    }
+    .dialog-box {
+      position: absolute;
+      top: -182px;
+      left: -96px;
+      width: 340px;
+      height: 180px;
+      box-shadow: 0 0 3px 1px #ccc;
+      border-radius: 4px;
+      background: #fff;
+      justify-content: center;
+      align-items: center;
+      display: none;
+      padding-top: 10px;
+      &:before,
+      &:after {
+        position: absolute;
+        left: 50%;
+        width: 0;
+        height: 0;
+        margin-left: -8px;
+        line-height: 0;
+        border: 8px solid transparent;
+        content: "";
+      }
+      &:before {
+        bottom: -16px;
+        border-top-color: #fff;
+      }
+      img {
+        display: inline-block;
+        width: 160px;
+        height: 160px;
+        border: 6px solid #fff;
+        box-sizing: border-box;
+      }
+    }
+  }
   .footer-msg {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     p {
       color: #666;
       margin-right: 40px;
@@ -313,18 +385,6 @@ onMounted(() => {
         padding: 6px 16px;
       }
     }
-  }
-}
-
-@-webkit-keyframes photo {
-  0% {
-    box-shadow: 0px 0px 10px red;
-  }
-  50% {
-    box-shadow: 0px 0px 10px yellow;
-  }
-  100% {
-    box-shadow: 0px 0px 10px blue;
   }
 }
 </style>
