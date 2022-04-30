@@ -11,7 +11,6 @@
           </h4>
           <p>
             {{ textHtml(item.description) }}
-        
           </p>
           <div class="flex text-list">
             <div class="flex">
@@ -48,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, nextTick } from "vue";
+import { onMounted, reactive, ref, nextTick, PropType } from "vue";
 import {
   TagsTwoTone,
   UserOutlined,
@@ -61,14 +60,18 @@ import Pagination from "../../components/Pagination.vue";
 import Articles from "../interface/index";
 import { useRoute, useRouter } from "vue-router";
 import { object } from "vue-types";
-
+interface PageType {
+  current: number;
+  pageSize: number;
+  total: number;
+}
 const props = defineProps({
   allArticleList: {
-    type: Array,
-    default: () => [] as Articles[],
+    type: Array as PropType<Articles[]>,
+    default: () => [],
   },
   page: {
-    type: Object,
+    type: Object as PropType<PageType>,
     default: () => {
       return {
         current: 1,

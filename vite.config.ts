@@ -38,7 +38,7 @@ export default defineConfig({
   build: {
     //浏览器兼容性  "esnext"|"modules"
     target: 'modules',
-    outDir: 'dist', //指定输出路径
+    outDir: 'smile_blog_front', //指定输出路径
     assetsDir: 'assets', // 指定生成静态资源的存放路径
     minify: 'terser', // 混淆器，terser构建后文件体积更小
     //启用/禁用 CSS 代码拆分
@@ -48,9 +48,9 @@ export default defineConfig({
     //自定义底层的 Rollup 打包配置
     rollupOptions: {
       output: {
-        chunkFileNames: 'static/js1/[name]-[hash]-test.js',
-        entryFileNames: 'static/js2/[name]-[hash]-test.js',
-        assetFileNames: 'static/[ext]/[name]-[hash]-test.[ext]'
+        chunkFileNames: 'static/js1/[name]-[hash].js',
+        entryFileNames: 'static/js2/[name]-[hash].js',
+        assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
       },
     },
     //@rollup/plugin-commonjs 插件的选项

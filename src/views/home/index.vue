@@ -28,7 +28,7 @@
             <h3>Smile Blog</h3>
           </div>
           <div class="card-msg">
-            <p>哪里有天才，我是把别人喝咖啡的工夫都用在学习上的。</p>
+            <p>高效工作/学习 + 充分休息 = 理想生活</p>
             <ul class="flex">
               <li class="flex">
                 <span>99</span>
@@ -77,13 +77,14 @@ let page = reactive({
   pageSize: 10,
 });
 
-let allArticleList = ref([] as Articles[]);
 const onShowSizeChange = (ctx: any) => {
   page.current = ctx.current;
   page.pageSize = ctx.pageSize;
   console.log(ctx);
+  getAllList();
 };
 
+let allArticleList = ref([] as Articles[]);
 const getAllList = async () => {
   const { data } = await allList({
     pageSize: page.pageSize,

@@ -11,7 +11,7 @@
                 {{ newDate.author }}
               </h5>
               <div class="flex">
-                <p>发布时间：{{ $utils.myTimeToLocal(newDate.updateTime) }}</p>
+                <p>发布时间：{{ proxy.myTimeToLocal(newDate.updateTime) }}</p>
                 <p>浏览：{{ newDate.lookNum }}</p>
                 <p>收藏：{{ newDate.loveNum }}</p>
               </div>
@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, ref, nextTick } from "vue";
+import { reactive, onMounted, ref, nextTick, getCurrentInstance } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { findById, searchList } from "../../common/axios";
 import Articles from "../interface/index";
@@ -129,7 +129,6 @@ import {
 import { updateNum } from "../../common/axios";
 // markdown    ---------
 import MdEditor from "md-editor-v3";
-
 
 const props = defineProps({
   id: Number,
@@ -227,14 +226,14 @@ const getLove = () => {
 
 // 路由跳转传参
 let router = useRouter();
-function goUrl(url: string, params?: object) {
-  router.push({ path: url, query: { ...params } });
+function goUrl(url: string, params?: number) {
+  router.push({ path: url, query: { id: params } });
 }
-
+const {proxy}:any = getCurrentInstance();
 onMounted(() => {
   console.log(route.query);
   getId.value = parseInt(route.query.id as string);
-
+  
   getRightsList();
   getNewList();
   getLove();

@@ -47,7 +47,7 @@
             <field-number-outlined />
             <h5>{{ index + 1 }}</h5>
           </span> -->
-            <span class="point"></span>
+          <span class="point"></span>
           <p>{{ item.title }}</p>
         </a>
         <span style="color: #f97858">
@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, reactive, ref, watch } from "vue";
+import { nextTick, onMounted, reactive, ref, watch, PropType } from "vue";
 import Articles from "../interface/index";
 import {
   FireFilled,
@@ -74,7 +74,7 @@ const timeStr = (date: string) => {
 };
 
 const props = defineProps({
-  newList: { type: Array, default: () => [] as Array<Articles[]> },
+  newList: { type: Array as PropType<Articles[]>, default: () => [] },
   header: { type: Object, default: { title: "热门推荐", url: "/" } },
   timer: { type: Number, default: 0 },
 });

@@ -15,12 +15,17 @@
   </a-pagination>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs, watch } from "vue";
+import { defineComponent, reactive, ref, toRefs, watch, PropType } from "vue";
+interface PageType {
+  current: number;
+  pageSize: number;
+  total: number;
+}
 
 export default defineComponent({
   props: {
     page: {
-      type: Object,
+      type: Object as PropType<PageType>,
       default: () => {
         return {
           current: 1,
@@ -53,9 +58,9 @@ export default defineComponent({
       props.page,
       (newVal, oldVal) => {
         const { pageSize, current, total } = toRefs(newVal);
-        state.pageSize = pageSize;
-        state.current = current;
-        state.total = total;
+        state.pageSize = pageSize.value;
+        state.current = current.value;
+        state.total = total.value;
       },
       { deep: true }
     );

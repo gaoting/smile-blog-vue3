@@ -9,7 +9,7 @@ import { message } from "ant-design-vue";
 import Articles from "./../views/interface/index";
 
 const http: AxiosInstance = axios.create({
-  baseURL: "http://localhost:3006/",
+  baseURL: process.env.NODE_ENV == 'development'? "http://localhost:3300/" : "http://81.69.222.61:3300/",
 });
 
 http.interceptors.request.use(
@@ -28,7 +28,6 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (res) => {
     const { data } = res;
-    // console.log(data, "resssssssssss");
     if (data.code !== 200) {
       message.error(data.message);
     }
@@ -40,6 +39,7 @@ http.interceptors.response.use(
 );
 
 export const get = (url: string, params: any) => {
+
   return http.get(url, { params });
 };
 
