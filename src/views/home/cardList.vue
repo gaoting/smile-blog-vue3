@@ -12,12 +12,11 @@
     <ul v-if="loveList && loveList.length > 0">
       <li v-for="(item, index) in loveList" :key="item.id" class="flex">
         <a :href="`/content?id=${item.id}`" class="flex">
-          <!-- <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span> -->
-          <!-- <heart-filled :style="{ color: '#fe91a5' }" /> -->
+      
           <span class="point"></span>
           <p>{{ item.title }}</p>
         </a>
-        <span>{{ timeStr(item.updateTime) }}</span>
+        <span>{{ timeStr(item.createTime) }}</span>
       </li>
     </ul>
 
@@ -42,11 +41,7 @@
     <ul v-else-if="props.header.title == '收藏最多'">
       <li v-for="(item, index) in newList" :key="item.id" class="flex">
         <a :href="`/content?id=${item.id}`" class="flex">
-          <!-- <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span> -->
-          <!-- <span class="icon-style flex" v-if="index < 3">
-            <field-number-outlined />
-            <h5>{{ index + 1 }}</h5>
-          </span> -->
+    
           <span class="point"></span>
           <p>{{ item.title }}</p>
         </a>

@@ -11,7 +11,7 @@
                 {{ newDate.author }}
               </h5>
               <div class="flex">
-                <p>发布时间：{{ proxy.myTimeToLocal(newDate.updateTime) }}</p>
+                <p>发布时间：{{ myTimeToLocal(newDate.createTime) }}</p>
                 <p>浏览：{{ newDate.lookNum }}</p>
                 <p>收藏：{{ newDate.loveNum }}</p>
               </div>
@@ -229,11 +229,19 @@ let router = useRouter();
 function goUrl(url: string, params?: number) {
   router.push({ path: url, query: { id: params } });
 }
-const {proxy}:any = getCurrentInstance();
+
+const myTimeToLocal = (date: string | number) => {
+  let time = new Date(date).toJSON();
+  return new Date(+new Date(time) + 8 * 3600 * 1000)
+    .toISOString()
+    .replace(/T/g, " ")
+    .replace(/\.[\d]{3}Z/, "");
+};
+
 onMounted(() => {
   console.log(route.query);
   getId.value = parseInt(route.query.id as string);
-  
+
   getRightsList();
   getNewList();
   getLove();

@@ -167,13 +167,22 @@ function randomStr(arr: any) {
 let title = ref("");
 let banner = ref("");
 
+/**
+ * 获取本地图
+ * @param name // 文件名 如 doc.png
+ * @returns {*|string}
+ */
+const getAssetsImages = (name: string) => {
+  return new URL(`/src/assets/img/${name}`, import.meta.url).href;
+};
+
 onMounted(() => {
   getAllList();
   getsearchList();
   getCollectList();
   nextTick(() => {
     title.value = randomStr(textList);
-    banner.value = "../../src/assets/img/" + randomStr(imgList);
+    banner.value = getAssetsImages(randomStr(imgList));
   });
   console.log(banner.value);
 });

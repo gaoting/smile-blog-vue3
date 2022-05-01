@@ -1,9 +1,14 @@
 <template>
   <div class="cont-left">
-    <ul>
+    <ul v-if="allArticleList">
       <li v-for="item in allArticleList" :key="item.id" class="flex">
         <div class="articleImg">
-          <img :src="imgStr" alt="" class="cont-img" @click="goUrl(item.id)" />
+          <img
+            :src="item.picture"
+            alt=""
+            class="cont-img"
+            @click="goUrl(item.id)"
+          />
         </div>
         <div class="box-text">
           <h4>
@@ -29,7 +34,7 @@
               >
 
               <span
-                ><clock-circle-outlined />{{ timeStr(item.updateTime) }}</span
+                ><clock-circle-outlined />{{ timeStr(item.createTime) }}</span
               >
             </div>
             <button class="read" @click="goUrl(item.id)">阅 读</button>
@@ -47,7 +52,15 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, nextTick, PropType } from "vue";
+import {
+  onMounted,
+  reactive,
+  ref,
+  nextTick,
+  PropType,
+  toRefs,
+  toRaw,
+} from "vue";
 import {
   TagsTwoTone,
   UserOutlined,
@@ -59,7 +72,7 @@ import {
 import Pagination from "../../components/Pagination.vue";
 import Articles from "../interface/index";
 import { useRoute, useRouter } from "vue-router";
-import { object } from "vue-types";
+
 interface PageType {
   current: number;
   pageSize: number;
@@ -81,6 +94,7 @@ const props = defineProps({
     },
   },
 });
+
 const router = useRouter();
 
 const goUrl = (id: number) => {
@@ -92,18 +106,29 @@ const textStr = (text: string) => {
   return text?.substring(0, 110);
 };
 
-let state = reactive({
-  ...props,
-});
-
 const timeStr = (date: string) => {
   return date?.substring(0, 10);
 };
-
+const state = toRaw(props);
+console.log(state);
+// state.allArticleList.forEach((v:Articles)=>{
+//   v.picture = new URL(
+//     `../../assets/img/a5.jpg`,
+//     import.meta.url
+//   ).href;
+// })
+// console.log(state.allArticleList);
 // 随机图片
 let imgStr = ref("");
-const imgList: Array<string> = reactive(["bg48.jpg"]);
-function randomStr(arr: Array<string>) {
+const imgList: Array<string> = reactive([
+  "bg48.jpg",
+  "a1.jpg",
+  "a2.jpg",
+  "a3.jpg",
+  "a4.jpg",
+  "a5.jpg",
+]);
+const randomStr = (arr: Array<string>) => {
   let newArr: Array<string> = [];
   while (arr.length > 0) {
     let randomIndex = Math.random() * arr.length;
@@ -111,17 +136,20 @@ function randomStr(arr: Array<string>) {
     arr.splice(randomIndex, 1);
   }
   return newArr[0];
-}
+};
+const getAssetsImages = (imgList: Array<string>) => {
+  let imgUrl = new URL(
+    `../../assets/img/${randomStr(imgList)}`,
+    import.meta.url
+  ).href;
+  return imgUrl;
+};
 
 // 去除描述的html标签
 const textHtml = (str: string) => {
   const reg4 = /(<\/?font.*?>)|(<\/?span.*?>)|(<\/?a.*?>)/gi;
   return str.replace(reg4, "");
 };
-
-onMounted(() => {
-  imgStr.value = "/src/assets/img/" + randomStr(imgList);
-});
 
 // 分页交互
 const emit = defineEmits(["onShowSizeChange"]);

@@ -39,6 +39,7 @@ const onShowSizeChange = (ctx: any) => {
   page.current = ctx.current;
   page.pageSize = ctx.pageSize;
   console.log(ctx);
+  getAllList()
 };
 
 // 分页列表
