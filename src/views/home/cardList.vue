@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, reactive, ref, watch, PropType } from "vue";
-import Articles from "../interface/index";
+import Articles from "../interface/article";
 import {
   FireFilled,
   HeartFilled,

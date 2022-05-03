@@ -70,7 +70,7 @@ import {
   StarFilled,
 } from "@ant-design/icons-vue";
 import Pagination from "../../components/Pagination.vue";
-import Articles from "../interface/index";
+import Articles from "../interface/article";
 import { useRoute, useRouter } from "vue-router";
 
 interface PageType {

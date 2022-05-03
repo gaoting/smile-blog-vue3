@@ -1,5 +1,5 @@
 import { post, get, update, remove } from "./http";
-import Articles from "@/views/interface";
+import Articles from "@/views/interface/article";
 
 // const randomStr = (arr: Array<string>) => {
 //   let newArr: Array<string> = [];
@@ -20,14 +20,16 @@ export const allList = async (data: any) => {
 
   if (arr && arr.data && arr.data.list) {
     arr.data.list.forEach((v: Articles) => {
+      let a = {};
+
       const randomItem = (items: any) =>
         items[(Math.random() * items.length) | 0];
-      let a = {
+      a = {
         ...v,
-        picture: new URL(
-          `../assets/img/${randomItem(imgList)}`,
-          import.meta.url
-        ).href,
+        picture: v.picture
+          ? v.picture
+          : new URL(`../assets/img/${randomItem(imgList)}`, import.meta.url)
+              .href,
       };
 
       array.data.list.push(a);

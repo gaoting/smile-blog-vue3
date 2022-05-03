@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue";
-import Articles from "../interface/index";
+import Articles from "../interface/article";
 
 const cardList = reactive([
   "vue",

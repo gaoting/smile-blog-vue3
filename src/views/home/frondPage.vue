@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { reactive, ref, onMounted } from "vue";
-import Articles from "../interface/index";
+import Articles from "../interface/article";
 import { allList, searchList } from "../../common/axios";
 import List from "./list.vue";
 import CardList from "./cardList.vue";

@@ -14,9 +14,9 @@ interface Articles {
   picture: string;
   activeKey: string;
 
-  prevId: number;
+  preId: number;
   nextId: number;
-  prevTitle: string;
+  preTitle: string;
   nextTitle: string;
   createTime: string;
   updateTime: string;

@@ -55,7 +55,7 @@
           </div>
         </div>
 
-        <div class="myMsg flex" @click="goUrl('/content')">
+        <div class="myMsg flex">
           <img src="../../assets/img/photo.png" alt="" />
           <div class="msg-content">
             <h5>smile</h5>
@@ -77,17 +77,17 @@
         <div class="flex next-page">
           <span
             class="pointer"
-            @click="goUrl('/content', newDate.prevId)"
-            v-if="newDate.prevId"
+            @click="goUrl(newDate.preId)"
+            v-if="newDate.preId"
           >
             <left-circle-filled />
-            {{ newDate.prevTitle }}
+            {{ newDate.preTitle }}
           </span>
           <span v-else> <left-circle-filled />已是第一篇</span>
 
           <span
             class="pointer"
-            @click="goUrl('/content', newDate.nextId)"
+            @click="goUrl(newDate.nextId)"
             v-if="newDate.nextId"
           >
             <right-circle-filled />
@@ -112,10 +112,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, ref, nextTick, getCurrentInstance } from "vue";
+import { reactive, onMounted, ref, nextTick, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { findById, searchList } from "../../common/axios";
-import Articles from "../interface/index";
+import Articles from "../interface/article";
 import CardList from "./cardList.vue";
 import TagList from "./tagList.vue";
 import {
@@ -174,41 +174,43 @@ const handleCreate = () => {
 
 // 收藏 / 取消收藏
 let love = ref(false);
-const goLove = async (bool: boolean) => {
+const goLove = (bool: boolean) => {
   love.value = !love.value;
   let getData = localStorage.getItem("myLove");
 
   if (getData && JSON.parse(getData).length > 0) {
     let arr = [...JSON.parse(getData)];
-    console.log(newDate.value.loveNum, "tttttttttt");
+
     if (bool) {
       let index = arr.findIndex((v) => v.id == getId.value);
       if (index == -1) {
         arr.push(newDate.value);
         localStorage.setItem("myLove", JSON.stringify(arr));
-
-        const { data } = await updateNum({
-          id: newDate.value.id,
-          loveNum: newDate.value.loveNum + 1,
-        });
-        newDate.value.loveNum = data.loveNum;
+        sendData(1);
       }
     } else {
       arr = arr.filter((v) => v.id !== getId.value);
       localStorage.setItem("myLove", JSON.stringify(arr));
-      const { data } = await updateNum({
-        id: newDate.value.id,
-        loveNum: newDate.value.loveNum - 1,
-      });
-      newDate.value.loveNum = data.loveNum;
+      sendData(-1);
     }
   } else {
     let arr = [];
     arr.push(newDate.value);
     console.log(arr);
     localStorage.setItem("myLove", JSON.stringify(arr));
+    love.value = true;
+    sendData(1);
   }
   handleCreate();
+};
+
+// 调用接口
+const sendData = async (num: number) => {
+  const { data } = await updateNum({
+    id: newDate.value.id,
+    loveNum: newDate.value.loveNum + num,
+  });
+  newDate.value.loveNum = data.loveNum;
 };
 
 // 判断是否收藏
@@ -221,14 +223,23 @@ const getLove = () => {
         love.value = true;
       }
     });
+  } else {
+    love.value = false;
   }
 };
 
+// 刷新
+// const reload = inject('reload')
+
 // 路由跳转传参
 let router = useRouter();
-function goUrl(url: string, params?: number) {
-  router.push({ path: url, query: { id: params } });
-}
+const goUrl = (id: number) => {
+  router.push({ path: "/content", query: { id } });
+};
+
+watch(route, (to, from) => {
+  console.log(to,from, to.query, from.query);
+});
 
 const myTimeToLocal = (date: string | number) => {
   let time = new Date(date).toJSON();

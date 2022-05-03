@@ -6,7 +6,7 @@ import axios, {
   AxiosError,
 } from "axios";
 import { message } from "ant-design-vue";
-import Articles from "./../views/interface/index";
+import Articles from "../views/interface/article";
 
 const http: AxiosInstance = axios.create({
   baseURL: process.env.NODE_ENV == 'development'? "http://localhost:3300/" : "http://81.69.222.61:3300/",
