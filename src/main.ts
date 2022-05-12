@@ -7,8 +7,10 @@ import "ant-design-vue/dist/antd.css";
 import "./assets/css/public.scss";
 import  Utils  from './common/utils'
 import "md-editor-v3/lib/style.css";
+import { createPinia } from "pinia";
 
 const app = createApp(App)
+const pinia = createPinia()
 
 app.config.globalProperties.$utils = Utils
-app.use(router).use(Antd).mount("#app");
+app.use(router).use(pinia).use(Antd).mount("#app");

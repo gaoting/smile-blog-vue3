@@ -1,7 +1,5 @@
 *,
 body {
-    font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    ;
     padding: 0;
     margin: 0;
 }
@@ -350,22 +348,21 @@ p {
         display: flex;
         flex-wrap: wrap;
         align-content: space-between;
-        padding: 0 0 0 16px;
+        padding: 2px 0 10px 16px;
         height: 158px;
         overflow: hidden;
 
         &>p {
-            font-size: 14px;
+            font-size: 15px;
             width: 100%;
-            line-height: 26px;
-            // text-indent: 2em;
-            // font-family: "Helvetica Neue";
+            line-height: 1.9em;
+            overflow: hidden;
             opacity: 0.85;
             color: #8590a6;
             margin: 12px 0;
             display: -webkit-box;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 2;
             text-overflow: ellipsis;
             text-indent: 2em;
         }
@@ -375,7 +372,7 @@ p {
 
             &.text-list {
                 width: 100%;
-                align-items: end;
+                align-items: center;
                 font-size: 13px;
 
                 &>.flex {
@@ -405,6 +402,7 @@ p {
             &>span {
                 padding-right: 20px;
                 color: #8590a6;
+                font-size: 13px;
 
                 &>span {
                     font-size: 16px;

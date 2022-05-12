@@ -110,14 +110,7 @@ const timeStr = (date: string) => {
   return date?.substring(0, 10);
 };
 const state = toRaw(props);
-console.log(state);
-// state.allArticleList.forEach((v:Articles)=>{
-//   v.picture = new URL(
-//     `../../assets/img/a5.jpg`,
-//     import.meta.url
-//   ).href;
-// })
-// console.log(state.allArticleList);
+
 // 随机图片
 let imgStr = ref("");
 const imgList: Array<string> = reactive([
@@ -148,7 +141,7 @@ const getAssetsImages = (imgList: Array<string>) => {
 // 去除描述的html标签
 const textHtml = (str: string) => {
   const reg4 = /(<\/?font.*?>)|(<\/?span.*?>)|(<\/?a.*?>)/gi;
-  return str.replace(reg4, "");
+  return str.replace(reg4, "").substring(0,90);
 };
 
 // 分页交互

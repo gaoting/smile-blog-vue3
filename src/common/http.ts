@@ -9,7 +9,7 @@ import { message } from "ant-design-vue";
 import Articles from "../views/interface/article";
 
 const http: AxiosInstance = axios.create({
-  baseURL: process.env.NODE_ENV == 'development'? "http://localhost:3300/" : "http://81.69.222.61:3300/",
+  baseURL: process.env.NODE_ENV == 'development'? "http://localhost:3300/api" : "http://81.69.222.61:3300/api",
 });
 
 http.interceptors.request.use(

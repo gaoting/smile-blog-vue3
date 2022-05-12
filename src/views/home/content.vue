@@ -2,28 +2,32 @@
   <div class="content-box flex">
     <div class="cont-left">
       <div class="article-box">
-        <div class="article-title">{{ newDate.title }}</div>
+        <div class="article-title">{{ newData.title }}</div>
         <div class="flex msg-title">
           <div class="flex">
             <img src="../../assets/img/photo.png" alt="" />
             <div class="msg-box">
               <h5>
-                {{ newDate.author }}
+                {{ newData.author }}
               </h5>
               <div class="flex">
-                <p>发布时间：{{ myTimeToLocal(newDate.createTime) }}</p>
-                <p>浏览：{{ newDate.lookNum }}</p>
-                <p>收藏：{{ newDate.loveNum }}</p>
+                <p>发布时间：{{ myTimeToLocal(newData.createTime) }}</p>
+                <p>浏览：{{ newData.lookNum }}</p>
+                <p>收藏：{{ newData.loveNum }}</p>
               </div>
             </div>
           </div>
           <div class="power">
             <a-button type="red" v-if="!love" @click="goLove(true)">
-              <template #icon><HeartOutlined /></template>
+              <template #icon>
+                <HeartOutlined />
+              </template>
               收藏
             </a-button>
             <a-button type="red" v-if="love" @click="goLove(false)">
-              <template #icon><CheckCircleFilled /></template>
+              <template #icon>
+                <CheckCircleFilled />
+              </template>
               已收藏
             </a-button>
           </div>
@@ -31,11 +35,11 @@
 
         <!-- 内容 -->
         <div class="article-content">
-          <p>{{ newDate.description }}</p>
-          <div class="content-text" v-if="newDate.activeKey == '2'"></div>
-          <div v-if="newDate.activeKey == '1'">
-            <!-- <v-md-preview :text="newDate.content"></v-md-preview> -->
-            <md-editor v-model="newDate.content" :previewOnly="true" />
+          <p>{{ newData.description }}</p>
+          <div class="content-text" v-if="newData.activeKey == '2'"></div>
+          <div v-if="newData.activeKey == '1'">
+            <!-- <v-md-preview :text="newData.content"></v-md-preview> -->
+            <md-editor v-model="newData.content" :previewOnly="true" />
           </div>
         </div>
         <!-- 内容 -->
@@ -68,32 +72,28 @@
 
         <div class="footer-msg flex">
           <p>
-            分类： <span>{{ newDate.types }}</span>
+            分类： <span>{{ newData.types }}</span>
           </p>
           <p>
-            标签： <span>{{ newDate.tags }}</span>
+            标签： <span>{{ newData.tags }}</span>
           </p>
         </div>
         <div class="flex next-page">
-          <span
-            class="pointer"
-            @click="goUrl(newDate.preId)"
-            v-if="newDate.preId"
-          >
+          <span class="pointer" @click="goUrl(newData.preId)" v-if="newData.preId">
             <left-circle-filled />
-            {{ newDate.preTitle }}
+            {{ newData.preTitle }}
           </span>
-          <span v-else> <left-circle-filled />已是第一篇</span>
+          <span v-else>
+            <left-circle-filled />已是第一篇
+          </span>
 
-          <span
-            class="pointer"
-            @click="goUrl(newDate.nextId)"
-            v-if="newDate.nextId"
-          >
+          <span class="pointer" @click="goUrl(newData.nextId)" v-if="newData.nextId">
             <right-circle-filled />
-            {{ newDate.nextTitle }}
+            {{ newData.nextTitle }}
           </span>
-          <span v-else> <right-circle-filled />已是最后一篇</span>
+          <span v-else>
+            <right-circle-filled />已是最后一篇
+          </span>
         </div>
       </div>
     </div>
@@ -101,18 +101,14 @@
     <div class="cont-right">
       <TagList></TagList>
 
-      <CardList
-        :header="{ title: '我的收藏', url: '/' }"
-        @click="handleCreate"
-        :timer="timer"
-      ></CardList>
+      <CardList :header="{ title: '我的收藏', url: '/' }" @click="handleCreate" :timer="timer"></CardList>
       <CardList :newList="newList"></CardList>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, ref, nextTick, watch } from "vue";
+import { reactive, onMounted, ref, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { findById, searchList } from "../../common/axios";
 import Articles from "../interface/article";
@@ -136,23 +132,23 @@ const props = defineProps({
 
 let getId = ref(0);
 const route = useRoute();
-let newDate = ref({} as Articles);
+let newData = ref({} as Articles);
 
 // 获取详情   设置content description 标签转译
-const getRightsList = async () => {
-  const { data } = await findById({ id: getId.value });
-  newDate.value = data as any;
-  console.log(newDate.value);
-  newDate.value.lookNum += 1;
+const getRightsList = async (id?: number) => {
+  const { data } = await findById({ id: id });
+  newData.value = data as any;
+  console.log(newData.value);
+  newData.value.lookNum += 1;
   nextTick(() => {
-    if (newDate.value.activeKey == "2") {
+    if (newData.value.activeKey == "2") {
       let doms = document.querySelector(".content-text");
-      doms ? (doms.innerHTML += newDate.value.content) : "";
+      doms ? (doms.innerHTML += newData.value.content) : "";
     }
 
     let desc = document.querySelector(".article-content>b");
 
-    desc ? (desc.innerHTML += newDate.value.description) : "";
+    desc ? (desc.innerHTML += newData.value.description) : "";
   });
 };
 
@@ -184,7 +180,7 @@ const goLove = (bool: boolean) => {
     if (bool) {
       let index = arr.findIndex((v) => v.id == getId.value);
       if (index == -1) {
-        arr.push(newDate.value);
+        arr.push(newData.value);
         localStorage.setItem("myLove", JSON.stringify(arr));
         sendData(1);
       }
@@ -195,7 +191,7 @@ const goLove = (bool: boolean) => {
     }
   } else {
     let arr = [];
-    arr.push(newDate.value);
+    arr.push(newData.value);
     console.log(arr);
     localStorage.setItem("myLove", JSON.stringify(arr));
     love.value = true;
@@ -207,10 +203,10 @@ const goLove = (bool: boolean) => {
 // 调用接口
 const sendData = async (num: number) => {
   const { data } = await updateNum({
-    id: newDate.value.id,
-    loveNum: newDate.value.loveNum + num,
+    id: newData.value.id,
+    loveNum: newData.value.loveNum + num,
   });
-  newDate.value.loveNum = data.loveNum;
+  newData.value.loveNum = data.loveNum;
 };
 
 // 判断是否收藏
@@ -228,19 +224,15 @@ const getLove = () => {
   }
 };
 
-// 刷新
-// const reload = inject('reload')
-
 // 路由跳转传参
 let router = useRouter();
 const goUrl = (id: number) => {
   router.push({ path: "/content", query: { id } });
+  // reload();
+  getRightsList(id);
 };
 
-watch(route, (to, from) => {
-  console.log(to,from, to.query, from.query);
-});
-
+// 时间转年月日
 const myTimeToLocal = (date: string | number) => {
   let time = new Date(date).toJSON();
   return new Date(+new Date(time) + 8 * 3600 * 1000)
@@ -250,10 +242,13 @@ const myTimeToLocal = (date: string | number) => {
 };
 
 onMounted(() => {
-  console.log(route.query);
-  getId.value = parseInt(route.query.id as string);
+  console.log(route.query, location.search);
+  if (route.query.id) {
+    getId.value = parseInt(route.query.id as string);
 
-  getRightsList();
+    getRightsList(+getId.value);
+  }
+
   getNewList();
   getLove();
 });
@@ -264,27 +259,32 @@ onMounted(() => {
   background: #fff;
   padding: 40px 20px;
   border-radius: 4px;
+
   .article-title {
     font-size: 32px;
     text-align: center;
   }
+
   .msg-title {
     align-items: end;
     // margin: 10px 0 20px;
     padding: 30px 0 40px;
     // border-bottom: 1px solid #f2f2f2;
     justify-content: space-between;
+
     h5 {
       font-size: 17px;
       color: #333;
       line-height: 1.4em;
       font-weight: bolder;
     }
+
     p {
       margin-right: 40px;
       color: #7d818a;
       font-size: 14px;
     }
+
     img {
       width: 47px;
       height: 47px;
@@ -293,17 +293,20 @@ onMounted(() => {
       margin-right: 10px;
     }
   }
+
   .myMsg {
     padding: 16px;
     margin: 32px 0;
     border-radius: 4px;
     align-items: center;
     background-image: linear-gradient(0deg, #c8efe7, transparent);
+
     .msg-content {
       width: calc(100% - 100px);
       padding: 0 16px;
       box-sizing: border-box;
       color: #666;
+
       h5 {
         font-size: 18px;
         // margin-bottom: 0.1em;
@@ -311,16 +314,19 @@ onMounted(() => {
         height: 1.5em;
         line-height: 1em;
       }
+
       p {
         font-size: 14px;
         // color: #fff;
         font-family: cursive;
       }
     }
+
     img {
       width: 80px;
       height: max-content;
       display: block;
+
       &:first-child {
         border-radius: 100%;
         // transform-origin: center center;
@@ -328,31 +334,37 @@ onMounted(() => {
       }
     }
   }
+
   .next-page {
     padding: 16px 0;
     justify-content: space-between;
     font-size: 15px;
     color: #7d818a;
     border-top: 1px solid #f2f2f2;
+
     // margin: 16px 0;
     span {
-      & > .anticon {
+      &>.anticon {
         margin-right: 4px;
         font-size: 18px;
         vertical-align: text-bottom;
       }
+
       &:hover {
         color: #333;
       }
     }
   }
+
   .exceptional {
     position: relative;
+
     &:hover {
       .dialog-box {
         display: block;
       }
     }
+
     .dialog-box {
       position: absolute;
       top: -182px;
@@ -366,6 +378,7 @@ onMounted(() => {
       align-items: center;
       display: none;
       padding-top: 10px;
+
       &:before,
       &:after {
         position: absolute;
@@ -377,10 +390,12 @@ onMounted(() => {
         border: 8px solid transparent;
         content: "";
       }
+
       &:before {
         bottom: -16px;
         border-top-color: #fff;
       }
+
       img {
         display: inline-block;
         width: 160px;
@@ -390,11 +405,14 @@ onMounted(() => {
       }
     }
   }
+
   .footer-msg {
     margin-bottom: 20px;
+
     p {
       color: #666;
       margin-right: 40px;
+
       span {
         background: #c8efe7;
         //  background: rgb(105 207 200 / 45%);

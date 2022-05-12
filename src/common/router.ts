@@ -23,6 +23,11 @@ const routes = [
     component: () => import("../views/home/content.vue"),
   },
   {
+    path: "/diary",
+    name: "Diary",
+    component: () => import("../views/home/diary.vue"),
+  },
+  {
     path: "/about",
     name: "About",
     component: () => import("../views/home/about.vue"),
@@ -31,6 +36,11 @@ const routes = [
     path: "/test",
     name: "Test",
     component: () => import("../views/test/index.vue"),
+  },
+  {
+    path: "/test1",
+    name: "Test1",
+    component: () => import("../views/test1/index.vue"),
   },
   {
     path: "/articleAdd",

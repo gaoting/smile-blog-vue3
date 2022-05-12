@@ -14,9 +14,15 @@ provide("reload", () => {
 
 <template>
   <Header></Header>
-  <router-view v-if="isRouterActive"></router-view>
+  <div class="continaer">
+    <router-view v-if="isRouterActive"></router-view>
+  </div>
+
   <Footer></Footer>
 </template>
 
 <style lang="scss" scoped>
+.continaer {
+    min-height: calc(100vh - 98px);
+}
 </style>

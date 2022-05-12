@@ -1,54 +1,30 @@
 <template>
   <div class="flex">
     <span>单价</span>
-    <span @click="add('price')">+</span>
     <span>{{ price }}</span>
-    <span @click="minus('price')">-</span>
   </div>
 
   <div class="flex">
     <span>数量</span>
-    <span @click="add('num')">+</span>
     <span>{{ num }}</span>
-    <span @click="minus('num')">-</span>
   </div>
 
   <div class="flex">
-    <span>合计</span>
-    <span @click="compute">=</span>
+    <span @click="compute">合计</span>
+
     <span>{{ count }}</span>
   </div>
-
-  <hr>
-  <Test1></Test1>
 </template>
 
 <script setup lang="ts">
+
 import { mainStore } from "@/store/index";
 import { storeToRefs } from "pinia";
-import Test1 from './../test1/index.vue'
 
 const store = mainStore();
 const { count, num, price } = storeToRefs(store);
 
-const add = (type) => {
-  type == "price" ? store.price++ : store.num++;
-};
-const minus = (type) => {
-  type == "num" ? store.price-- : store.num--;
-};
 
-const onFun = () => {
-  store.$patch({
-    count: store.count,
-    price: store.price,
-    num: store.num,
-  });
-};
-const compute = () => {
-  store.count = store.price * store.num;
-  onFun()
-};
 </script>
 
 <style scoped lang="scss">
