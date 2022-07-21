@@ -5,7 +5,12 @@
         <a-input v-model:value="formState.title" />
       </a-form-item>
       <a-form-item label="分类">
-        <a-input v-model:value="formState.types" />
+        <a-select
+          v-model:value="formState.types"
+          show-search
+          :options="options"
+          :filter-option="filterOption"
+        ></a-select>
       </a-form-item>
       <a-form-item label="标签">
         <a-input v-model:value="formState.tags" />
@@ -19,12 +24,12 @@
       <a-form-item label="编辑内容">
         <a-tabs v-model:activeKey="activeKey" type="card">
           <a-tab-pane key="1" tab="markdown">
-            <md-editor v-model="detail" style="height: 800px" />
+            <v-md-editor v-model="detail" height="800px"></v-md-editor>
           </a-tab-pane>
           <a-tab-pane key="2" tab="富文本编辑器">
-            <editor :value="detail" @change="handleChangeEditor($event)">
-            </editor
-          ></a-tab-pane>
+            <TinymceEditor :value="detail" @change="handleChangeEditor($event)">
+            </TinymceEditor>
+          </a-tab-pane>
         </a-tabs>
       </a-form-item>
       <a-form-item label="   ">
@@ -36,21 +41,12 @@
 </template>
 
 <script setup lang="ts">
-import {
-  defineComponent,
-  getCurrentInstance,
-  reactive,
-  ref,
-  toRefs,
-  toRaw,
-} from "vue";
-import Editor from "@/components/TinymceEditor/index.vue";
-import type { UnwrapRef } from "vue";
+import { reactive, ref, toRaw, UnwrapRef, onMounted } from "vue";
+import TinymceEditor from "@/components/TinymceEditor/index.vue";
 import { createArticle } from "../../common/axios";
 import { message } from "ant-design-vue";
-// markdown    ---------
-import MdEditor from "md-editor-v3";
-import "md-editor-v3/lib/style.css";
+import { storeToRefs } from "pinia";
+import { mainStore } from "@/store/index";
 
 const props = defineProps({
   newData: { type: Object, default: {} },
@@ -70,29 +66,50 @@ interface Articles {
   description: string;
   content: string;
   activeKey: string;
+  picture: string;
+}
+interface Options {
+  label: string;
+  value: string;
 }
 
 const formState: UnwrapRef<Articles> = reactive({
   author: "smile",
-  tags: "vue",
-  types: "前端",
-  title: "dsaasss",
-  description: "达士大夫撒；唠嗑",
+  tags: "",
+  types: "",
+  title: "",
+  description: "",
   content: "",
   activeKey: activeKey.value,
+  picture: "",
 });
 
 const onSubmit = async () => {
+  let doms = document.querySelectorAll(".v-md-editor__preview-wrapper img");
+  formState.picture = doms[0]?.getAttribute("src") || "";
+
   formState.content = detail.value;
   console.log("submit!", toRaw(formState));
   const data = await createArticle(formState);
-  console.log(data);
   message.success("文章创建成功");
 };
 
 const handleChangeEditor = (content: any) => {
   detail.value = content;
 };
+
+let options:Array<Options> = reactive([]);
+const filterOption = (input: string, option: any) => {
+  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+};
+onMounted(() => {
+  const store = mainStore();
+  const { types } = storeToRefs(store);
+  store.types.forEach((v: any) => {
+    let obj = { label: v, value: v };
+    options.push(obj);
+  });
+});
 </script>
 
 <style scoped lang="scss">

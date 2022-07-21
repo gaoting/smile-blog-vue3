@@ -17,29 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue";
-import Articles from "../interface/article";
-
-const cardList = reactive([
-  "vue",
-  "typescript",
-  "JavaScript",
-  "node.js",
-  "nest.js",
-  "es6+",
-  "MySQL",
-  "工具",
-  "css",
-  "vite",
-  "webpack",
-  "git",
-  "软件",
-  "rollup",
-  "linux",
-  "读书笔记",
-  "壁纸",
-  "日志",
-]);
+import { onMounted, reactive, ref } from "vue";
+import { storeToRefs } from "pinia";
+import { mainStore } from "@/store/index";
 
 const colorList = reactive([
   "#e18094",
@@ -69,7 +49,12 @@ const emit = defineEmits(["tagMsg"]);
 const tagMsg = (data: string) => {
   emit("tagMsg", data);
 };
-onMounted(() => {});
+let cardList = ref();
+onMounted(() => {
+  const store = mainStore();
+  const { types } = storeToRefs(store);
+  cardList.value = store.types;
+});
 </script>
 
 <style scoped lang="scss">

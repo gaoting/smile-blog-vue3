@@ -53,6 +53,14 @@
           :newList="collectList"
           :header="{ title: '收藏最多', url: '/' }"
         ></CardList>
+        <div class="card friend">
+          <div class="flex card-title"><h3>友情链接</h3></div>
+          <ul>
+            <li v-for="(item, index) in friendList" :key="index">
+              <a :href="item.url" target="_blank">{{ item.name }}</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -93,6 +101,8 @@ const getAllList = async () => {
   allArticleList.value = data.list as Articles[];
   page.total = data.total;
 };
+
+
 
 // 热门推荐
 let newList = ref([] as Articles[]);
@@ -175,6 +185,8 @@ let banner = ref("");
 const getAssetsImages = (name: string) => {
   return new URL(`/src/assets/img/${name}`, import.meta.url).href;
 };
+
+const friendList = reactive([{ url: "https://itsuki.cn/", name: "itsuki" }]);
 
 onMounted(() => {
   getAllList();

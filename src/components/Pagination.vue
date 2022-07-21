@@ -23,6 +23,7 @@ interface PageType {
 }
 
 export default defineComponent({
+
   props: {
     page: {
       type: Object as PropType<PageType>,

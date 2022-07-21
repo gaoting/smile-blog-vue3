@@ -38,8 +38,12 @@
           <p>{{ newData.description }}</p>
           <div class="content-text" v-if="newData.activeKey == '2'"></div>
           <div v-if="newData.activeKey == '1'">
-            <!-- <v-md-preview :text="newData.content"></v-md-preview> -->
-            <md-editor v-model="newData.content" :previewOnly="true" />
+            <v-md-editor
+              v-model="newData.content"
+              mode="preview"
+              :default-show-toc="true"
+              ref="preview"
+            ></v-md-editor>
           </div>
         </div>
         <!-- 内容 -->
@@ -79,21 +83,25 @@
           </p>
         </div>
         <div class="flex next-page">
-          <span class="pointer" @click="goUrl(newData.preId)" v-if="newData.preId">
+          <span
+            class="pointer"
+            @click="goUrl(newData.preId)"
+            v-if="newData.preId"
+          >
             <left-circle-filled />
             {{ newData.preTitle }}
           </span>
-          <span v-else>
-            <left-circle-filled />已是第一篇
-          </span>
+          <span v-else> <left-circle-filled />已是第一篇 </span>
 
-          <span class="pointer" @click="goUrl(newData.nextId)" v-if="newData.nextId">
+          <span
+            class="pointer"
+            @click="goUrl(newData.nextId)"
+            v-if="newData.nextId"
+          >
             <right-circle-filled />
             {{ newData.nextTitle }}
           </span>
-          <span v-else>
-            <right-circle-filled />已是最后一篇
-          </span>
+          <span v-else> <right-circle-filled />已是最后一篇 </span>
         </div>
       </div>
     </div>
@@ -101,16 +109,20 @@
     <div class="cont-right">
       <TagList></TagList>
 
-      <CardList :header="{ title: '我的收藏', url: '/' }" @click="handleCreate" :timer="timer"></CardList>
+      <CardList
+        :header="{ title: '我的收藏', url: '/' }"
+        @click="handleCreate"
+        :timer="timer"
+      ></CardList>
       <CardList :newList="newList"></CardList>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, ref, nextTick } from "vue";
+import { onMounted, ref, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { findById, searchList } from "../../common/axios";
+import { findById, searchList, updateNum } from "../../common/axios";
 import Articles from "../interface/article";
 import CardList from "./cardList.vue";
 import TagList from "./tagList.vue";
@@ -122,9 +134,6 @@ import {
   LikeOutlined,
   PayCircleOutlined,
 } from "@ant-design/icons-vue";
-import { updateNum } from "../../common/axios";
-// markdown    ---------
-import MdEditor from "md-editor-v3";
 
 const props = defineProps({
   id: Number,
@@ -344,7 +353,7 @@ onMounted(() => {
 
     // margin: 16px 0;
     span {
-      &>.anticon {
+      & > .anticon {
         margin-right: 4px;
         font-size: 18px;
         vertical-align: text-bottom;
@@ -378,6 +387,7 @@ onMounted(() => {
       align-items: center;
       display: none;
       padding-top: 10px;
+      z-index: 99;
 
       &:before,
       &:after {

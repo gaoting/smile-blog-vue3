@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Header from "./views/home/header.vue";
-import Footer from "./views/home/footer.vue";
+import HeaderCom from "./views/home/header.vue";
+import FooterCom from "./views/home/footer.vue";
 
 import { ref, provide, nextTick } from "vue";
 const isRouterActive = ref(true);
@@ -13,12 +13,12 @@ provide("reload", () => {
 </script>
 
 <template>
-  <Header></Header>
+  <HeaderCom></HeaderCom>
   <div class="continaer">
     <router-view v-if="isRouterActive"></router-view>
   </div>
 
-  <Footer></Footer>
+  <FooterCom></FooterCom>
 </template>
 
 <style lang="scss" scoped>

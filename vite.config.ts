@@ -1,13 +1,32 @@
 import { defineConfig } from "vite"; // 帮手函数，这样不用 jsdoc 注解也可以获取类型提示
 import vue from "@vitejs/plugin-vue";
 const { resolve } = require("path");
+import prismjs from "vite-plugin-prismjs";
 
 // https://vitejs.dev/config/
 export default () =>
   defineConfig({
+    //打包配置
+    build: {
+      //浏览器兼容性  "esnext"|"modules"
+      target: "modules",
+      //指定输出路径
+      outDir: "dist",
+      //生成静态资源的存放路径
+      assetsDir: "assets",
+      //启用/禁用 CSS 代码拆分
+      cssCodeSplit: true,
+      //构建后是否生成 source map 文件
+      sourcemap: false,
+      //自定义底层的 Rollup 打包配置
+      rollupOptions: {},
+    },
     plugins: [
       //配置需要使用的插件列表
       vue(),
+      prismjs({
+        languages: "all",
+      }),
     ],
     // 强制预构建插件包
     optimizeDeps: {
@@ -25,7 +44,7 @@ export default () =>
     resolve: {
       //配置别名
       alias: {
-        '@': resolve(__dirname, 'src')
+        "@": resolve(__dirname, "src"),
       },
       // 情景导出 package.json 配置中的exports字段
       conditions: [],
@@ -77,5 +96,5 @@ export default () =>
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
       },
-    }
+    },
   });

@@ -1,29 +1,30 @@
 import { defineStore } from "pinia";
 
-export const mainStore = defineStore("main", {
+export const mainStore = defineStore("typeList", {
   state: () => {
     return {
-      count: 0,
-      price: 0,
-      num: 0,
-      produce: {},
+      types: [
+        "vue",
+        "typescript",
+        "JavaScript",
+        "node.js",
+        "nest.js",
+        "es6+",
+        "MySQL",
+        "工具",
+        "css",
+        "vite",
+        "webpack",
+        "git",
+        "软件",
+        "rollup",
+        "linux",
+        "读书笔记",
+        "壁纸",
+        "日志",
+      ],
     };
   },
-  getters: {
-    getCount(state) {
-      console.log("getter", state);
-      return (state.price = 1800), (state.num = 10);
-    },
-    add(state) {
-      console.log("getter", state);
-    },
-    minus(state) {
-      console.log("getter", state);
-    },
-  },
-  actions: {
-    changeState(a: any, b: any) {
-      console.log(this, a, b);
-    },
-  },
+  getters: {},
+  actions: {},
 });

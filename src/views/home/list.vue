@@ -2,7 +2,7 @@
   <div class="cont-left">
     <ul v-if="allArticleList">
       <li v-for="item in allArticleList" :key="item.id" class="flex">
-        <div class="articleImg">
+        <div :class="item.types!=='读书笔记'?'articleImg':'bookImg'">
           <img
             :src="item.picture"
             alt=""
@@ -14,8 +14,12 @@
           <h4>
             <a :href="`/content?id=${item.id}`">{{ item.title }}</a>
           </h4>
-          <p>
-            {{ textHtml(item.description) }}
+          <p v-if="item.description">
+            {{
+              item.activeKey == "1"
+                ? textHtml(item.description)
+                : item.description
+            }}
           </p>
           <div class="flex text-list">
             <div class="flex">
@@ -26,11 +30,11 @@
               </span>
               <span>
                 <eye-outlined :style="{ color: '#02bfbb' }" />
-                {{ item.lookNum }}次浏览
+                {{ item.lookNum }}
               </span>
               <span>
                 <star-filled :style="{ color: '' }" />
-                {{ item.loveNum }}个收藏</span
+                {{ item.loveNum }}</span
               >
 
               <span
@@ -141,7 +145,8 @@ const getAssetsImages = (imgList: Array<string>) => {
 // 去除描述的html标签
 const textHtml = (str: string) => {
   const reg4 = /(<\/?font.*?>)|(<\/?span.*?>)|(<\/?a.*?>)/gi;
-  return str.replace(reg4, "").substring(0,90);
+  let newStr = str.replace(reg4, "");
+  return newStr.length > 90 ? newStr.substring(0, 90) : newStr;
 };
 
 // 分页交互

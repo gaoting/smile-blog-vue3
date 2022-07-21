@@ -19,22 +19,23 @@
     <span>{{ count }}</span>
   </div>
 
-  <hr>
+  <hr />
   <Test1></Test1>
 </template>
 
 <script setup lang="ts">
-import { mainStore } from "@/store/index";
+import { mainStore } from "@/store/test";
 import { storeToRefs } from "pinia";
-import Test1 from './../test1/index.vue'
+import Test1 from "./../test1/index.vue";
+import { ref, toRefs, reactive, useSlots, onMounted, inject } from "vue";
 
 const store = mainStore();
 const { count, num, price } = storeToRefs(store);
 
-const add = (type) => {
+const add = (type: string) => {
   type == "price" ? store.price++ : store.num++;
 };
-const minus = (type) => {
+const minus = (type: string) => {
   type == "num" ? store.price-- : store.num--;
 };
 
@@ -45,9 +46,44 @@ const onFun = () => {
     num: store.num,
   });
 };
+const state1 = reactive({
+  name: "张三",
+  age: "25岁",
+});
+onMounted(() => {
+  const slots = useSlots();
+  // 匿名插槽使用情况
+  const defaultSlot = ref(slots.default && slots.default().length);
+  console.log(defaultSlot.value); // 1
+  // 具名插槽使用情况
+  const titleSlot = ref(slots.title && slots.title().length);
+  console.log(titleSlot.value); // 3
+});
+
+// 注入
+const provideState: any = inject("provideState");
+
+// 子组件触发name改变
+provideState.changeName();
+
+// 声明state
+const state = reactive({
+  name: "Jerry",
+});
+
+// 将方法、变量暴露给父组件使用，父组件才可通过ref API拿到子组件暴露的数据
+defineExpose({
+  // 解构state
+  ...toRefs(state),
+  // 声明方法
+  changeName() {
+    state.name = "Tom";
+  },
+});
+
 const compute = () => {
   store.count = store.price * store.num;
-  onFun()
+  onFun();
 };
 </script>
 
