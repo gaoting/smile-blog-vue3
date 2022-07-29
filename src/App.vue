@@ -2,14 +2,16 @@
 import HeaderCom from "./views/home/header.vue";
 import FooterCom from "./views/home/footer.vue";
 
-import { ref, provide, nextTick } from "vue";
+import { ref, provide, nextTick, onMounted } from "vue";
 const isRouterActive = ref(true);
+
 provide("reload", () => {
   isRouterActive.value = false;
   nextTick(() => {
     isRouterActive.value = true;
   });
 });
+
 </script>
 
 <template>
@@ -23,6 +25,6 @@ provide("reload", () => {
 
 <style lang="scss" scoped>
 .continaer {
-    min-height: calc(100vh - 98px);
+  min-height: calc(100vh - 98px);
 }
 </style>

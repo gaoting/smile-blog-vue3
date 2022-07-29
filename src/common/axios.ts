@@ -32,7 +32,7 @@ export const allList = async (data: any) => {
 
 // 查询全部列表(不带分页)
 export const searchList = (data: any) => {
-  return get("/article/searchList", data);
+  return post("/article/searchList", data);
 };
 
 // 查询id

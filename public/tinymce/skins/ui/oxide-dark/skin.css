@@ -1346,7 +1346,7 @@ button::-moz-focus-inner {
 }
 .tox .tox-dialog--width-lg {
   height: 650px;
-  max-width: 1200px;
+  max-width: 1400px;
 }
 .tox .tox-dialog--width-md {
   max-width: 800px;

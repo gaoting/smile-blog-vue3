@@ -3,13 +3,17 @@
     <div class="cont-left">
       <div class="article-box">
         <div class="article-title">{{ newData.title }}</div>
+
         <div class="flex msg-title">
           <div class="flex">
             <img src="../../assets/img/photo.png" alt="" />
             <div class="msg-box">
-              <h5>
-                {{ newData.author }}
-              </h5>
+              <div class="flex">
+                <h5>
+                  {{ newData.author }}
+                </h5>
+                <a-tag color="cyan"><highlight-outlined />原创作品</a-tag>
+              </div>
               <div class="flex">
                 <p>发布时间：{{ myTimeToLocal(newData.createTime) }}</p>
                 <p>浏览：{{ newData.lookNum }}</p>
@@ -73,7 +77,6 @@
           </div>
           <img src="../../assets/img/code.png" alt="" />
         </div>
-
         <div class="footer-msg flex">
           <p>
             分类： <span>{{ newData.types }}</span>
@@ -82,6 +85,7 @@
             标签： <span>{{ newData.tags }}</span>
           </p>
         </div>
+
         <div class="flex next-page">
           <span
             class="pointer"
@@ -98,34 +102,56 @@
             @click="goUrl(newData.nextId)"
             v-if="newData.nextId"
           >
-            <right-circle-filled />
             {{ newData.nextTitle }}
+            <right-circle-filled />
           </span>
-          <span v-else> <right-circle-filled />已是最后一篇 </span>
+          <span v-else> 已是最后一篇 <right-circle-filled /></span>
         </div>
       </div>
     </div>
 
     <div class="cont-right">
-      <TagList></TagList>
-
-      <CardList
+      <a-affix :offset-top="top">
+        <TagList></TagList>
+        <div class="navigation">
+          <div class="navigation-content" id="permiss">
+            <h2>大纲 <UnorderedListOutlined /></h2>
+            <div class="permiss-box">
+              <div
+                class="titile-list"
+                v-for="(anchor, index) in titles"
+                :key="index + 'art'"
+                :style="{ padding: `6px 0 6px ${anchor.indent * 12}px` }"
+              >
+                <a
+                  @click="handleAnchorClick(anchor, index, anchor.indent)"
+                  :class="getColor[anchor.indent]"
+                >
+                  {{ anchor.title }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a-affix>
+      <!-- <CardList
         :header="{ title: '我的收藏', url: '/' }"
         @click="handleCreate"
         :timer="timer"
       ></CardList>
-      <CardList :newList="newList"></CardList>
+      <CardList :newList="newList"></CardList> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, nextTick } from "vue";
+import { onMounted, ref, nextTick, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { findById, searchList, updateNum } from "../../common/axios";
 import Articles from "../interface/article";
 import CardList from "./cardList.vue";
 import TagList from "./tagList.vue";
+import { message } from "ant-design-vue";
 import {
   HeartOutlined,
   RightCircleFilled,
@@ -133,12 +159,14 @@ import {
   CheckCircleFilled,
   LikeOutlined,
   PayCircleOutlined,
+  UnorderedListOutlined,
+  HighlightOutlined,
 } from "@ant-design/icons-vue";
 
 const props = defineProps({
   id: Number,
 });
-
+const top = ref<number>(60);
 let getId = ref(0);
 const route = useRoute();
 let newData = ref({} as Articles);
@@ -152,12 +180,17 @@ const getRightsList = async (id?: number) => {
   nextTick(() => {
     if (newData.value.activeKey == "2") {
       let doms = document.querySelector(".content-text");
-      doms ? (doms.innerHTML += newData.value.content) : "";
+      if (doms) {
+        doms.innerHTML += newData.value.content;
+      }
     }
 
     let desc = document.querySelector(".article-content>b");
 
-    desc ? (desc.innerHTML += newData.value.description) : "";
+    if (desc) {
+      desc.innerHTML += newData.value.description;
+    }
+    getTitleList();
   });
 };
 
@@ -233,6 +266,15 @@ const getLove = () => {
   }
 };
 
+// 设置目录color
+const getColor: any = reactive({
+  0: "color0",
+  1: "color1",
+  2: "color2",
+  3: "color3",
+  4: "color4",
+});
+
 // 路由跳转传参
 let router = useRouter();
 const goUrl = (id: number) => {
@@ -249,9 +291,63 @@ const myTimeToLocal = (date: string | number) => {
     .replace(/T/g, " ")
     .replace(/\.[\d]{3}Z/, "");
 };
+const preview = ref<any>(null);
+const titles = ref<any>([]);
+
+// md 大纲
+const getTitleList = () => {
+  nextTick(() => {
+    const anchors = preview.value.$el.querySelectorAll("h1,h2,h3,h4,h5,h6");
+
+    const getTitleData = Array.from(anchors).filter(
+      (title: any) => !!title.innerText.trim()
+    );
+    if (!getTitleData.length) {
+      titles.value = [];
+      return;
+    }
+
+    const hTags = Array.from(
+      new Set(getTitleData.map((title: any) => title.tagName))
+    ).sort();
+    //给每一个加样式
+    titles.value = getTitleData.map((el: any) => ({
+      title: el.innerText,
+      lineIndex: el.getAttribute("data-v-md-line"),
+      indent: hTags.indexOf(el.tagName),
+    }));
+
+    let copyBtn = document.querySelector(".v-md-copy-code-btn");
+
+    copyBtn?.addEventListener("click", () => {
+      message.success("复制成功!");
+    });
+  });
+};
+
+const handleAnchorClick = (
+  anchor: string,
+  index: number | string,
+  indent: number
+) => {
+  console.log(anchor, index, indent);
+
+  const heading = preview.value.$el.querySelector(
+    `[data-v-md-line="${index}"]`
+  );
+  console.log(preview.value, heading);
+  if (heading) {
+    preview.value.previewScrollToTarget({
+      target: heading,
+      scrollContainer: window,
+      top: 60,
+    });
+  }
+};
 
 onMounted(() => {
   console.log(route.query, location.search);
+
   if (route.query.id) {
     getId.value = parseInt(route.query.id as string);
 
@@ -260,13 +356,14 @@ onMounted(() => {
 
   getNewList();
   getLove();
+  // getTitleList();
 });
 </script>
 
 <style scoped lang="scss">
 .article-box {
   background: #fff;
-  padding: 40px 20px;
+  padding: 10px 20px;
   border-radius: 4px;
 
   .article-title {
@@ -277,7 +374,7 @@ onMounted(() => {
   .msg-title {
     align-items: end;
     // margin: 10px 0 20px;
-    padding: 30px 0 40px;
+    padding: 20px 0 30px;
     // border-bottom: 1px solid #f2f2f2;
     justify-content: space-between;
 
@@ -432,5 +529,90 @@ onMounted(() => {
       }
     }
   }
+}
+
+div#permiss {
+  background: #fff;
+  border-radius: 4px;
+  h2 {
+    padding: 8px 16px;
+    border-bottom: 1px solid #f2f2f2;
+    // margin-bottom: 16px;
+  }
+  span.anticon.anticon-unordered-list {
+    color: #999;
+  }
+  .permiss-box {
+    padding: 16px 12px;
+  }
+  .titile-list {
+    a {
+      cursor: pointer;
+      position: relative;
+      color: inherit;
+      display: inline-block;
+      padding: 0 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 100%;
+      text-overflow: ellipsis;
+      // &:before {
+      //   position: absolute;
+      //   top: 7px;
+      //   left: -13px;
+      //   content: "";
+      //   width: 4px;
+      //   height: 4px;
+      //   border: 3px solid #666;
+      //   border-radius: 4px;
+      // }
+
+      &:hover {
+        color: #019997;
+      }
+    }
+    .color0 {
+      color: #000;
+    }
+    .color1 {
+      color: #666;
+    }
+    .color2 {
+      color: #909090;
+    }
+    .color3 {
+      color: #909090;
+    }
+  }
+}
+::v-deep .vuepress-markdown-body h2 {
+  border-bottom: 0;
+}
+::v-deep .v-md-pre-wrapper.copy-code-mode .v-md-copy-code-btn {
+  opacity: 1;
+  visibility: initial;
+  right: 3.4em;
+  // position: relative;
+  &::before {
+    content: "一键复制";
+    width: 90px;
+    position: absolute;
+    bottom: -20px;
+    font-size: 10px;
+    transform: scale(0.9);
+    display: none;
+  }
+  &:hover {
+    &::before {
+      display: block;
+    }
+  }
+}
+::v-deep .vuepress-markdown-body > :last-child,
+.vuepress-markdown-body > div[data-v-md-line]:last-child > :last-child {
+  margin-bottom: 0 !important;
+}
+.flex.interaction > div {
+  cursor: pointer;
 }
 </style>

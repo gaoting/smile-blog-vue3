@@ -31,11 +31,11 @@
             <p>高效工作/学习 + 充分休息 = 理想生活</p>
             <ul class="flex">
               <li class="flex">
-                <span>99</span>
+                <span>{{articleNum}}</span>
                 <span> 文章数量</span>
               </li>
               <li class="flex">
-                <span>99</span>
+                <span>{{runDay}}</span>
                 <span> 运行天数</span>
               </li>
               <li class="flex">
@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted, nextTick } from "vue";
+import { reactive, ref, onMounted, nextTick, computed, getCurrentInstance} from "vue";
 import Articles from "../interface/article";
 import { allList, searchList } from "../../common/axios";
 import List from "./list.vue";
@@ -93,6 +93,7 @@ const onShowSizeChange = (ctx: any) => {
 };
 
 let allArticleList = ref([] as Articles[]);
+let articleNum = ref(0)
 const getAllList = async () => {
   const { data } = await allList({
     pageSize: page.pageSize,
@@ -100,9 +101,16 @@ const getAllList = async () => {
   });
   allArticleList.value = data.list as Articles[];
   page.total = data.total;
+  articleNum.value = data.total
 };
 
-
+const _this:any = getCurrentInstance()?.appContext.config.globalProperties
+const runDay = computed(()=>{
+  const nowTime = _this.$moment(new Date()).startOf('day').format('X')
+  const startTime = _this.$moment('2022-04-01').startOf('day').format('X')
+  let days = Math.ceil((nowTime-startTime)/24/3600)
+  return days
+})
 
 // 热门推荐
 let newList = ref([] as Articles[]);

@@ -4,8 +4,10 @@ body {
     margin: 0;
 }
 
-body {
-    background: #f5f5f5;
+body,
+html {
+    -webkit-font-smoothing: unset !important;
+    font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial !important;
 }
 
 ul,
@@ -45,7 +47,7 @@ p {
 }
 
 .content-box {
-    width: 1200px;
+    width: 1400px;
     margin: auto;
     padding: 24px 0;
     justify-content: space-between;
@@ -61,7 +63,7 @@ p {
                 padding: 20px;
                 border-radius: 4px;
                 margin-bottom: 16px;
-                height: 196px;
+                height: 176px;
                 // border-bottom: 2px solid pink;
 
                 &:hover {
@@ -128,9 +130,9 @@ p {
             .card-box {
                 width: 100%;
                 background-image: url("../../assets/img/t223.png");
-                background-size: 100% 196px;
+                background-size: 100% 176px;
                 background-repeat: no-repeat;
-                height: 196px;
+                height: 176px;
                 display: flex;
                 justify-content: center;
                 // align-content: center;
@@ -330,7 +332,7 @@ p {
 
     .bookImg {
         width: 240px;
-        height: 154px;
+        height: 134px;
         overflow: hidden;
 
         &>img {
@@ -341,8 +343,8 @@ p {
     }
 
     .articleImg {
-        width: 240px;
-        height: 154px;
+        width: 200px;
+        height: 134px;
         overflow: hidden;
     }
 
@@ -350,8 +352,8 @@ p {
         display: block;
         margin: auto;
         border-radius: 4px;
-        width: 100%;
-        max-height: 100%;
+        max-width: 100%;
+        height: 100%;
         transition: all 0.4s;
 
         &:hover {
@@ -368,7 +370,7 @@ p {
         flex-wrap: wrap;
         align-content: space-between;
         padding: 2px 0 10px 16px;
-        height: 158px;
+        height: 148px;
         overflow: hidden;
 
         &>p {
@@ -621,7 +623,7 @@ button.ant-btn.ant-btn-lg {
 }
 
 body {
-    background-image: linear-gradient(#f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #def3ee, #94dacc);
+    background-image: linear-gradient(#f5f5f5,#f5f5f5, #def3ee, #94dacc);
     background-attachment: fixed;
     background-position: bottom;
 }
@@ -662,6 +664,34 @@ body {
     display: block;
     margin: 20px auto 60px;
 }
+
 .ant-select.ant-select-single.ant-select-show-arrow {
     text-align: left;
+}
+
+.vuepress-markdown-body {
+    h3 {
+        font-size: 1.85rem;
+    }
+
+    h3 {
+        font-size: 1.55rem;
+    }
+
+    h4 {
+        font-size: 1.1rem;
+    }
+}
+
+.vuepress-markdown-body:not(.custom) {
+    padding: 2rem 1rem !important;
+}
+span.ant-tag {
+    margin-left: 8px;
+    line-height: 1.7em;
+    height: 1.7em;
+}
+
+span.token.arrow.operator {
+    margin-right: 20px;
 }

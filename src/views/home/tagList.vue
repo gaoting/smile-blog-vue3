@@ -59,7 +59,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .content-box .cont-right .card {
-  height: 256px;
+  height: 226px;
   h3 {
     display: inline-block;
   }
