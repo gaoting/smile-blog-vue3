@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+
     "useDefineForClassFields": true,
-    "module": "esnext",
+    "target": "esnext", // 目标语言的版本
+    "module": "esnext", // 生成代码的模板标准
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",

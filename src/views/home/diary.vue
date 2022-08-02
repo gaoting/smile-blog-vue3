@@ -1,13 +1,14 @@
 <template>
   <div>
-
     <a-timeline v-if="newData">
       <a-timeline-item color="green" v-for="item in newData" :key="item.id">
         <div class="content">
           {{ item.content }}
         </div>
         <div class="flex bottom">
-          <p>{{ myTimeToLocal(item.createTime) }}</p>
+          <p>
+            {{ $moment(item.createTime).format("YYYY-MM-DD hh:mm:ss") }}
+          </p>
           <span>
             <heart-filled :style="{ color: 'hotpink' }" />
             {{ item.loveNum }}
@@ -20,33 +21,25 @@
 
 <script setup lang="ts">
 import { SmileOutlined, HeartFilled } from "@ant-design/icons-vue";
-import { reactive, onMounted, ref, nextTick } from "vue";
+import { reactive, onMounted, ref, nextTick, getCurrentInstance } from "vue";
 import { diaryAll, diaryAdd, diaryLove } from "../../common/axios";
-import Diary from './../interface/diary'
+import Diary from "./../interface/diary";
 
-const newData = ref([] as Array<Diary>)
+const newData = ref([] as Array<Diary>);
 const getRightsList = async () => {
   let params = {
     current: 1,
-    pageSize: 20
-  }
+    pageSize: 20,
+  };
   const { data } = await diaryAll(params);
   console.log(data);
-  newData.value = data.list
-}
-
-// 时间转年月日
-const myTimeToLocal = (date: string | number) => {
-  let time = new Date(date).toJSON();
-  return new Date(+new Date(time) + 8 * 3600 * 1000)
-    .toISOString()
-    .replace(/T/g, " ")
-    .replace(/\.[\d]{3}Z/, "");
+  newData.value = data.list;
 };
 
 // 收藏 / 取消收藏
 let love = ref(false);
 let getId = ref(0);
+
 const goLove = (id: number, num: number, bool: boolean) => {
   love.value = !love.value;
   let getData = localStorage.getItem("myDraryLove");
@@ -82,11 +75,11 @@ const sendData = async (id: number, num: number, loveNum: number) => {
     id,
     loveNum: num + loveNum,
   });
-  newData.value.forEach(v => {
+  newData.value.forEach((v) => {
     if (v.id == id) {
-      v.loveNum = data.loveNum
+      v.loveNum = data.loveNum;
     }
-  })
+  });
 };
 
 // 判断是否收藏
@@ -105,8 +98,8 @@ const getLove = () => {
 };
 
 onMounted(() => {
-  getRightsList()
-})
+  getRightsList();
+});
 </script>
 
 <style scoped lang="scss">
@@ -129,7 +122,7 @@ onMounted(() => {
 }
 
 .bottom {
-  padding-top: .7em;
+  padding-top: 0.7em;
   color: #8590a6;
 
   p {

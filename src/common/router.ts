@@ -47,6 +47,11 @@ const routes = [
     name: "AddArticle",
     component: () => import("../views/admin/addArticle.vue"),
   },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import("../views/admin/login.vue"),
+  },
 ];
 
 const routerConfig = {

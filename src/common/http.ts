@@ -9,12 +9,18 @@ import { message } from "ant-design-vue";
 import Articles from "../views/interface/article";
 
 const http: AxiosInstance = axios.create({
-  baseURL: process.env.NODE_ENV == 'development'? "http://localhost:3300/api" : "http://81.69.222.61:3300/api",
+  baseURL:
+    process.env.NODE_ENV == "development"
+      ? "http://localhost:3300/api"
+      : "http://81.69.222.61:3300/api",
 });
 
 http.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    console.log(config, "ccccccccccccccc");
+  (config: any) => {
+    config.headers = localStorage.getItem("token")
+      ? { token: localStorage.getItem("token") }
+      : "";
+
     if (config.url === "/api/article/upload") {
       config.headers = { Accept: "multipart/form-data" };
     }
@@ -39,7 +45,6 @@ http.interceptors.response.use(
 );
 
 export const get = (url: string, params: any) => {
-
   return http.get(url, { params });
 };
 

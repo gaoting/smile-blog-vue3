@@ -23,8 +23,13 @@ export const mainStore = defineStore("typeList", {
         "壁纸",
         "日志",
       ],
+      token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
     };
   },
   getters: {},
-  actions: {},
+  actions: {
+    changeToken(params: string) {
+      this.token = params;
+    },
+  },
 });

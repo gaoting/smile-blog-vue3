@@ -2,6 +2,8 @@ import { defineConfig } from "vite"; // 帮手函数，这样不用 jsdoc 注解
 import vue from "@vitejs/plugin-vue";
 const { resolve } = require("path");
 import prismjs from "vite-plugin-prismjs";
+import requireTransform from 'vite-plugin-require-transform';
+
 
 // https://vitejs.dev/config/
 export default () =>
@@ -26,6 +28,9 @@ export default () =>
       vue(),
       prismjs({
         languages: "all",
+      }),
+      requireTransform({
+        fileRegex: /.js$|.vue$/
       }),
     ],
     // 强制预构建插件包
@@ -94,7 +99,7 @@ export default () =>
           target: "http://localhost:3006", //代理接口
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
-        },
+        }
       },
     },
   });

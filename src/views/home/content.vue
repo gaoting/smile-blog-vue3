@@ -15,7 +15,14 @@
                 <a-tag color="cyan"><highlight-outlined />原创作品</a-tag>
               </div>
               <div class="flex">
-                <p>发布时间：{{ myTimeToLocal(newData.createTime) }}</p>
+                <p>
+                  发布时间：
+
+                  {{
+                    $moment(newData.createTime).format("YYYY-MM-DD hh:mm:ss")
+                  }}
+                </p>
+
                 <p>浏览：{{ newData.lookNum }}</p>
                 <p>收藏：{{ newData.loveNum }}</p>
               </div>
@@ -145,7 +152,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, nextTick, reactive } from "vue";
+import { onMounted, ref, nextTick, getCurrentInstance, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { findById, searchList, updateNum } from "../../common/axios";
 import Articles from "../interface/article";
@@ -173,8 +180,8 @@ let newData = ref({} as Articles);
 
 // 获取详情   设置content description 标签转译
 const getRightsList = async (id?: number) => {
-  const { data } = await findById({ id: id });
-  newData.value = data as any;
+  const { result } = await findById({ id: id });
+  newData.value = result.data as any;
   console.log(newData.value);
   newData.value.lookNum += 1;
   nextTick(() => {
@@ -197,11 +204,11 @@ const getRightsList = async (id?: number) => {
 // 热门文章
 let newList = ref([] as Articles[]);
 const getNewList = async () => {
-  const { data } = await searchList({
+  const { result } = await searchList({
     types: "前端",
     orderByDesc: ["lookNum"],
   });
-  newList.value = data.list;
+  newList.value = result.list;
 };
 
 // 刷新子组件
@@ -244,17 +251,17 @@ const goLove = (bool: boolean) => {
 
 // 调用接口
 const sendData = async (num: number) => {
-  const { data } = await updateNum({
+  const { result } = await updateNum({
     id: newData.value.id,
     loveNum: newData.value.loveNum + num,
   });
-  newData.value.loveNum = data.loveNum;
+  newData.value.loveNum = result.data.loveNum;
 };
 
 // 判断是否收藏
 const getLove = () => {
   let getData = localStorage.getItem("myLove");
-  if (getData && JSON.parse(getData).length >= 0) {
+  if (getData && JSON.parse(getData).length) {
     let arr = [...JSON.parse(getData)];
     arr.forEach((v) => {
       if (v.id == getId.value) {
@@ -279,18 +286,9 @@ const getColor: any = reactive({
 let router = useRouter();
 const goUrl = (id: number) => {
   router.push({ path: "/content", query: { id } });
-  // reload();
   getRightsList(id);
 };
 
-// 时间转年月日
-const myTimeToLocal = (date: string | number) => {
-  let time = new Date(date).toJSON();
-  return new Date(+new Date(time) + 8 * 3600 * 1000)
-    .toISOString()
-    .replace(/T/g, " ")
-    .replace(/\.[\d]{3}Z/, "");
-};
 const preview = ref<any>(null);
 const titles = ref<any>([]);
 
@@ -313,7 +311,7 @@ const getTitleList = () => {
     //给每一个加样式
     titles.value = getTitleData.map((el: any) => ({
       title: el.innerText,
-      lineIndex: el.getAttribute("data-v-md-line"),
+      lineIndex: el.getAttribute("result-v-md-line"),
       indent: hTags.indexOf(el.tagName),
     }));
 
@@ -333,7 +331,7 @@ const handleAnchorClick = (
   console.log(anchor, index, indent);
 
   const heading = preview.value.$el.querySelector(
-    `[data-v-md-line="${index}"]`
+    `[result-v-md-line="${index}"]`
   );
   console.log(preview.value, heading);
   if (heading) {
@@ -585,10 +583,10 @@ div#permiss {
     }
   }
 }
-::v-deep .vuepress-markdown-body h2 {
+:deep(.vuepress-markdown-body h2) {
   border-bottom: 0;
 }
-::v-deep .v-md-pre-wrapper.copy-code-mode .v-md-copy-code-btn {
+:deep(.v-md-pre-wrapper.copy-code-mode .v-md-copy-code-btn) {
   opacity: 1;
   visibility: initial;
   right: 3.4em;
@@ -608,8 +606,8 @@ div#permiss {
     }
   }
 }
-::v-deep .vuepress-markdown-body > :last-child,
-.vuepress-markdown-body > div[data-v-md-line]:last-child > :last-child {
+:deep(.vuepress-markdown-body > :last-child),
+.vuepress-markdown-body > div[result-v-md-line]:last-child > :last-child {
   margin-bottom: 0 !important;
 }
 .flex.interaction > div {

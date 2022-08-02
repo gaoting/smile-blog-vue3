@@ -15,7 +15,7 @@ provide("reload", () => {
 </script>
 
 <template>
-  <HeaderCom></HeaderCom>
+  <HeaderCom v-if="isRouterActive"></HeaderCom>
   <div class="continaer">
     <router-view v-if="isRouterActive"></router-view>
   </div>

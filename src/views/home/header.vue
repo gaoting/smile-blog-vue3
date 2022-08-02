@@ -1,19 +1,45 @@
 
 <template>
-  <nav class="flex">
-    <div class="logo">
-      <img src="../../assets/img/logo.svg" alt="smile" />
+  <nav class="flex flex-end">
+    <div class="flex">
+      <div class="logo">
+        <img src="../../assets/img/logo.svg" alt="smile" />
+      </div>
+      <ul class="flex">
+        <li v-for="(item, index) in navigation" :key="index">
+          <a :href="item.href">{{ item.name }}</a>
+        </li>
+      </ul>
     </div>
-    <ul class="flex">
-      <li v-for="(item, index) in navigation" :key="index">
-        <a :href="item.href">{{ item.name }}</a>
-      </li>
-    </ul>
+    <div class="login-status">
+      <a-dropdown v-if="user.isLogin">
+        <a class="ant-dropdown-link" @click.prevent>
+          <a-avatar style="background-color: #5ec1ae">
+            <template #icon><UserOutlined /></template>
+          </a-avatar>
+          {{ user.userName }}
+          <DownOutlined />
+        </a>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item>
+              <a @click="loginOut">退出登录</a>
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
+
+      <router-link to="/login" v-else>注册 | 登录</router-link>
+    </div>
   </nav>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "@vue/reactivity";
+import { reactive, ref } from "@vue/reactivity";
+import { UserOutlined } from "@ant-design/icons-vue";
+import { onMounted, inject, watch } from "vue";
+import { useRouter } from "vue-router";
+import { DownOutlined } from "@ant-design/icons-vue";
 
 const navigation = reactive([
   { name: "首页", href: "/", current: true },
@@ -23,6 +49,23 @@ const navigation = reactive([
   { name: "日志", href: "/diary", current: false },
   { name: "关于我", href: "/about", current: false },
 ]);
+
+const route = useRouter();
+const loginOut = () => {
+  localStorage.clear();
+
+  route.push({ path: "/login" });
+  reload();
+  console.log("ttsstststs");
+};
+
+let user = reactive({
+  isLogin: localStorage.getItem("token") ? true : false,
+  userName: localStorage.getItem("userName")
+    ? localStorage.getItem("userName")
+    : "",
+});
+const reload: any = inject("reload");
 </script>
 
 <style lang="scss" scoped>
@@ -59,5 +102,15 @@ nav {
       }
     }
   }
+}
+.flex-end {
+  justify-content: space-between;
+}
+:deep(a.router-link-active.router-link-exact-active) {
+  font-size: 16px;
+  color: #35dcba;
+}
+:deep(a.ant-dropdown-link.ant-dropdown-trigger) {
+  color: #fff;
 }
 </style>

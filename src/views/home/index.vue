@@ -31,11 +31,11 @@
             <p>高效工作/学习 + 充分休息 = 理想生活</p>
             <ul class="flex">
               <li class="flex">
-                <span>{{articleNum}}</span>
+                <span>{{ articleNum }}</span>
                 <span> 文章数量</span>
               </li>
               <li class="flex">
-                <span>{{runDay}}</span>
+                <span>{{ runDay }}</span>
                 <span> 运行天数</span>
               </li>
               <li class="flex">
@@ -67,7 +67,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted, nextTick, computed, getCurrentInstance} from "vue";
+import {
+  reactive,
+  ref,
+  onMounted,
+  nextTick,
+  computed,
+  getCurrentInstance,
+} from "vue";
 import Articles from "../interface/article";
 import { allList, searchList } from "../../common/axios";
 import List from "./list.vue";
@@ -78,6 +85,9 @@ import {
   FieldTimeOutlined,
   EyeOutlined,
 } from "@ant-design/icons-vue";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
+import { mainStore } from "@/store";
 
 let page = reactive({
   current: 1,
@@ -93,24 +103,29 @@ const onShowSizeChange = (ctx: any) => {
 };
 
 let allArticleList = ref([] as Articles[]);
-let articleNum = ref(0)
+let articleNum = ref(0);
 const getAllList = async () => {
-  const { data } = await allList({
+  const { result } = await allList({
     pageSize: page.pageSize,
     current: page.current,
   });
-  allArticleList.value = data.list as Articles[];
-  page.total = data.total;
-  articleNum.value = data.total
+  console.log(result);
+  allArticleList.value = result.list as Articles[];
+  page.total = result.total;
+  articleNum.value = result.total;
 };
 
-const _this:any = getCurrentInstance()?.appContext.config.globalProperties
-const runDay = computed(()=>{
-  const nowTime = _this.$moment(new Date()).startOf('day').format('X')
-  const startTime = _this.$moment('2022-04-01').startOf('day').format('X')
-  let days = Math.ceil((nowTime-startTime)/24/3600)
-  return days
-})
+const _this: any = getCurrentInstance()?.appContext.config.globalProperties;
+
+const runDay = computed(() => {
+  const nowTime = JSON.parse(
+    JSON.stringify(_this.$moment(new Date()).startOf("day").format("X"))
+  );
+  const startTime = JSON.parse(
+    JSON.stringify(_this.$moment("2022-04-01").startOf("day").format("X"))
+  );
+  return Math.ceil((nowTime - startTime) / 24 / 3600);
+});
 
 // 热门推荐
 let newList = ref([] as Articles[]);
@@ -118,8 +133,8 @@ const getsearchList = async () => {
   const params = {
     orderByDesc: ["lookNum"],
   };
-  const { data } = await searchList(params);
-  newList.value = data.list;
+  const { result } = await searchList(params);
+  newList.value = result.list;
 };
 
 // 收藏列表
@@ -128,8 +143,8 @@ const getCollectList = async () => {
   const params = {
     orderByDesc: ["loveNum"],
   };
-  const { data } = await searchList(params);
-  collectList.value = data.list;
+  const { result } = await searchList(params);
+  collectList.value = result.list;
 };
 
 // 随机文字
@@ -196,10 +211,14 @@ const getAssetsImages = (name: string) => {
 
 const friendList = reactive([{ url: "https://itsuki.cn/", name: "itsuki" }]);
 
+const store = mainStore();
+const { token } = storeToRefs(store);
+
 onMounted(() => {
   getAllList();
   getsearchList();
   getCollectList();
+  console.log(token.value, "tttttttt222");
   nextTick(() => {
     title.value = randomStr(textList);
     banner.value = getAssetsImages(randomStr(imgList));

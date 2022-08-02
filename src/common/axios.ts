@@ -4,13 +4,13 @@ import Articles from "@/views/interface/article";
 const imgList = ["bg48.jpg", "a1.jpg", "a2.jpg", "a3.jpg", "a4.jpg", "a5.jpg"];
 // 全部列表(分页)
 export const allList = async (data: any) => {
-  let arr = await get("/article/list", data);
-  console.log(arr);
-  let array = JSON.parse(JSON.stringify(arr));
-  array.data.list = [];
+  let arr: any = await get("/article/list", data);
+  console.log(arr.result);
+  let array:any = JSON.parse(JSON.stringify(arr));
+  array.result.list = [];
 
-  if (arr && arr.data && arr.data.list) {
-    arr.data.list.forEach((v: Articles) => {
+  if (arr && arr.result && arr.result.list) {
+    arr.result.list.forEach((v: Articles) => {
       let a = {};
 
       const randomItem = (items: any) =>
@@ -23,7 +23,7 @@ export const allList = async (data: any) => {
               .href,
       };
 
-      array.data.list.push(a);
+      array.result.list.push(a);
     });
   }
   console.log(array);
@@ -56,7 +56,6 @@ export const updateNum = (data: any) => {
   return update("/article/updateNum", data);
 };
 
-
 // 日志列表 带分页
 export const diaryAll = (data: any) => {
   return get("/diary/list", data);
@@ -70,4 +69,14 @@ export const diaryAdd = (data: any) => {
 // 日志点赞
 export const diaryLove = (data: any) => {
   return post("/diary/updateNum", data);
+};
+
+// login
+export const login = (data: any) => {
+  return post("/user/login", data);
+};
+
+// 注册
+export const register = (data: any) => {
+  return post("/user/register", data);
 };

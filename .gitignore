@@ -8,9 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
-dist-ssr
 *.local
+dist/
+dist.zip
 smile_blog_front
 
 # Editor directories and files
@@ -22,5 +22,5 @@ smile_blog_front
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+*.sw
 .vscode/extensions.json

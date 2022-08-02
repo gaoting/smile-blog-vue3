@@ -26,6 +26,9 @@ import { allList, searchList } from "../../common/axios";
 import List from "./list.vue";
 import CardList from "./cardList.vue";
 import TagList from "./tagList.vue";
+import { useRouter } from "vue-router";
+import { mainStore } from "@/store";
+import { storeToRefs } from "pinia";
 
 let page = reactive({
   current: 1,
@@ -44,13 +47,13 @@ const onShowSizeChange = (ctx: any) => {
 
 // 分页列表
 const getAllList = async () => {
-  const { data } = await allList({
+  const { result } = await allList({
     pageSize: page.pageSize,
     current: page.current,
     types: "前端",
   });
-  allArticleList.value = data.list as Articles[];
-  page.total = data.total;
+  allArticleList.value = result.list as Articles[];
+  page.total = result.total;
 };
 
 // 热门推荐
@@ -60,8 +63,8 @@ const getsearchList = async () => {
     types: "前端",
     orderByDesc: ["lookNum"],
   };
-  const { data } = await searchList(params);
-  newList.value = data.list;
+  const { result } = await searchList(params);
+  newList.value = result.list;
 };
 
 // 收藏列表
@@ -71,14 +74,17 @@ const getCollectList = async () => {
     types: "前端",
     orderByDesc: ["loveNum"],
   };
-  const { data } = await searchList(params);
-  collectList.value = data.list;
+  const { result } = await searchList(params);
+  collectList.value = result.list;
 };
 
+const store = mainStore();
+const { token } = storeToRefs(store);
 onMounted(() => {
   getAllList();
   getsearchList();
   getCollectList();
+   console.log(token.value, "tttttttt2223333");
 });
 </script>
 
