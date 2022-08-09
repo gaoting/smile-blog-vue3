@@ -26,10 +26,10 @@
           <a-tab-pane key="1" tab="markdown">
             <v-md-editor v-model="detail" height="800px"></v-md-editor>
           </a-tab-pane>
-          <a-tab-pane key="2" tab="富文本编辑器">
+          <!-- <a-tab-pane key="2" tab="富文本编辑器">
             <TinymceEditor :value="detail" @change="handleChangeEditor($event)">
             </TinymceEditor>
-          </a-tab-pane>
+          </a-tab-pane> -->
         </a-tabs>
       </a-form-item>
       <a-form-item label="   ">
@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import { reactive, ref, toRaw, UnwrapRef, onMounted } from "vue";
-import TinymceEditor from "@/components/TinymceEditor/index.vue";
+// import TinymceEditor from "@/components/TinymceEditor/index.vue";
 import { createArticle } from "../../common/axios";
 import { message } from "ant-design-vue";
 import { storeToRefs } from "pinia";

@@ -79,6 +79,11 @@ nav {
   top: 0;
   left: 0;
   z-index: 99;
+  .login-status {
+    a {
+      color: #5acab4;
+    }
+  }
   ul {
     width: 600px;
     margin: 10px 0;

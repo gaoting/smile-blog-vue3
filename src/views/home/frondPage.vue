@@ -14,7 +14,6 @@
         :newList="collectList"
         :header="{ title: '收藏最多', url: '/' }"
       ></CardList>
-      
     </div>
   </div>
 </template>
@@ -27,7 +26,7 @@ import List from "./list.vue";
 import CardList from "./cardList.vue";
 import TagList from "./tagList.vue";
 import { useRouter } from "vue-router";
-import { mainStore } from "@/store";
+import { mainStore } from "../../store";
 import { storeToRefs } from "pinia";
 
 let page = reactive({
@@ -42,12 +41,12 @@ const onShowSizeChange = (ctx: any) => {
   page.current = ctx.current;
   page.pageSize = ctx.pageSize;
   console.log(ctx);
-  getAllList()
+  getAllList();
 };
 
 // 分页列表
 const getAllList = async () => {
-  const { result } = await allList({
+  const result = await allList({
     pageSize: page.pageSize,
     current: page.current,
     types: "前端",
@@ -63,7 +62,7 @@ const getsearchList = async () => {
     types: "前端",
     orderByDesc: ["lookNum"],
   };
-  const { result } = await searchList(params);
+  const result = await searchList(params);
   newList.value = result.list;
 };
 
@@ -74,7 +73,7 @@ const getCollectList = async () => {
     types: "前端",
     orderByDesc: ["loveNum"],
   };
-  const { result } = await searchList(params);
+  const result = await searchList(params);
   collectList.value = result.list;
 };
 
@@ -84,7 +83,7 @@ onMounted(() => {
   getAllList();
   getsearchList();
   getCollectList();
-   console.log(token.value, "tttttttt2223333");
+  console.log(token.value, "tttttttt2223333");
 });
 </script>
 

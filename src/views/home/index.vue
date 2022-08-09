@@ -88,6 +88,7 @@ import {
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { mainStore } from "@/store";
+import moment from 'moment'
 
 let page = reactive({
   current: 1,
@@ -105,24 +106,24 @@ const onShowSizeChange = (ctx: any) => {
 let allArticleList = ref([] as Articles[]);
 let articleNum = ref(0);
 const getAllList = async () => {
-  const { result } = await allList({
+  const data = await allList({
     pageSize: page.pageSize,
     current: page.current,
   });
-  console.log(result);
-  allArticleList.value = result.list as Articles[];
-  page.total = result.total;
-  articleNum.value = result.total;
+  console.log(data);
+  allArticleList.value = data.list as Articles[];
+  page.total = data.total;
+  articleNum.value = data.total;
 };
 
-const _this: any = getCurrentInstance()?.appContext.config.globalProperties;
+// const _this: any = getCurrentInstance()?.appContext.config.globalProperties;
 
 const runDay = computed(() => {
   const nowTime = JSON.parse(
-    JSON.stringify(_this.$moment(new Date()).startOf("day").format("X"))
+    JSON.stringify(moment(new Date()).startOf("day").format("X"))
   );
   const startTime = JSON.parse(
-    JSON.stringify(_this.$moment("2022-04-01").startOf("day").format("X"))
+    JSON.stringify(moment("2022-04-01").startOf("day").format("X"))
   );
   return Math.ceil((nowTime - startTime) / 24 / 3600);
 });
@@ -133,8 +134,8 @@ const getsearchList = async () => {
   const params = {
     orderByDesc: ["lookNum"],
   };
-  const { result } = await searchList(params);
-  newList.value = result.list;
+  const data = await searchList(params);
+  newList.value = data.list;
 };
 
 // 收藏列表
@@ -143,8 +144,8 @@ const getCollectList = async () => {
   const params = {
     orderByDesc: ["loveNum"],
   };
-  const { result } = await searchList(params);
-  collectList.value = result.list;
+  const data = await searchList(params);
+  collectList.value = data.list;
 };
 
 // 随机文字
@@ -223,7 +224,6 @@ onMounted(() => {
     title.value = randomStr(textList);
     banner.value = getAssetsImages(randomStr(imgList));
   });
-  console.log(banner.value);
 });
 </script>
 

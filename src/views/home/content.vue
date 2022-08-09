@@ -18,9 +18,7 @@
                 <p>
                   发布时间：
 
-                  {{
-                    $moment(newData.createTime).format("YYYY-MM-DD hh:mm:ss")
-                  }}
+                  {{ moment(newData.createTime).format("YYYY-MM-DD hh:mm:ss") }}
                 </p>
 
                 <p>浏览：{{ newData.lookNum }}</p>
@@ -120,7 +118,7 @@
     <div class="cont-right">
       <a-affix :offset-top="top">
         <TagList></TagList>
-        <div class="navigation">
+        <div class="navigation" v-if="newData.activeKey == '1'">
           <div class="navigation-content" id="permiss">
             <h2>大纲 <UnorderedListOutlined /></h2>
             <div class="permiss-box">
@@ -141,12 +139,13 @@
           </div>
         </div>
       </a-affix>
-      <!-- <CardList
+      <CardList
+        v-if="newData.activeKey == '2'"
         :header="{ title: '我的收藏', url: '/' }"
         @click="handleCreate"
         :timer="timer"
       ></CardList>
-      <CardList :newList="newList"></CardList> -->
+      <CardList :newList="newList" v-if="newData.activeKey == '2'"></CardList>
     </div>
   </div>
 </template>
@@ -169,6 +168,7 @@ import {
   UnorderedListOutlined,
   HighlightOutlined,
 } from "@ant-design/icons-vue";
+import moment from "moment";
 
 const props = defineProps({
   id: Number,
@@ -177,10 +177,11 @@ const top = ref<number>(60);
 let getId = ref(0);
 const route = useRoute();
 let newData = ref({} as Articles);
+// const _this: any = ref(getCurrentInstance()?.appContext.config.globalProperties);
 
 // 获取详情   设置content description 标签转译
 const getRightsList = async (id?: number) => {
-  const { result } = await findById({ id: id });
+  const result = await findById({ id: id });
   newData.value = result.data as any;
   console.log(newData.value);
   newData.value.lookNum += 1;
@@ -204,7 +205,7 @@ const getRightsList = async (id?: number) => {
 // 热门文章
 let newList = ref([] as Articles[]);
 const getNewList = async () => {
-  const { result } = await searchList({
+  const result = await searchList({
     types: "前端",
     orderByDesc: ["lookNum"],
   });
@@ -239,7 +240,7 @@ const goLove = (bool: boolean) => {
       sendData(-1);
     }
   } else {
-    let arr = [];
+    let arr = [] as any;
     arr.push(newData.value);
     console.log(arr);
     localStorage.setItem("myLove", JSON.stringify(arr));
@@ -251,7 +252,7 @@ const goLove = (bool: boolean) => {
 
 // 调用接口
 const sendData = async (num: number) => {
-  const { result } = await updateNum({
+  const result = await updateNum({
     id: newData.value.id,
     loveNum: newData.value.loveNum + num,
   });
@@ -295,31 +296,33 @@ const titles = ref<any>([]);
 // md 大纲
 const getTitleList = () => {
   nextTick(() => {
-    const anchors = preview.value.$el.querySelectorAll("h1,h2,h3,h4,h5,h6");
+    if (preview.value) {
+      const anchors = preview.value.$el.querySelectorAll("h1,h2,h3,h4,h5,h6");
 
-    const getTitleData = Array.from(anchors).filter(
-      (title: any) => !!title.innerText.trim()
-    );
-    if (!getTitleData.length) {
-      titles.value = [];
-      return;
+      const getTitleData = Array.from(anchors).filter(
+        (title: any) => !!title.innerText.trim()
+      );
+      if (!getTitleData.length) {
+        titles.value = [];
+        return;
+      }
+
+      const hTags = Array.from(
+        new Set(getTitleData.map((title: any) => title.tagName))
+      ).sort();
+      //给每一个加样式
+      titles.value = getTitleData.map((el: any) => ({
+        title: el.innerText,
+        lineIndex: el.getAttribute("result-v-md-line"),
+        indent: hTags.indexOf(el.tagName),
+      }));
+
+      let copyBtn = document.querySelector(".v-md-copy-code-btn");
+
+      copyBtn?.addEventListener("click", () => {
+        message.success("复制成功!");
+      });
     }
-
-    const hTags = Array.from(
-      new Set(getTitleData.map((title: any) => title.tagName))
-    ).sort();
-    //给每一个加样式
-    titles.value = getTitleData.map((el: any) => ({
-      title: el.innerText,
-      lineIndex: el.getAttribute("result-v-md-line"),
-      indent: hTags.indexOf(el.tagName),
-    }));
-
-    let copyBtn = document.querySelector(".v-md-copy-code-btn");
-
-    copyBtn?.addEventListener("click", () => {
-      message.success("复制成功!");
-    });
   });
 };
 

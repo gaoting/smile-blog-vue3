@@ -72,21 +72,21 @@ const onFinish = async (values: any) => {
   console.log("Success:", values);
   const res = await login(values);
   console.log(res);
-  if (res.result.code === 200) {
-    message.success(res.result.message);
+  if (res.code === 200) {
+    message.success(res.message);
     // store.$patch((state) =>{
-    //   state.token = res.result.token
+    //   state.token = res.token
     // })
-    store.changeToken(res.result.token);
+    store.changeToken(res.token);
 
-    localStorage.setItem("token", res.result.token);
-    localStorage.setItem("userName", res.result.userName);
+    localStorage.setItem("token", res.token);
+    localStorage.setItem("userName", res.userName);
 
     console.log(localStorage.getItem("token"));
     route.push({ path: "/" });
     reload();
   } else {
-    message.error(res.result.message + "hhhhh");
+    message.error(res.message);
   }
 };
 

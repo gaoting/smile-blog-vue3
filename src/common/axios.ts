@@ -5,12 +5,11 @@ const imgList = ["bg48.jpg", "a1.jpg", "a2.jpg", "a3.jpg", "a4.jpg", "a5.jpg"];
 // 全部列表(分页)
 export const allList = async (data: any) => {
   let arr: any = await get("/article/list", data);
-  console.log(arr.result);
   let array:any = JSON.parse(JSON.stringify(arr));
-  array.result.list = [];
+  array.list = [];
 
-  if (arr && arr.result && arr.result.list) {
-    arr.result.list.forEach((v: Articles) => {
+  if (arr && arr.list) {
+    arr.list.forEach((v: Articles) => {
       let a = {};
 
       const randomItem = (items: any) =>
@@ -23,7 +22,7 @@ export const allList = async (data: any) => {
               .href,
       };
 
-      array.result.list.push(a);
+      array.list.push(a);
     });
   }
   console.log(array);

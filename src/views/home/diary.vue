@@ -7,7 +7,7 @@
         </div>
         <div class="flex bottom">
           <p>
-            {{ $moment(item.createTime).format("YYYY-MM-DD hh:mm:ss") }}
+            {{ moment(item.createTime).format("YYYY-MM-DD hh:mm:ss") }}
           </p>
           <span>
             <heart-filled :style="{ color: 'hotpink' }" />
@@ -24,6 +24,7 @@ import { SmileOutlined, HeartFilled } from "@ant-design/icons-vue";
 import { reactive, onMounted, ref, nextTick, getCurrentInstance } from "vue";
 import { diaryAll, diaryAdd, diaryLove } from "../../common/axios";
 import Diary from "./../interface/diary";
+import moment from "moment";
 
 const newData = ref([] as Array<Diary>);
 const getRightsList = async () => {
@@ -31,7 +32,7 @@ const getRightsList = async () => {
     current: 1,
     pageSize: 20,
   };
-  const { data } = await diaryAll(params);
+  const data = await diaryAll(params);
   console.log(data);
   newData.value = data.list;
 };
@@ -39,6 +40,7 @@ const getRightsList = async () => {
 // 收藏 / 取消收藏
 let love = ref(false);
 let getId = ref(0);
+// const _this: any = ref(getCurrentInstance()?.appContext.config.globalProperties);
 
 const goLove = (id: number, num: number, bool: boolean) => {
   love.value = !love.value;
@@ -60,7 +62,7 @@ const goLove = (id: number, num: number, bool: boolean) => {
       sendData(id, num, -1);
     }
   } else {
-    let arr = [];
+    let arr = [] as any;
     arr.push(newData.value);
     console.log(arr);
     localStorage.setItem("myDraryLove", JSON.stringify(arr));

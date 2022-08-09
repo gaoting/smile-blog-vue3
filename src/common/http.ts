@@ -12,7 +12,7 @@ const http: AxiosInstance = axios.create({
   baseURL:
     process.env.NODE_ENV == "development"
       ? "http://localhost:3300/api"
-      : "http://81.69.222.61:3300/api",
+      : "http://gaoting666.cn:3300/api",
 });
 
 http.interceptors.request.use(
@@ -23,7 +23,14 @@ http.interceptors.request.use(
 
     if (config.url === "/api/article/upload") {
       config.headers = { Accept: "multipart/form-data" };
+    } else if (config.method === "post") {
+      config.headers = { "Content-Type": "application/json" };
     }
+
+    console.log(config, "configgggg");
+    // else {
+    //   config.headers = { "Content-Type": "application/json" };
+    // }
     return config;
   },
   (error) => {

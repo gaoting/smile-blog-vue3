@@ -6,7 +6,7 @@ import Antd from "ant-design-vue";
 import "ant-design-vue/dist/antd.css";
 import "./assets/css/public.scss";
 import Utils from "./common/utils";
-import moment from "moment-mini";
+import moment from "moment";
 import { createPinia } from "pinia";
 
 import VMdEditor from "@kangc/v-md-editor";
