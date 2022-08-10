@@ -46,13 +46,13 @@ const onShowSizeChange = (ctx: any) => {
 
 // 分页列表
 const getAllList = async () => {
-  const result = await allList({
+  const  data  = await allList({
     pageSize: page.pageSize,
     current: page.current,
     types: "前端",
   });
-  allArticleList.value = result.list as Articles[];
-  page.total = result.total;
+  allArticleList.value = data.list as Articles[];
+  page.total = data.total;
 };
 
 // 热门推荐

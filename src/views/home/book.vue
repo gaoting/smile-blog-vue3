@@ -37,7 +37,7 @@ let page = reactive({
 
 let allArticleList = ref([] as Articles[]);
 const getAllList = async () => {
-  const { data } = await allList({
+  const  data  = await allList({
     pageSize: page.pageSize,
     current: page.current,
     type: "读书笔记",

@@ -26,9 +26,7 @@ http.interceptors.request.use(
     } else if (config.method === "post") {
       config.headers = { "Content-Type": "application/json" };
     }
-
-    console.log(config, "configgggg");
-    // else {
+    //  else {
     //   config.headers = { "Content-Type": "application/json" };
     // }
     return config;

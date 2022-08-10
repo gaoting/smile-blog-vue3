@@ -28,7 +28,7 @@ export default defineConfig({
   server: {
     cors: true,
     open: true,
-    host: "localhost",
+    // host: "localhost",
     port: 9999,
     proxy: {
       "/api": {

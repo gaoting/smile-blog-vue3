@@ -88,7 +88,7 @@ import {
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { mainStore } from "@/store";
-import moment from 'moment'
+import moment from "moment";
 
 let page = reactive({
   current: 1,
@@ -106,7 +106,7 @@ const onShowSizeChange = (ctx: any) => {
 let allArticleList = ref([] as Articles[]);
 let articleNum = ref(0);
 const getAllList = async () => {
-  const data = await allList({
+  const  data  = await allList({
     pageSize: page.pageSize,
     current: page.current,
   });
