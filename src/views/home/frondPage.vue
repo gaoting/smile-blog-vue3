@@ -26,7 +26,7 @@ import List from "./list.vue";
 import CardList from "./cardList.vue";
 import TagList from "./tagList.vue";
 import { useRouter } from "vue-router";
-import { mainStore } from "../../store";
+import { mainStore } from "../../store/typeList";
 import { storeToRefs } from "pinia";
 
 let page = reactive({

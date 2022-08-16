@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { mainStore } from "@/store/index";
+import { mainStore } from "@/store/typeList";
 
 const colorList = reactive([
   "#e18094",

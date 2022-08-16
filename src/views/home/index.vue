@@ -87,7 +87,7 @@ import {
 } from "@ant-design/icons-vue";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
-import { mainStore } from "@/store";
+import { mainStore } from "@/store/typeList";
 import moment from "moment";
 
 let page = reactive({

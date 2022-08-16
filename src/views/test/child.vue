@@ -24,12 +24,12 @@
 </template>
 
 <script setup lang="ts">
-import { mainStore } from "@/store/test";
+import { testStore } from "@/store/test";
 import { storeToRefs } from "pinia";
 import Test1 from "./../test1/index.vue";
 import { ref, toRefs, reactive, useSlots, onMounted, inject } from "vue";
 
-const store = mainStore();
+const store = testStore();
 const { count, num, price } = storeToRefs(store);
 
 const add = (type: string) => {

@@ -8,6 +8,7 @@ import "./assets/css/public.scss";
 import Utils from "./common/utils";
 import moment from "moment";
 import { createPinia } from "pinia";
+import piniaPluginPersist from 'pinia-plugin-persist'
 
 import VMdEditor from "@kangc/v-md-editor";
 import "@kangc/v-md-editor/lib/style/base-editor.css";
@@ -25,6 +26,8 @@ import "@kangc/v-md-editor/lib/plugins/emoji/emoji.css";
 import createTodoListPlugin from "@kangc/v-md-editor/lib/plugins/todo-list/index";
 import "@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css";
 import Prism from "prismjs";
+// highlightjs
+import hljs from "highlight.js";
 
 VMdEditor.use(vuepressTheme, {
   Prism,
@@ -33,15 +36,16 @@ VMdEditor.use(createLineNumbertPlugin())
   .use(createCopyCodePlugin())
   .use(createEmojiPlugin())
   .use(createTodoListPlugin());
-// highlightjs
-import hljs from "highlight.js";
+
 
 VMdPreview.use(vuepressTheme, {
   Hljs: hljs,
 });
 
 const app = createApp(App);
+
 const pinia = createPinia();
+pinia.use(piniaPluginPersist)
 
 const testFun = () => {
   console.log("ttttttttttttttt");
@@ -55,6 +59,7 @@ prototype.name = "jerry";
 prototype.$moment = moment;
 prototype.$utils = Utils;
 prototype.$app = app;
+
 
 app
   .use(router)

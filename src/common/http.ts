@@ -17,18 +17,19 @@ const http: AxiosInstance = axios.create({
 
 http.interceptors.request.use(
   (config: any) => {
-    config.headers = localStorage.getItem("token")
-      ? { token: localStorage.getItem("token") }
-      : "";
+    console.log(localStorage.getItem("token"));
+
+    if (localStorage.getItem("token")) {
+      config.headers['Authorization'] =
+        "Bearer " + localStorage.getItem("token");
+    }
 
     if (config.url === "/api/article/upload") {
-      config.headers = { Accept: "multipart/form-data" };
+      config.headers['Accept'] = "multipart/form-data";
     } else if (config.method === "post") {
-      config.headers = { "Content-Type": "application/json" };
+      config.headers['Content-Type'] = "application/json";
     }
-    //  else {
-    //   config.headers = { "Content-Type": "application/json" };
-    // }
+
     return config;
   },
   (error) => {

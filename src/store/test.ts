@@ -1,6 +1,9 @@
-import { defineStore } from "pinia";
+import {
+  defineStore
+} from "pinia";
 
-export const mainStore = defineStore("main", {
+export const testStore = defineStore( {
+  id: "test",
   state: () => {
     return {
       count: 0,
@@ -22,8 +25,11 @@ export const mainStore = defineStore("main", {
     },
   },
   actions: {
-    changeState(a: any, b: any) {
-      console.log(this, a, b);
+    changeState(a: any) {
+      this.count = a
     },
   },
+  persist: {
+    enabled: true
+  }
 });

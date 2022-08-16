@@ -28,6 +28,8 @@
     "moment": "^2.29.4",
     "ora": "^6.1.2",
     "pinia": "^2.0.13",
+    "pinia-persistedstate-plugin": "^0.1.0",
+    "pinia-plugin-persist": "^1.0.0",
     "scp2": "^0.5.0",
     "tinymce": "^6.1.2",
     "vite": "^3.0.4",

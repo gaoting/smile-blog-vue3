@@ -45,7 +45,7 @@
 import { message } from "ant-design-vue";
 import { defineComponent, reactive, ref, inject } from "vue";
 import { login, register } from "../../common/axios";
-import { mainStore } from "@/store/index";
+import { mainStore } from "@/store/typeList";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 

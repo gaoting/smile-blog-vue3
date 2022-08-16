@@ -46,7 +46,7 @@ import { reactive, ref, toRaw, UnwrapRef, onMounted } from "vue";
 import { createArticle } from "../../common/axios";
 import { message } from "ant-design-vue";
 import { storeToRefs } from "pinia";
-import { mainStore } from "@/store/index";
+import { mainStore } from "@/store/typeList";
 
 const props = defineProps({
   newData: { type: Object, default: {} },
