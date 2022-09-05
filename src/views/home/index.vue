@@ -12,6 +12,7 @@
         </div>
       </div>
     </div>
+
     <div class="content-box flex">
       <List
         :page="page"
@@ -106,7 +107,7 @@ const onShowSizeChange = (ctx: any) => {
 let allArticleList = ref([] as Articles[]);
 let articleNum = ref(0);
 const getAllList = async () => {
-  const  data  = await allList({
+  const data = await allList({
     pageSize: page.pageSize,
     current: page.current,
   });
@@ -268,6 +269,7 @@ onMounted(() => {
     }
   }
 }
+
 @-webkit-keyframes shine {
   /*创建动画*/
   0% {

@@ -10,7 +10,7 @@
         @click="tagMsg(item)"
         :style="{ background: rand(colorList) }"
       >
-        {{ item }}
+        {{ item.name }}
       </li>
     </ul>
   </div>
@@ -24,22 +24,21 @@ import { mainStore } from "@/store/typeList";
 const colorList = reactive([
   "#e18094",
   "#02bfbb",
-  "#e3a7b5",
-
-  "#2dc3bb",
-  "#6ca9ab",
-  "#bcabcd",
-  "#cabbda",
-  "#dbabbd",
-  "#9cb9c1",
+  "#73d2ec",
+  "#956ebf",
+  "#1f74b9",
   "#46b2d8",
   "#f5b480",
-  "#73d2ec",
-  "#69CFC8",
-  "#ecbcce",
-
   "#019997",
   "#f390a5",
+  "#6ca9ab",
+  "#bcabcd",
+  "#5fc72c",
+  "#ecbcce",
+  "#edb458",
+  "#d44969",
+  "#e3a7b5",
+  "#2dc3bb",
 ]);
 const rand = (arr: Array<string>) => {
   let index = Math.floor(Math.random() * arr.length);

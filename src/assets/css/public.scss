@@ -52,6 +52,10 @@ p {
     padding: 24px 0;
     justify-content: space-between;
 
+    ul.ant-pagination.right {
+        margin: 30px 0 60px;
+    }
+
     .cont-left {
         width: calc(74% - 16px);
 
@@ -242,10 +246,14 @@ p {
                     border-bottom: 1px dashed #f2f2f2;
                     font-size: 14px;
 
+
                     a {
                         color: #333;
                         align-items: center;
-                        width: 70%;
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
 
                         p {
                             display: inline-block;
@@ -623,9 +631,10 @@ button.ant-btn.ant-btn-lg {
 }
 
 body {
-    background-image: linear-gradient(#f5f5f5,#f5f5f5, #def3ee, #94dacc);
-    background-attachment: fixed;
-    background-position: bottom;
+    // background-image: linear-gradient(#f5f5f5,#f5f5f5, #def3ee, #94dacc);
+    // background-attachment: fixed;
+    // background-position: bottom;
+    background: #eef0f3;
 }
 
 .md-content .md-preview,
@@ -686,6 +695,7 @@ body {
 .vuepress-markdown-body:not(.custom) {
     padding: 2rem 1rem !important;
 }
+
 span.ant-tag {
     margin-left: 8px;
     line-height: 1.7em;
@@ -696,7 +706,7 @@ span.token.arrow.operator {
     margin-right: 20px;
 }
 
-.flex-end{
+.flex-end {
     display: flex;
     justify-content: space-around;
 }

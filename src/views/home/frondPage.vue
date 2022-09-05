@@ -1,4 +1,5 @@
 <template>
+ 
   <div class="content-box flex">
     <List
       :page="page"
@@ -16,6 +17,7 @@
       ></CardList>
     </div>
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -35,6 +37,8 @@ let page = reactive({
   pageSize: 10,
 });
 
+
+
 // 分页交互
 let allArticleList = ref([] as Articles[]);
 const onShowSizeChange = (ctx: any) => {
@@ -46,10 +50,10 @@ const onShowSizeChange = (ctx: any) => {
 
 // 分页列表
 const getAllList = async () => {
-  const  data  = await allList({
+  const data = await allList({
     pageSize: page.pageSize,
     current: page.current,
-    types: "前端",
+    // types: "前端",
   });
   allArticleList.value = data.list as Articles[];
   page.total = data.total;
@@ -59,7 +63,7 @@ const getAllList = async () => {
 let newList = ref([] as Articles[]);
 const getsearchList = async () => {
   const params = {
-    types: "前端",
+    // types: "前端",
     orderByDesc: ["lookNum"],
   };
   const result = await searchList(params);
@@ -70,7 +74,7 @@ const getsearchList = async () => {
 let collectList = ref([] as Articles[]);
 const getCollectList = async () => {
   const params = {
-    types: "前端",
+    // types: "前端",
     orderByDesc: ["loveNum"],
   };
   const result = await searchList(params);

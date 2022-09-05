@@ -27,13 +27,13 @@
           <span :class="index < 3 ? 'order' : ''">{{ index + 1 }}</span>
           {{ item.title }}
         </a>
-        <span style="">
+        <!-- <span style="">
           <fire-filled
             style="color: #f9768e; font-size: 16px"
             v-if="index < 3"
           />
           {{ item.lookNum }}
-        </span>
+        </span> -->
       </li>
     </ul>
 
@@ -45,10 +45,10 @@
           <span class="point"></span>
           <p>{{ item.title }}</p>
         </a>
-        <span style="color: #f97858">
+        <!-- <span style="color: #f97858">
           <star-filled :style="{ color: '#f97858' }" />
           {{ item.loveNum }}
-        </span>
+        </span> -->
       </li>
     </ul>
   </div>
