@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
 const path = require("path");
+import prismjs from 'vite-plugin-prismjs';
 
 function pathResolve(dir) {
   return resolve(__dirname, ".", dir);
@@ -9,7 +10,12 @@ function pathResolve(dir) {
 
 export default defineConfig({
   base: "",
-  plugins: [vue()],
+  plugins: [
+    prismjs({
+      languages: 'all',
+    }),
+    vue(),
+  ],
   resolve: {
     alias: {
       "@": pathResolve("src"),

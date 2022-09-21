@@ -47,6 +47,8 @@ const navigation = reactive([
   // { name: "后端", href: "/backstage", current: false },
   { name: "阅读", href: "/book", current: false },
   { name: "日志", href: "/diary", current: false },
+  { name: "留言板", href: "/msglist", current: false },
+
   { name: "关于我", href: "/about", current: false },
 ]);
 

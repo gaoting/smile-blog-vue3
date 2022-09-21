@@ -16,7 +16,7 @@
           <span class="point"></span>
           <p>{{ item.title }}</p>
         </a>
-        <span>{{ timeStr(item.createTime) }}</span>
+        <!-- <span>{{ timeStr(item.createTime) }}</span> -->
       </li>
     </ul>
 

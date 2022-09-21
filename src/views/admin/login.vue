@@ -4,11 +4,9 @@
       <a-tab-pane key="1" tab="登  录">
         <a-form
           :model="formState"
-          name="basic"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 15 }"
-          @finish="onFinish"
-          @finishFailed="onFinishFailed"
+          v-if="activeKey == 1"
         >
           <a-form-item
             label="用户名"
@@ -26,24 +24,58 @@
             <a-input-password v-model:value="formState.pwd" size="large" />
           </a-form-item>
 
-          <!-- <a-form-item name="remember" :wrapper-col="{ offset: 1, span: 12 }">
+          <a-form-item name="remember" :wrapper-col="{ offset: 1, span: 12 }">
             <a-checkbox v-model:checked="formState.remember">
               记住密码
             </a-checkbox>
-          </a-form-item> -->
+          </a-form-item>
 
           <a-form-item :wrapper-col="{ offset: 5, span: 15 }">
-            <a-button type="success" html-type="submit" block>登录</a-button>
+            <a-button type="success" @click="onFinish" block>登录</a-button>
           </a-form-item>
         </a-form>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="注  册" force-render> </a-tab-pane>
+      <a-tab-pane key="2" tab="注  册">
+        <a-form
+          :model="formState1"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 15 }"
+          v-if="activeKey == 2"
+        >
+          <a-form-item
+            label="用户名"
+            name="userName1"
+            :rules="[{ required: true, message: '请输入用户名' }]"
+          >
+            <a-input v-model:value="formState1.userName1" size="large" />
+          </a-form-item>
+
+          <a-form-item
+            label="密码"
+            name="pwd1"
+            :rules="[{ required: true, message: '请输入密码' }]"
+          >
+            <a-input-password v-model:value="formState1.pwd1" size="large" />
+          </a-form-item>
+          <a-form-item
+            label="确认密码"
+            name="pwd2"
+            :rules="[{ required: true, message: '请再次输入密码' }]"
+          >
+            <a-input-password v-model:value="formState1.pwd2" size="large" />
+          </a-form-item>
+
+          <a-form-item :wrapper-col="{ offset: 5, span: 15 }">
+            <a-button type="success" @click="registerFun" block>注册</a-button>
+          </a-form-item>
+        </a-form>
+      </a-tab-pane>
     </a-tabs>
   </div>
 </template>
 <script setup lang="ts">
 import { message } from "ant-design-vue";
-import { defineComponent, reactive, ref, inject } from "vue";
+import { defineComponent, reactive, ref, inject, onMounted } from "vue";
 import { login, register } from "../../common/axios";
 import { mainStore } from "@/store/typeList";
 import { storeToRefs } from "pinia";
@@ -54,12 +86,24 @@ interface FormState {
   pwd: string;
   remember: boolean;
 }
+
+interface FormState1 {
+  userName: string;
+  pwd: string;
+  pwd1: string;
+}
 const activeKey = ref("1");
 
 const formState = reactive<FormState>({
-  userName: "admin",
-  pwd: "123",
+  userName: "",
+  pwd: "",
   remember: true,
+});
+
+const formState1 = reactive<FormState1>({
+  userName1: "",
+  pwd1: "",
+  pwd2: "",
 });
 
 // login
@@ -68,31 +112,57 @@ const { token } = storeToRefs(store);
 const route = useRouter();
 const reload: any = inject("reload");
 
-const onFinish = async (values: any) => {
-  console.log("Success:", values);
-  const res = await login(values);
-  console.log(res);
+const onFinish = async () => {
+  const { userName, pwd, remember } = formState;
+  const res = await login({ userName, pwd });
+
   if (res.code === 200) {
     message.success(res.message);
     // store.$patch((state) =>{
     //   state.token = res.token
     // })
     store.changeToken(res.token);
+    store.getLoginInfo({ userName, pwd });
 
     localStorage.setItem("token", res.token);
     localStorage.setItem("userName", res.userName);
+    if (remember) {
+      localStorage.setItem("userInfo", JSON.stringify({ userName, pwd }));
+    }
 
-    console.log(localStorage.getItem("token"));
     route.push({ path: "/" });
     reload();
-  } else {
-    message.error(res.message);
   }
 };
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
+// 注册
+const registerFun = async () => {
+  const { userName1, pwd2, pwd1 } = formState1;
+
+  if (pwd2 !== pwd1) {
+    message.error("俩次输入的密码不一致，请重新输入");
+    return;
+  }
+
+  const res = await register({ userName: userName1, pwd: pwd1 });
+  if (res.code === 200) {
+    message.success("注册成功！");
+    formState.userName = userName1;
+    formState.pwd = pwd1;
+
+    onFinish();
+  }
 };
+
+onMounted(() => {
+  let getUserInfo = localStorage.getItem("userInfo");
+  if (getUserInfo) {
+    let data = JSON.parse(getUserInfo);
+    formState.userName = data.userName;
+    formState.pwd = data.pwd;
+  }
+  console.log(formState1);
+});
 </script>
 
 <style lang="scss" scoped>

@@ -39,6 +39,14 @@
               </template>
               已收藏
             </a-button>
+            <a-button
+              type="success"
+              @click="edit(getId)"
+              style="margin-left: 10px"
+              >
+              <edit-outlined />
+              编辑</a-button
+            >
           </div>
         </div>
 
@@ -167,6 +175,7 @@ import {
   PayCircleOutlined,
   UnorderedListOutlined,
   HighlightOutlined,
+  EditOutlined
 } from "@ant-design/icons-vue";
 import moment from "moment";
 
@@ -210,6 +219,11 @@ const getNewList = async () => {
     orderByDesc: ["lookNum"],
   });
   newList.value = result.list;
+};
+
+// edit
+const edit = (id) => {
+  router.push({ path: "/articleAdd", query: { id } });
 };
 
 // 刷新子组件
@@ -318,7 +332,7 @@ const getTitleList = () => {
       }));
 
       let copyBtn = document.querySelector(".v-md-copy-code-btn");
-
+console.log(copyBtn);
       copyBtn?.addEventListener("click", () => {
         message.success("复制成功!");
       });
@@ -431,7 +445,7 @@ onMounted(() => {
 
     img {
       width: 80px;
-      height: max-content;
+      height: auto;
       display: block;
 
       &:first-child {
@@ -545,6 +559,8 @@ div#permiss {
   }
   .permiss-box {
     padding: 16px 12px;
+    max-height: calc(100vh - 400px);
+    overflow-y: auto;
   }
   .titile-list {
     a {

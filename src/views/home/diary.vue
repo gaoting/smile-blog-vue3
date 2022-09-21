@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <div class="diary">
+    <div class="diaryBox">
+      <a-textarea v-model="content" :rows="4"></a-textarea>
+      <a-button type="primary" size="large" @click="submit">提交</a-button>
+    </div>
     <a-timeline v-if="newData">
       <a-timeline-item color="green" v-for="item in newData" :key="item.id">
         <div class="content">
@@ -25,6 +29,7 @@ import { reactive, onMounted, ref, nextTick, getCurrentInstance } from "vue";
 import { diaryAll, diaryAdd, diaryLove } from "../../common/axios";
 import Diary from "./../interface/diary";
 import moment from "moment";
+import photo from "../../assets/img/photo.png";
 
 const newData = ref([] as Array<Diary>);
 const getRightsList = async () => {
@@ -35,6 +40,13 @@ const getRightsList = async () => {
   const data = await diaryAll(params);
   console.log(data);
   newData.value = data.list;
+};
+
+const content: string = ref("");
+
+const submit = async () => {
+  const { data } = await diaryAdd({ content: content.value });
+  console.log(data);
 };
 
 // 收藏 / 取消收藏
@@ -105,8 +117,23 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+.diary {
+  background: #fff;
+  padding: 24px 10%;
+  .diaryBox {
+    margin-bottom: 40px;
+    button.ant-btn.ant-btn-primary.ant-btn-lg {
+      float: right;
+      border: 1px solid #019997;
+      background: #02bfbb;
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+}
 :deep(ul.ant-timeline) {
-  width: 80%;
+  width: 100%;
   margin: auto;
   padding: 40px 0;
 }
@@ -117,7 +144,7 @@ onMounted(() => {
 
 .content {
   color: #777;
-  background: #eee;
+  background: #f9f9f9;
   padding: 16px;
   border-radius: 7px;
   line-height: 1.75em;

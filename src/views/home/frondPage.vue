@@ -1,5 +1,7 @@
 <template>
- 
+  <div class="flex">
+    <img src="./../../assets/img/t2.png" alt="" />
+  </div>
   <div class="content-box flex">
     <List
       :page="page"
@@ -17,7 +19,6 @@
       ></CardList>
     </div>
   </div>
-
 </template>
 
 <script setup lang="ts">
@@ -36,8 +37,6 @@ let page = reactive({
   total: 0,
   pageSize: 10,
 });
-
-
 
 // 分页交互
 let allArticleList = ref([] as Articles[]);
@@ -92,4 +91,13 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+.ant-carousel :deep(.slick-slide) {
+  text-align: center;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel :deep(.slick-slide h3) {
+  color: #fff;
+}
 </style>

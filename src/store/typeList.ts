@@ -23,12 +23,16 @@ export const mainStore = defineStore("typeList", {
         // {id:17,name:'linux'},
       ],
       token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
+      userInfo: localStorage.getItem("userName") ? localStorage.getItem("userName") : "",
     };
   },
   getters: {},
   actions: {
     changeToken(params: string) {
       this.token = params;
+    },
+    getLoginInfo(user) {
+      this.userInfo = user;
     },
   },
 });

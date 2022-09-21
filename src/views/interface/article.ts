@@ -2,7 +2,7 @@ interface Articles {
   id: number;
 
   author: string;
-  tags: string;
+  tags: number;
   types: string;
   title: string;
   description: string;

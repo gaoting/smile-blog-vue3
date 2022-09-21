@@ -17,7 +17,7 @@ import { reactive, ref } from "vue";
 import { allList } from "../../common/axios";
 interface Articles {
   author: string;
-  tags: string;
+  tags: number;
   types: string;
   title: string;
   description: string;

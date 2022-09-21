@@ -211,7 +211,10 @@ const getAssetsImages = (name: string) => {
   return new URL(`/src/assets/img/${name}`, import.meta.url).href;
 };
 
-const friendList = reactive([{ url: "https://itsuki.cn/", name: "itsuki" }]);
+const friendList = reactive([
+  { url: "https://itsuki.cn/", name: "五木的博客" },
+  { url: "https://lxchuan12.gitee.io/", name: "若川的博客" },
+]);
 
 const store = mainStore();
 const { token } = storeToRefs(store);

@@ -3,12 +3,12 @@ import App from "./App.vue";
 import router from "./common/router";
 
 import Antd from "ant-design-vue";
-import "ant-design-vue/dist/antd.css";
+import "./assets/css/antd.css";
 import "./assets/css/public.scss";
 import Utils from "./common/utils";
 import moment from "moment";
 import { createPinia } from "pinia";
-import piniaPluginPersist from 'pinia-plugin-persist'
+import piniaPluginPersist from "pinia-plugin-persist";
 
 import VMdEditor from "@kangc/v-md-editor";
 import "@kangc/v-md-editor/lib/style/base-editor.css";
@@ -28,6 +28,10 @@ import "@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css";
 import Prism from "prismjs";
 // highlightjs
 import hljs from "highlight.js";
+// import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn';
+// import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css';
+
+// VMdEditor.use(createMermaidPlugin());
 
 VMdEditor.use(vuepressTheme, {
   Prism,
@@ -37,7 +41,6 @@ VMdEditor.use(createLineNumbertPlugin())
   .use(createEmojiPlugin())
   .use(createTodoListPlugin());
 
-
 VMdPreview.use(vuepressTheme, {
   Hljs: hljs,
 });
@@ -45,7 +48,7 @@ VMdPreview.use(vuepressTheme, {
 const app = createApp(App);
 
 const pinia = createPinia();
-pinia.use(piniaPluginPersist)
+pinia.use(piniaPluginPersist);
 
 const testFun = () => {
   console.log("ttttttttttttttt");
@@ -59,7 +62,6 @@ prototype.name = "jerry";
 prototype.$moment = moment;
 prototype.$utils = Utils;
 prototype.$app = app;
-
 
 app
   .use(router)

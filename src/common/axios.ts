@@ -40,6 +40,10 @@ export const findById = (data: any) => {
   return get("/article/content", data);
 };
 
+export const updateArticle = (data: any) => {
+  return update("/article/update", data);
+};
+
 // 图片上传
 export const uploadImg = (data: any) => {
   return post("/article/upload", data);
@@ -79,3 +83,4 @@ export const login = (data: any) => {
 export const register = (data: any) => {
   return post("/user/register", data);
 };
+
