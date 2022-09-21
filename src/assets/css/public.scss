@@ -57,7 +57,7 @@ p {
     }
 
     .cont-left {
-        width: calc(74% - 24px);
+        width: calc(74% - 16px);
 
         &>ul:first-child {
             width: 100%;
@@ -709,4 +709,19 @@ span.token.arrow.operator {
 .flex-end {
     display: flex;
     justify-content: space-around;
+}
+
+button.ant-btn.ant-btn-primary {
+    float: right;
+    border: 1px solid #019997;
+    background: #02bfbb;
+
+    &:hover,
+    &:focus {
+        color: #fff;
+    }
+}
+.flex-between {
+    display: flex;
+    justify-content: space-between;
 }

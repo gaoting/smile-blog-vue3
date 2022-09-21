@@ -84,3 +84,17 @@ export const register = (data: any) => {
   return post("/user/register", data);
 };
 
+// 新增留言
+export const messageboardAdd = (data: any) => {
+  return post("/messageboard/add", data);
+};
+
+// 留言分页
+export const messageboardList = (data: any) => {
+  return get("/messageboard/list", data);
+};
+
+// 留言点赞
+export const messageboardLove = (data: any) => {
+  return post("/messageboard/updateNum", data);
+};

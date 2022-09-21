@@ -4,19 +4,20 @@
       <template #avatar>
         <a-avatar :src="photo" alt="smile" />
       </template>
-      <template #content>
+      <template #content v-if="adminButton">
         <a-form-item>
-          <a-textarea v-model:value="value" :rows="4" />
+          <a-textarea v-model:value="diaryContent" :rows="4" />
         </a-form-item>
-        <a-form-item style="text-align: left">
-          <a-button
-            html-type="submit"
-            :loading="submitting"
-            type="primary"
-            @click="handleSubmit"
-          >
-            Add Comment
-          </a-button>
+        <a-form-item>
+          <div class="flex-between">
+            <a-typography-text type="secondary">
+              已输入{{ diaryContent.length }}个字
+            </a-typography-text>
+
+            <a-button type="primary" size="large" @click="submit"
+              >提交</a-button
+            >
+          </div>
         </a-form-item>
       </template>
     </a-comment>
@@ -44,14 +45,27 @@
 
 <script setup lang="ts">
 import { SmileOutlined, HeartFilled } from "@ant-design/icons-vue";
-import { reactive, onMounted, ref, nextTick, getCurrentInstance } from "vue";
-import { diaryAll, diaryAdd, diaryLove } from "../../common/axios";
+import {
+  reactive,
+  onMounted,
+  ref,
+  nextTick,
+  getCurrentInstance,
+  computed,
+} from "vue";
+import {
+  messageboardList,
+  messageboardAdd,
+  messageboardLove,
+} from "../../common/axios";
 import Diary from "./../interface/diary";
 import moment from "moment";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import photo from "../../assets/img/photo.png";
+import photo1 from "../../assets/img/photo1.png";
+import { message } from "ant-design-vue";
 
 const newData = ref([] as Array<Diary>);
 const getRightsList = async () => {
@@ -59,23 +73,39 @@ const getRightsList = async () => {
     current: 1,
     pageSize: 20,
   };
-  const data = await diaryAll(params);
+  const data = await messageboardList(params);
   console.log(data);
-  // newData.value = data.list;
+  comments.value = data.list;
+};
 
-  data.list.forEach((v) => {
-    let obj = {
-      author: "smile",
-      avatar: photo,
-      ...v,
-    };
-    comments.value.push(obj);
+const adminButton = computed(() => {
+  return localStorage.getItem("token") && localStorage.getItem("userName");
+});
+
+const diaryContent: string = ref("");
+
+const submit = async () => {
+  if (!diaryContent.value) {
+    message.error("请先输入内容。。。");
+    return;
+  }
+  const res = await messageboardAdd({
+    content: diaryContent.value,
+    avatar: localStorage.getItem("userName") === "admin" ? photo : photo1,
+    userName: localStorage.getItem("userName")
+      ? localStorage.getItem("userName")
+      : "",
   });
+  console.log(res);
+  if (res.code == 200) {
+    diaryContent.value = "";
+    getRightsList();
+  }
 };
 
 // 调用接口
 const sendData = async (id: number, num: number, loveNum: number) => {
-  const { data } = await diaryLove({
+  const { data } = await messageboardLove({
     id,
     loveNum: num + loveNum,
   });
@@ -161,5 +191,9 @@ onMounted(() => {
   p {
     margin-right: 40px;
   }
+}
+
+:deep(.ant-comment-content-detail .ant-row.ant-form-item) {
+  margin-bottom: 8px;
 }
 </style>

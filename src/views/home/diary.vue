@@ -1,7 +1,15 @@
 <template>
   <div class="diary">
-    <div class="diaryBox">
-      <a-textarea v-model="content" :rows="4"></a-textarea>
+    <div class="diaryBox" v-if="adminButton">
+      <a-textarea
+        v-model:value="diaryContent"
+        :rows="3"
+        style="margin-bottom: 12px"
+      ></a-textarea>
+      <a-typography-text type="secondary"
+        >已输入{{ diaryContent.length }}个字</a-typography-text
+      >
+
       <a-button type="primary" size="large" @click="submit">提交</a-button>
     </div>
     <a-timeline v-if="newData">
@@ -25,11 +33,21 @@
 
 <script setup lang="ts">
 import { SmileOutlined, HeartFilled } from "@ant-design/icons-vue";
-import { reactive, onMounted, ref, nextTick, getCurrentInstance } from "vue";
+import {
+  reactive,
+  onMounted,
+  ref,
+  nextTick,
+  getCurrentInstance,
+  watch,
+  computed,
+} from "vue";
 import { diaryAll, diaryAdd, diaryLove } from "../../common/axios";
 import Diary from "./../interface/diary";
 import moment from "moment";
 import photo from "../../assets/img/photo.png";
+import { message } from "ant-design-vue";
+
 
 const newData = ref([] as Array<Diary>);
 const getRightsList = async () => {
@@ -42,12 +60,27 @@ const getRightsList = async () => {
   newData.value = data.list;
 };
 
-const content: string = ref("");
+const diaryContent: string = ref("");
 
 const submit = async () => {
-  const { data } = await diaryAdd({ content: content.value });
-  console.log(data);
+  if (!diaryContent.value) {
+    message.error("请先输入内容。。。");
+    return;
+  }
+  const res = await diaryAdd({ content: diaryContent.value });
+  console.log(res);
+  if (res.code == 200) {
+    diaryContent.value = "";
+    getRightsList();
+  }
 };
+
+const adminButton = computed(() => {
+  return (
+    localStorage.getItem("userName") &&
+    localStorage.getItem("userName") === "admin"
+  );
+});
 
 // 收藏 / 取消收藏
 let love = ref(false);
@@ -82,6 +115,8 @@ const goLove = (id: number, num: number, bool: boolean) => {
     sendData(id, num, 1);
   }
 };
+
+watch(diaryContent, (newVal, oldVal) => {});
 
 // 调用接口
 const sendData = async (id: number, num: number, loveNum: number) => {
@@ -122,14 +157,6 @@ onMounted(() => {
   padding: 24px 10%;
   .diaryBox {
     margin-bottom: 40px;
-    button.ant-btn.ant-btn-primary.ant-btn-lg {
-      float: right;
-      border: 1px solid #019997;
-      background: #02bfbb;
-      &:hover {
-        color: #fff;
-      }
-    }
   }
 }
 :deep(ul.ant-timeline) {

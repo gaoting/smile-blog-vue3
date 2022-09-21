@@ -43,7 +43,8 @@
               type="success"
               @click="edit(getId)"
               style="margin-left: 10px"
-              >
+              v-if="adminButton"
+            >
               <edit-outlined />
               编辑</a-button
             >
@@ -159,7 +160,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, nextTick, getCurrentInstance, reactive } from "vue";
+import {
+  onMounted,
+  ref,
+  nextTick,
+  getCurrentInstance,
+  reactive,
+  computed,
+} from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { findById, searchList, updateNum } from "../../common/axios";
 import Articles from "../interface/article";
@@ -175,7 +183,7 @@ import {
   PayCircleOutlined,
   UnorderedListOutlined,
   HighlightOutlined,
-  EditOutlined
+  EditOutlined,
 } from "@ant-design/icons-vue";
 import moment from "moment";
 
@@ -264,6 +272,13 @@ const goLove = (bool: boolean) => {
   handleCreate();
 };
 
+const adminButton = computed(() => {
+  return (
+    localStorage.getItem("userName") &&
+    localStorage.getItem("userName") === "admin"
+  );
+});
+
 // 调用接口
 const sendData = async (num: number) => {
   const result = await updateNum({
@@ -309,35 +324,34 @@ const titles = ref<any>([]);
 
 // md 大纲
 const getTitleList = () => {
-  nextTick(() => {
-    if (preview.value) {
-      const anchors = preview.value.$el.querySelectorAll("h1,h2,h3,h4,h5,h6");
+  if (preview.value) {
+    const anchors = preview.value.$el.querySelectorAll("h1,h2,h3,h4,h5,h6");
 
-      const getTitleData = Array.from(anchors).filter(
-        (title: any) => !!title.innerText.trim()
-      );
-      if (!getTitleData.length) {
-        titles.value = [];
-        return;
-      }
+    const getTitleData = Array.from(anchors).filter(
+      (title: any) => !!title.innerText.trim()
+    );
 
-      const hTags = Array.from(
-        new Set(getTitleData.map((title: any) => title.tagName))
-      ).sort();
-      //给每一个加样式
-      titles.value = getTitleData.map((el: any) => ({
-        title: el.innerText,
-        lineIndex: el.getAttribute("result-v-md-line"),
-        indent: hTags.indexOf(el.tagName),
-      }));
-
-      let copyBtn = document.querySelector(".v-md-copy-code-btn");
-console.log(copyBtn);
-      copyBtn?.addEventListener("click", () => {
-        message.success("复制成功!");
-      });
+    if (!getTitleData.length) {
+      titles.value = [];
     }
-  });
+
+    const hTags = Array.from(
+      new Set(getTitleData.map((title: any) => title.tagName))
+    ).sort();
+
+    //给每一个加样式
+    titles.value = getTitleData.map((el: any) => ({
+      title: el.innerText,
+      lineIndex: el.getAttribute("result-v-md-line"),
+      indent: hTags.indexOf(el.tagName),
+    }));
+
+    let copyBtn = document.querySelector(".v-md-copy-code-btn");
+    console.log(copyBtn);
+    copyBtn?.addEventListener("click", () => {
+      message.success("复制成功!");
+    });
+  }
 };
 
 const handleAnchorClick = (

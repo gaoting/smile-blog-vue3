@@ -2,7 +2,8 @@
 import HeaderCom from "./views/home/header.vue";
 import FooterCom from "./views/home/footer.vue";
 
-import { ref, provide, nextTick, onMounted } from "vue";
+import { ref, provide, nextTick, onMounted, watch } from "vue";
+
 const isRouterActive = ref(true);
 
 provide("reload", () => {
@@ -11,6 +12,7 @@ provide("reload", () => {
     isRouterActive.value = true;
   });
 });
+
 
 </script>
 

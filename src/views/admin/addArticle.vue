@@ -128,6 +128,7 @@ const getDetail = async (id: number) => {
 };
 
 const route = useRoute();
+const router = useRouter()
 const store = mainStore();
 const { types: any } = storeToRefs(store);
 
