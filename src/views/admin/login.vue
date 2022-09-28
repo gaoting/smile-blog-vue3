@@ -88,11 +88,11 @@ interface FormState {
 }
 
 interface FormState1 {
-  userName: string;
-  pwd: string;
+  userName1: string;
+  pwd2: string;
   pwd1: string;
 }
-const activeKey = ref("1");
+let activeKey = ref("1");
 
 const formState = reactive<FormState>({
   userName: "",

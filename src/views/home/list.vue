@@ -1,8 +1,8 @@
 <template>
   <div class="cont-left">
-    <ul v-if="allArticleList">
+    <ul v-if="allArticleList && allArticleList.length">
       <li v-for="item in allArticleList" :key="item.id" class="flex">
-        <div :class="item.types!=='读书笔记'?'articleImg':'bookImg'">
+        <div :class="item.types !== '读书笔记' ? 'articleImg' : 'bookImg'">
           <img
             :src="item.picture"
             alt=""

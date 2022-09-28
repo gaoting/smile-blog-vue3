@@ -78,7 +78,7 @@ const getRightsList = async () => {
   comments.value = data.list;
 };
 
-const adminButton = computed(() => {
+const adminButton: string = computed(() => {
   return localStorage.getItem("token") && localStorage.getItem("userName");
 });
 
@@ -145,8 +145,8 @@ const handleSubmit = () => {
     submitting.value = false;
     comments.value = [
       {
-        author: "Han Solo",
-        avatar: "https://joeschmoe.io/api/v1/random",
+        author: "smile",
+        avatar: photo,
         content: value.value,
         datetime: dayjs().fromNow(),
       },

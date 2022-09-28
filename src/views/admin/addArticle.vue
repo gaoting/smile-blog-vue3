@@ -2,11 +2,15 @@
   <div class="article">
     <a-row>
       <a-col :span="8">
-        <a-input size="large" v-model:value="formState.title" placeholder="标题" />
+        <a-input
+          size="large"
+          v-model:value="formState.title"
+          placeholder="标题"
+        />
       </a-col>
       <a-col :span="6">
         <a-select
-        size="large"
+          size="large"
           placeholder="标签"
           v-model:value="formState.tags"
           show-search
@@ -15,7 +19,11 @@
         ></a-select>
       </a-col>
       <a-col :span="5">
-        <a-radio-group v-model:value="formState.types" button-style="solid" size="large">
+        <a-radio-group
+          v-model:value="formState.types"
+          button-style="solid"
+          size="large"
+        >
           <a-radio-button value="前端">前端</a-radio-button>
           <a-radio-button value="后端">后端</a-radio-button>
           <a-radio-button value="阅读">阅读</a-radio-button>
@@ -23,7 +31,11 @@
       </a-col>
       <a-col :span="5" class="flex-row-end">
         <a-button @click="router.go(-1)" size="large">返回</a-button>
-        <a-button type="primary" @click="onSubmit" style="margin-left: 10px" size="large"
+        <a-button
+          type="primary"
+          @click="onSubmit"
+          style="margin-left: 10px"
+          size="large"
           >提交</a-button
         >
       </a-col>
@@ -122,13 +134,13 @@ const filterOption = (input: string, option: any) => {
 };
 
 // 请求详情
-const getDetail = async (id: number) => {
-  const res = await findById({ id });
+const getDetail = async (id: number | string) => {
+  const res = await findById({ id: +id });
   formState.value = { ...formState.value, ...res.data };
 };
 
 const route = useRoute();
-const router = useRouter()
+const router = useRouter();
 const store = mainStore();
 const { types: any } = storeToRefs(store);
 
@@ -179,5 +191,4 @@ onMounted(() => {
     color: #fff;
   }
 }
-
 </style>

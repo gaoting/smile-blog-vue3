@@ -14,7 +14,7 @@
                 </h5>
                 <a-tag color="cyan"><highlight-outlined />原创作品</a-tag>
               </div>
-              <div class="flex">
+              <div class="flex mt10">
                 <p>
                   发布时间：
 
@@ -186,6 +186,8 @@ import {
   EditOutlined,
 } from "@ant-design/icons-vue";
 import moment from "moment";
+import { storeToRefs } from "pinia";
+import { mainStore } from "@/store/typeList";
 
 const props = defineProps({
   id: Number,
@@ -193,15 +195,45 @@ const props = defineProps({
 const top = ref<number>(60);
 let getId = ref(0);
 const route = useRoute();
-let newData = ref({} as Articles);
+let newData = ref({
+  id: 0,
+  author: "",
+  tags: 0,
+  types: "",
+  title: "",
+  description: "",
+  content: "",
+  lookNum: 0,
+  loveNum: 0,
+
+  picture: "",
+  activeKey: "",
+
+  preId: 0,
+  nextId: 0,
+  preTitle: "",
+  nextTitle: "",
+  createTime: "",
+  updateTime: "",
+});
 // const _this: any = ref(getCurrentInstance()?.appContext.config.globalProperties);
+
+const store = mainStore();
+const { types: any } = storeToRefs(store);
+const setObj = (id: number) => {
+  console.log(id);
+  let arr = store.types.find((v: any) => v.id == id);
+  console.log(id, store.types, arr.name);
+  return arr.name;
+};
 
 // 获取详情   设置content description 标签转译
 const getRightsList = async (id?: number) => {
   const result = await findById({ id: id });
-  newData.value = result.data as any;
+  newData.value = result.data;
   console.log(newData.value);
-  newData.value.lookNum += 1;
+  newData.value.lookNum ? (newData.value.lookNum += 1) : 1;
+  newData.value.tags = newData.value.tags ? setObj(newData.value.tags) : "";
   nextTick(() => {
     if (newData.value.activeKey == "2") {
       let doms = document.querySelector(".content-text");
@@ -220,7 +252,7 @@ const getRightsList = async (id?: number) => {
 };
 
 // 热门文章
-let newList = ref([] as Articles[]);
+let newList = ref([]);
 const getNewList = async () => {
   const result = await searchList({
     types: "前端",
@@ -283,7 +315,7 @@ const adminButton = computed(() => {
 const sendData = async (num: number) => {
   const result = await updateNum({
     id: newData.value.id,
-    loveNum: newData.value.loveNum + num,
+    loveNum: newData.value.loveNum ? newData.value.loveNum + num : num,
   });
   newData.value.loveNum = result.data.loveNum;
 };
@@ -358,7 +390,7 @@ const handleAnchorClick = (
   anchor: string,
   index: number | string,
   indent: number
-) => {
+): void => {
   console.log(anchor, index, indent);
 
   const heading = preview.value.$el.querySelector(
@@ -645,5 +677,8 @@ div#permiss {
 }
 .flex.interaction > div {
   cursor: pointer;
+}
+.mt10 {
+  margin-top: 4px;
 }
 </style>

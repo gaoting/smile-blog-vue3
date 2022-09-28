@@ -48,7 +48,6 @@ import moment from "moment";
 import photo from "../../assets/img/photo.png";
 import { message } from "ant-design-vue";
 
-
 const newData = ref([] as Array<Diary>);
 const getRightsList = async () => {
   let params = {
@@ -75,7 +74,7 @@ const submit = async () => {
   }
 };
 
-const adminButton = computed(() => {
+let adminButton = computed(() => {
   return (
     localStorage.getItem("userName") &&
     localStorage.getItem("userName") === "admin"
@@ -116,7 +115,7 @@ const goLove = (id: number, num: number, bool: boolean) => {
   }
 };
 
-watch(diaryContent, (newVal, oldVal) => {});
+watch(diaryContent.value, (newVal, oldVal) => {});
 
 // 调用接口
 const sendData = async (id: number, num: number, loveNum: number) => {
