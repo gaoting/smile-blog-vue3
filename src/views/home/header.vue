@@ -84,6 +84,8 @@ nav {
   .login-status {
     a {
       color: #5acab4;
+      font-size: 16px;
+      font-weight: 400;
     }
   }
   ul {

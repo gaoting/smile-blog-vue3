@@ -1,10 +1,10 @@
 <template>
   <div class="diary">
-    <a-comment>
+    <a-comment v-if="adminButton">
       <template #avatar>
-        <a-avatar :src="photo" alt="smile" />
+        <a-avatar :src="adminButton ? photo : photo1" alt="smile" />
       </template>
-      <template #content v-if="adminButton">
+      <template #content>
         <a-form-item>
           <a-textarea v-model:value="diaryContent" :rows="4" />
         </a-form-item>
@@ -32,7 +32,7 @@
       <template #renderItem="{ item }">
         <a-list-item>
           <a-comment
-            :author="item.author"
+            :author="item.userName"
             :avatar="item.avatar"
             :content="item.content"
             :datetime="dayjs(item.createTime).fromNow()"
@@ -145,7 +145,7 @@ const handleSubmit = () => {
     submitting.value = false;
     comments.value = [
       {
-        author: "smile",
+        userName: "smile",
         avatar: photo,
         content: value.value,
         datetime: dayjs().fromNow(),
