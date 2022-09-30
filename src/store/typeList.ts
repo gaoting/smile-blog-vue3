@@ -19,11 +19,14 @@ export const mainStore = defineStore("typeList", {
         { id: 13, name: "linux" },
         { id: 14, name: "工具/软件" },
         { id: 15, name: "读书笔记" },
-        { id: 16, name: "日志" },
-        // {id:17,name:'linux'},
+        { id: 16, name: "编译原理" },
+        { id: 17, name: "面试题" },
+        { id: 18, name: "笔试题" },
       ],
       token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
-      userInfo: localStorage.getItem("userName") ? localStorage.getItem("userName") : "",
+      userInfo: localStorage.getItem("userName")
+        ? localStorage.getItem("userName")
+        : "",
     };
   },
   getters: {},

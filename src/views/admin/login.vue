@@ -21,7 +21,7 @@
             name="pwd"
             :rules="[{ required: true, message: '请输入密码' }]"
           >
-            <a-input-password v-model:value="formState.pwd" size="large" />
+            <a-input-password v-model:value="formState.pwd" size="large" @keyup.enter="onFinish"/>
           </a-form-item>
 
           <a-form-item name="remember" :wrapper-col="{ offset: 1, span: 12 }">
@@ -62,7 +62,7 @@
             name="pwd2"
             :rules="[{ required: true, message: '请再次输入密码' }]"
           >
-            <a-input-password v-model:value="formState1.pwd2" size="large" />
+            <a-input-password v-model:value="formState1.pwd2" size="large" @keyup.enter="registerFun"/>
           </a-form-item>
 
           <a-form-item :wrapper-col="{ offset: 5, span: 15 }">
