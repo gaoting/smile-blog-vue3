@@ -1,6 +1,14 @@
 <template>
-  <div class="flex">
-    <img src="./../../assets/img/t2.png" alt="" />
+  <div class="flex page-header">
+    <!-- <img src="../../assets/img/banner.jpg" alt="" /> -->
+    <!-- <a-card hoverable v-for="item in types" :key="item.id">
+      <template #cover>
+        <h1 font-family="mFont">{{item.name}}</h1>
+      </template>
+      <a-card-meta title="">
+        <template #description>{{item.desc}}</template>
+      </a-card-meta>
+    </a-card> -->
   </div>
   <div class="content-box flex">
     <List
@@ -81,16 +89,18 @@ const getCollectList = async () => {
 };
 
 const store = mainStore();
-const { token } = storeToRefs(store);
+const { token, types } = storeToRefs(store);
 onMounted(() => {
   getAllList();
   getsearchList();
   getCollectList();
-  console.log(token.value, "tttttttt2223333");
+  console.log(storeToRefs(store), "tttttttt2223333");
 });
 </script>
 
 <style scoped lang="scss">
+@import "../../assets/css/font.css";
+
 .ant-carousel :deep(.slick-slide) {
   text-align: center;
   background: #364d79;
@@ -99,5 +109,11 @@ onMounted(() => {
 
 .ant-carousel :deep(.slick-slide h3) {
   color: #fff;
+}
+.page-header {
+  // height: 220px;
+  // overflow: hidden;
+  // background-image: url('../../assets/img/bb.jpg');
+  background-size: cover;
 }
 </style>

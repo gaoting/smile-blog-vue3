@@ -7,9 +7,10 @@
     show-size-changer
     @showSizeChange="onShowSizeChange"
     @change="onShowSizeChange"
+    :show-total="(total) => `共 ${total} 条`"
   >
     <template #buildOptionText="props">
-      <span v-if="props.value !== '50'">{{ props.value }}条/页</span>
+      <span v-if="props.value != '50'">{{ props.value }}条/页</span>
       <span v-else>全部</span>
     </template>
   </a-pagination>
@@ -23,7 +24,6 @@ interface PageType {
 }
 
 export default defineComponent({
-
   props: {
     page: {
       type: Object as PropType<PageType>,
@@ -59,11 +59,12 @@ export default defineComponent({
       props.page,
       (newVal, oldVal) => {
         const { pageSize, current, total } = toRefs(newVal);
+        console.log(newVal, "ttttttt");
         state.pageSize = pageSize.value;
         state.current = current.value;
         state.total = total.value;
       },
-      { deep: true }
+      { deep: true, immediate: true }
     );
 
     return {

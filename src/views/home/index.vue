@@ -1,8 +1,14 @@
 <template>
   <div class="box">
-    <div class="banner">
+    <div class="banner" ref="bagk">
       <div class="banner-img">
         <img :src="banner" alt="" />
+        <img
+          src="../../assets/fonts/down.svg"
+          class="anticon anticon-down"
+          @click="goHeight"
+          style="cursor: pointer"
+        />
       </div>
 
       <div class="banner-text flex">
@@ -56,11 +62,16 @@
         ></CardList>
         <div class="card friend">
           <div class="flex card-title"><h3>友情链接</h3></div>
-          <ul>
-            <li v-for="(item, index) in friendList" :key="index">
-              <a :href="item.url" target="_blank">{{ item.name }}</a>
-            </li>
-          </ul>
+
+          <div class="flex-wrap">
+            <a
+              :href="item.url"
+              v-for="(item, index) in friendList"
+              :key="index"
+              target="_blank"
+              >{{ item.name }}</a
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -85,11 +96,13 @@ import {
   SnippetsOutlined,
   FieldTimeOutlined,
   EyeOutlined,
+  DownOutlined,
 } from "@ant-design/icons-vue";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { mainStore } from "@/store/typeList";
 import moment from "moment";
+// import
 
 let page = reactive({
   current: 1,
@@ -216,6 +229,12 @@ const friendList = reactive([
   { url: "https://lxchuan12.gitee.io/", name: "若川的博客" },
 ]);
 
+const currentInstance = getCurrentInstance();
+const goHeight = () => {
+  const scrollHeight = currentInstance.ctx.$refs.bagk.scrollHeight;
+  document.documentElement.scrollTop = scrollHeight - 60;
+};
+
 const store = mainStore();
 const { token } = storeToRefs(store);
 
@@ -240,10 +259,20 @@ onMounted(() => {
   .banner-img {
     max-height: 100vh;
     overflow: hidden;
+    position: relative;
     img {
       display: block;
       width: 100%;
       // height: calc(100vh - 60px);
+    }
+    .anticon.anticon-down {
+      position: absolute;
+      bottom: 3.5%;
+      color: #fff;
+      left: 50%;
+      width: 70px;
+      height: 40px;
+      animation: scroll-down-effect 1.5s infinite;
     }
   }
   .banner-text {
@@ -272,14 +301,32 @@ onMounted(() => {
     }
   }
 }
-
-@-webkit-keyframes shine {
+.friend {
+  .flex-wrap {
+    padding: 8px 10px;
+    a {
+      display: inline-block;
+      padding: 4px 10px;
+    }
+  }
+}
+@keyframes shine {
   /*创建动画*/
   0% {
     background-position: 0 0;
   }
   100% {
     background-position: 100% 100%;
+  }
+}
+@keyframes scroll-down-effect {
+  50% {
+    bottom: 5%;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    bottom: 3.5%;
+    color: #fff;
   }
 }
 </style>

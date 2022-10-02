@@ -1,5 +1,5 @@
 <template>
-  <div id="upTop">
+  <div id="upTop" @click="goback">
     <arrow-up-outlined />
   </div>
   <div class="footer">
@@ -19,6 +19,9 @@ import { reactive } from "@vue/reactivity";
 import { ArrowUpOutlined } from "@ant-design/icons-vue";
 
 const navList = reactive([{ url: "" }]);
+const goback = () => {
+  document.documentElement.scrollTop = 0;
+};
 </script>
 
 <style scoped lang="scss">

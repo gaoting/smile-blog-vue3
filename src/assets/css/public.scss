@@ -83,7 +83,7 @@ p {
 
         .card {
             width: 100%;
-            max-height: 444px;
+            // max-height: 444px;
             background: #fff;
             border-radius: 4px;
             overflow: hidden;
@@ -106,10 +106,8 @@ p {
         }
 
         .card1 {
-            height: 266px;
             background-image: linear-gradient(#94dacc, #def3ee, #fff, );
             // background-position: 100% 200px;
-
 
             img.photo {
                 transform-origin: center center;
@@ -171,7 +169,7 @@ p {
                     // background: #edf9f6;
                     // border: 1px solid #98decf;
                     width: 100%;
-                    margin: auto;
+                    margin:8px auto 32px;
                     // border-radius: 4px;
                     // overflow: hidden;
 

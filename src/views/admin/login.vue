@@ -171,7 +171,7 @@ onMounted(() => {
     background: #fff;
     position: fixed;
     width: 500px;
-    height: 360px;
+    height: 380px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

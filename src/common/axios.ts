@@ -71,7 +71,7 @@ export const diaryAdd = (data: any) => {
 
 // 日志点赞
 export const diaryLove = (data: any) => {
-  return post("/diary/updateNum", data);
+  return update("/diary/updateNum", data);
 };
 
 // login

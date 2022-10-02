@@ -21,18 +21,26 @@
           <p>
             {{ moment(item.createTime).format("YYYY-MM-DD hh:mm:ss") }}
           </p>
-          <span>
-            <heart-filled :style="{ color: 'hotpink' }" />
+          <span @click="sendData(item.id, item.loveNum)" style="cursor: pointer;">
+            <heart-filled
+              :style="{ color: !trasy && loveId == item.id ? 'hotpink' : '' }"
+            />
             {{ item.loveNum }}
           </span>
         </div>
       </a-timeline-item>
     </a-timeline>
+    <Pagination
+      :page="page"
+      class="right"
+      @onShowSizeChange="onShowSizeChange"
+    ></Pagination>
   </div>
 </template>
 
 <script setup lang="ts">
 import { SmileOutlined, HeartFilled } from "@ant-design/icons-vue";
+import Pagination from "../../components/Pagination.vue";
 import {
   reactive,
   onMounted,
@@ -49,6 +57,7 @@ import photo from "../../assets/img/photo.png";
 import { message } from "ant-design-vue";
 
 const newData = ref([] as Array<Diary>);
+
 const getRightsList = async () => {
   let params = {
     current: 1,
@@ -60,7 +69,11 @@ const getRightsList = async () => {
 };
 
 const diaryContent: string = ref("");
-
+let page = reactive({
+  current: 1,
+  pageSize: 10,
+  total: 0,
+});
 const submit = async () => {
   if (!diaryContent.value) {
     message.error("请先输入内容。。。");
@@ -83,68 +96,31 @@ let adminButton = computed(() => {
 
 // 收藏 / 取消收藏
 let love = ref(false);
-let getId = ref(0);
-// const _this: any = ref(getCurrentInstance()?.appContext.config.globalProperties);
-
-const goLove = (id: number, num: number, bool: boolean) => {
-  love.value = !love.value;
-  let getData = localStorage.getItem("myDraryLove");
-
-  if (getData && JSON.parse(getData).length > 0) {
-    let arr = [...JSON.parse(getData)];
-
-    if (bool) {
-      let index = arr.findIndex((v) => v.id == getId.value);
-      if (index == -1) {
-        arr.push(newData.value);
-        localStorage.setItem("myDraryLove", JSON.stringify(arr));
-        sendData(id, num, 1);
-      }
-    } else {
-      arr = arr.filter((v) => v.id !== getId.value);
-      localStorage.setItem("myDraryLove", JSON.stringify(arr));
-      sendData(id, num, -1);
-    }
-  } else {
-    let arr = [] as any;
-    arr.push(newData.value);
-    console.log(arr);
-    localStorage.setItem("myDraryLove", JSON.stringify(arr));
-    love.value = true;
-    sendData(id, num, 1);
-  }
-};
 
 watch(diaryContent.value, (newVal, oldVal) => {});
 
-// 调用接口
-const sendData = async (id: number, num: number, loveNum: number) => {
-  const { data } = await diaryLove({
-    id,
-    loveNum: num + loveNum,
-  });
-  newData.value.forEach((v) => {
-    if (v.id == id) {
-      v.loveNum = data.loveNum;
-    }
-  });
-};
+// 点赞接口
+let trasy = ref(true);
+let loveId = ref(0);
+const sendData = async (id: number, loveNum: number) => {
+  let newLoveNum = trasy.value ? loveNum + 1 : loveNum - 1;
 
-// 判断是否收藏
-const getLove = () => {
-  let getData = localStorage.getItem("myDraryLove");
-  if (getData && JSON.parse(getData).length >= 0) {
-    let arr = [...JSON.parse(getData)];
-    arr.forEach((v) => {
-      if (v.id == getId.value) {
-        love.value = true;
-      }
-    });
-  } else {
-    love.value = false;
+  const res = await diaryLove({
+    id,
+    loveNum: newLoveNum,
+  });
+  console.log(res);
+  if (res.code === 200) {
+    loveId.value = res.list.id;
+    getRightsList();
+    trasy.value = !trasy.value;
   }
 };
-
+const onShowSizeChange = (data: any) => {
+  page.pageSize = data.pageSize;
+  page.current = data.current;
+  getRightsList();
+};
 onMounted(() => {
   getRightsList();
 });
@@ -153,7 +129,11 @@ onMounted(() => {
 <style scoped lang="scss">
 .diary {
   background: #fff;
-  padding: 24px 10%;
+  padding: 24px 20%;
+  background: url('../../assets/img/wuhou.png') no-repeat center;
+  background-size: 1920px 844px;
+  overflow-y: auto;
+  height: calc(100vh - 98px);
   .diaryBox {
     margin-bottom: 40px;
   }

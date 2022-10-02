@@ -5,9 +5,13 @@
       <div class="logo">
         <img src="../../assets/img/logo.svg" alt="smile" />
       </div>
-      <ul class="flex">
-        <li v-for="(item, index) in navigation" :key="index">
-          <a :href="item.href">{{ item.name }}</a>
+      <ul class="flex" ref="nav-li">
+        <li
+          v-for="(item, index) in navigation"
+          :key="index"
+          @click="checkNav(index, item.href)"
+        >
+          <a>{{ item.name }}</a>
         </li>
       </ul>
     </div>
@@ -37,14 +41,13 @@
 <script lang="ts" setup>
 import { reactive, ref } from "@vue/reactivity";
 import { UserOutlined } from "@ant-design/icons-vue";
-import { onMounted, inject, watch } from "vue";
+import { onMounted, inject, watch, nextTick, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { DownOutlined } from "@ant-design/icons-vue";
 
 const navigation = reactive([
   { name: "首页", href: "/", current: true },
   { name: "编程", href: "/frondPage", current: false },
-  // { name: "后端", href: "/backstage", current: false },
   { name: "阅读", href: "/book", current: false },
   { name: "日志", href: "/diary", current: false },
   { name: "留言板", href: "/msglist", current: false },
@@ -68,8 +71,34 @@ let user = reactive({
     : "",
 });
 const reload: any = inject("reload");
-</script>
 
+const checkNav = (index: number, url: string) => {
+  const domlist = currentInstance.ctx.$refs["nav-li"].children;
+  console.log(index, domlist);
+  route.push({ path: url });
+  domlist.forEach = Array.prototype.forEach;
+
+  domlist.forEach((v: any) => {
+    v.className = "";
+  });
+
+  domlist[index].className = "actived";
+};
+
+let menu_item = ref(null);
+const currentInstance = getCurrentInstance();
+onMounted(() => {
+  nextTick(() => {
+    console.log(currentInstance.ctx.$refs["nav-li"].children);
+    const domlist = currentInstance.ctx.$refs["nav-li"].children;
+    let a = navigation.findIndex(
+      (v: any) => v.href == window.location.pathname
+    );
+    console.log(a);
+    domlist[a].className = "actived";
+  });
+});
+</script>
 <style lang="scss" scoped>
 nav {
   width: 100%;
@@ -103,7 +132,8 @@ nav {
         font-weight: 400;
         display: block;
       }
-      &:hover {
+      &:hover,
+      &.actived {
         background: #000;
         font-weight: bold;
         border-top-left-radius: 20px;

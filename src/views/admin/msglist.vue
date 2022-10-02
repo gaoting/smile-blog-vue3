@@ -1,50 +1,56 @@
 <template>
   <div class="diary">
-    <a-comment v-if="adminButton">
-      <template #avatar>
-        <a-avatar :src="adminButton ? photo : photo1" alt="smile" />
-      </template>
-      <template #content>
-        <a-form-item>
-          <a-textarea v-model:value="diaryContent" :rows="4" />
-        </a-form-item>
-        <a-form-item>
-          <div class="flex-between">
-            <a-typography-text type="secondary">
-              已输入{{ diaryContent.length }}个字
-            </a-typography-text>
+    <div class="diary-bg">
+      <a-comment v-if="adminButton">
+        <template #avatar>
+          <a-avatar :src="adminButton ? photo : photo1" alt="smile" />
+        </template>
+        <template #content>
+          <a-form-item>
+            <a-textarea v-model:value="diaryContent" :rows="4" />
+          </a-form-item>
+          <a-form-item>
+            <div class="flex-between">
+              <a-typography-text type="secondary">
+                已输入{{ diaryContent.length }}个字
+              </a-typography-text>
 
-            <a-button type="primary" size="large" @click="submit"
-              >提交</a-button
-            >
-          </div>
-        </a-form-item>
-      </template>
-    </a-comment>
-    <a-list
-      v-if="comments.length"
-      :data-source="comments"
-      :header="`${comments.length} ${
-        comments.length > 1 ? 'replies' : 'reply'
-      }`"
-      item-layout="horizontal"
-    >
-      <template #renderItem="{ item }">
-        <a-list-item>
-          <a-comment
-            :author="item.userName"
-            :avatar="item.avatar"
-            :content="item.content"
-            :datetime="dayjs(item.createTime).fromNow()"
-          />
-        </a-list-item>
-      </template>
-    </a-list>
+              <a-button type="primary" size="large" @click="submit"
+                >提交</a-button
+              >
+            </div>
+          </a-form-item>
+        </template>
+      </a-comment>
+      <a-list
+        v-if="comments.length"
+        :data-source="comments"
+        header="留言板"
+        item-layout="horizontal"
+      >
+        <template #renderItem="{ item }">
+          <a-list-item>
+            <a-comment
+              :author="item.userName"
+              :avatar="item.avatar"
+              :content="item.content"
+              :datetime="dayjs(item.createTime).fromNow()"
+            />
+          </a-list-item>
+        </template>
+      </a-list>
+    </div>
+    <Pagination
+      :page="page"
+      class="right"
+      @onShowSizeChange="onShowSizeChange"
+    ></Pagination>
   </div>
 </template>
 
 <script setup lang="ts">
 import { SmileOutlined, HeartFilled } from "@ant-design/icons-vue";
+import Pagination from "../../components/Pagination.vue";
 import {
   reactive,
   onMounted,
@@ -69,14 +75,19 @@ import { message } from "ant-design-vue";
 
 const newData = ref([] as Array<Diary>);
 const getRightsList = async () => {
-  let params = {
-    current: 1,
-    pageSize: 20,
-  };
-  const data = await messageboardList(params);
-  console.log(data);
-  comments.value = data.list;
+  const res = await messageboardList(page);
+  if (res.code === 200) {
+    console.log(res);
+    page.total = res.total;
+    comments.value = res.list;
+  }
 };
+
+let page = reactive({
+  current: 1,
+  pageSize: 10,
+  total: 0,
+});
 
 const adminButton: string = computed(() => {
   return localStorage.getItem("token") && localStorage.getItem("userName");
@@ -133,29 +144,12 @@ const getLove = () => {
 
 const comments = ref([]);
 const submitting = ref(false);
-const value = ref("");
 
-const handleSubmit = () => {
-  if (!value.value) {
-    return;
-  }
-
-  submitting.value = true;
-  setTimeout(() => {
-    submitting.value = false;
-    comments.value = [
-      {
-        userName: "smile",
-        avatar: photo,
-        content: value.value,
-        datetime: dayjs().fromNow(),
-      },
-      ...comments.value,
-    ];
-    value.value = "";
-  }, 1000);
+const onShowSizeChange = (data: any) => {
+  page.pageSize = data.pageSize;
+  page.current = data.current;
+  getRightsList();
 };
-
 onMounted(() => {
   getRightsList();
 });
@@ -164,7 +158,16 @@ onMounted(() => {
 <style scoped lang="scss">
 .diary {
   background: #fff;
-  padding: 24px 10%;
+  background: url("../../assets/img/sea.jpg") no-repeat center;
+  background-size: 100% 100%;
+  background-position: 0 0;
+  height: calc(100vh - 98px);
+  overflow-y: auto;
+}
+.diary-bg {
+  background: rgb(255 255 255 / 30%);
+  width: 60%;
+  margin: 24px auto;
 }
 :deep(ul.ant-timeline) {
   width: 80%;
@@ -174,6 +177,7 @@ onMounted(() => {
 
 :deep(.ant-timeline-item) {
   padding-bottom: 40px;
+  border-bottom: 1px solid #fff;
 }
 
 .content {
@@ -192,8 +196,44 @@ onMounted(() => {
     margin-right: 40px;
   }
 }
-
+:deep(.ant-list.ant-list-split) {
+  width: 90%;
+  margin: auto;
+}
+:deep(.ant-comment) {
+  padding: 12px 24px 0;
+  margin-bottom: 24px;
+}
 :deep(.ant-comment-content-detail .ant-row.ant-form-item) {
   margin-bottom: 8px;
+}
+:deep(.ant-list-split) {
+  .ant-list-item,
+  .ant-list-header {
+    border-bottom: 1px solid #fff;
+  }
+  .ant-list-header {
+    font-size: 18px;
+    font-weight: 600;
+    color: #777;
+  }
+}
+:deep(ul.ant-pagination.right) {
+  margin: 32px 7% 60px 0;
+}
+:deep(span.ant-avatar.ant-avatar-circle.ant-avatar-image) {
+  width: inherit;
+  height: inherit;
+  margin-top: 8px;
+  img {
+    width: 64px;
+    height: 64px;
+  }
+}
+:deep(.ant-comment-content-author-name) {
+  color: #4b4949;
+}
+:deep(.ant-comment-content-author-time) {
+  color: #8c9796;
 }
 </style>
