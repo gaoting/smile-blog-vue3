@@ -9,7 +9,7 @@
       </li>
     </ul> -->
     <div class="footer-text">
-      Copyright © 2022 Smile Blog . All Rights Reserved. smile 版权所有
+      Copyright © 2022 Smile Blog . 皖ICP备2022000677号  ·  All Rights Reserved. smile 版权所有
     </div>
   </div>
 </template>

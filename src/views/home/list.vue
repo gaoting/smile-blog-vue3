@@ -23,10 +23,10 @@
           </p>
           <div class="flex text-list">
             <div class="flex">
-              <span>分类：{{ item.types }}</span>
+              <span>分类：{{ item.types}}</span>
               <span>
                 <tags-two-tone two-tone-color="#69CFC8" />
-                {{ item.tags }}
+                {{ store.typesObj[item.tags] }}
               </span>
               <span>
                 <eye-outlined :style="{ color: '#02bfbb' }" />
@@ -76,6 +76,8 @@ import {
 import Pagination from "../../components/Pagination.vue";
 import Articles from "../interface/article";
 import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { mainStore } from "@/store/typeList";
 
 interface PageType {
   current: number;
@@ -157,6 +159,9 @@ const onShowSizeChange = (data: any) => {
 
   emit("onShowSizeChange", state.page);
 };
+
+const store = mainStore();
+
 </script>
 
 <style scoped>

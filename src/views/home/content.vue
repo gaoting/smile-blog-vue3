@@ -96,7 +96,7 @@
             分类： <span>{{ newData.types }}</span>
           </p>
           <p>
-            标签： <span>{{ newData.tags }}</span>
+            标签： <span>{{ store.typesObj[item.tags] }}</span>
           </p>
         </div>
 

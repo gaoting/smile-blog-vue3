@@ -23,13 +23,22 @@ export const mainStore = defineStore("typeList", {
         { id: 17, name: "面试题", desc: "" },
         { id: 18, name: "笔试题", desc: "" },
       ],
+      // typesObj: {},
       token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
       userInfo: localStorage.getItem("userName")
         ? localStorage.getItem("userName")
         : "",
     };
   },
-  getters: {},
+  getters: {
+    typesObj(state) {
+      let obj = {};
+      this.types.forEach((v) => {
+        obj = { ...obj, [v.id]: v.name };
+      });
+      return obj;
+    },
+  },
   actions: {
     changeToken(params: string) {
       this.token = params;

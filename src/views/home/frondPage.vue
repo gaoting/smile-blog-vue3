@@ -94,7 +94,6 @@ onMounted(() => {
   getAllList();
   getsearchList();
   getCollectList();
-  console.log(storeToRefs(store), "tttttttt2223333");
 });
 </script>
 

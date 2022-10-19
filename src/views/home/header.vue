@@ -73,29 +73,35 @@ let user = reactive({
 const reload: any = inject("reload");
 
 const checkNav = (index: number, url: string) => {
-  const domlist = currentInstance.ctx.$refs["nav-li"].children;
-  console.log(index, domlist);
-  route.push({ path: url });
-  domlist.forEach = Array.prototype.forEach;
+  nextTick(() => {
+    if (proxy.$refs && proxy.$refs["nav-li"]) {
+      const domlist = proxy.$refs["nav-li"].children;
+      console.log(index, domlist);
+      route.push({ path: url });
+      domlist.forEach = Array.prototype.forEach;
 
-  domlist.forEach((v: any) => {
-    v.className = "";
+      domlist.forEach((v: any) => {
+        v.className = "";
+      });
+
+      domlist[index].className = "actived";
+    }
   });
-
-  domlist[index].className = "actived";
 };
 
 let menu_item = ref(null);
-const currentInstance = getCurrentInstance();
+const { proxy } = getCurrentInstance();
 onMounted(() => {
   nextTick(() => {
-    console.log(currentInstance.ctx.$refs["nav-li"].children);
-    const domlist = currentInstance.ctx.$refs["nav-li"].children;
-    let a = navigation.findIndex(
-      (v: any) => v.href == window.location.pathname
-    );
-    console.log(a);
-    domlist[a].className = "actived";
+   
+    if (proxy.$refs && proxy.$refs["nav-li"]) {
+      const domlist = proxy.$refs["nav-li"].children;
+      let a = navigation.findIndex(
+        (v: any) => v.href == window.location.pathname
+      );
+      console.log(a);
+      domlist[a].className = "actived";
+    }
   });
 });
 </script>
