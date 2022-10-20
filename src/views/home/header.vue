@@ -93,14 +93,15 @@ let menu_item = ref(null);
 const { proxy } = getCurrentInstance();
 onMounted(() => {
   nextTick(() => {
-   
     if (proxy.$refs && proxy.$refs["nav-li"]) {
       const domlist = proxy.$refs["nav-li"].children;
       let a = navigation.findIndex(
         (v: any) => v.href == window.location.pathname
       );
       console.log(a);
-      domlist[a].className = "actived";
+      if (a > -1) {
+        domlist[a].className = "actived";
+      }
     }
   });
 });

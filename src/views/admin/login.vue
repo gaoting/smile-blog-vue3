@@ -180,7 +180,7 @@ onMounted(() => {
   height: calc(100vh - 98px);
   background-size: cover;
   :deep(.ant-tabs.ant-tabs-top.ant-tabs-card) {
-    background: #fff;
+    background: rgba($color: #fff, $alpha: 0.45);
     position: fixed;
     width: 500px;
     height: 380px;
