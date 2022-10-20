@@ -9,7 +9,15 @@
       </li>
     </ul> -->
     <div class="footer-text">
-      Copyright © 2022 Smile Blog . 皖ICP备2022000677号  ·  All Rights Reserved. smile 版权所有
+      Copyright © 2022 Smile Blog ·
+      <a
+        href="https://beian.miit.gov.cn/#/Integrated/index"
+        target="_blank"
+        class="pointer"
+      >
+        皖ICP备2022000677号
+      </a>
+      · All Rights Reserved. 版权所有
     </div>
   </div>
 </template>

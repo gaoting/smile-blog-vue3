@@ -30,13 +30,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, watch } from "vue";
 import Articles from "../interface/article";
 import { allList, searchList } from "../../common/axios";
 import List from "./list.vue";
 import CardList from "./cardList.vue";
 import TagList from "./tagList.vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { mainStore } from "../../store/typeList";
 import { storeToRefs } from "pinia";
 
@@ -56,15 +56,28 @@ const onShowSizeChange = (ctx: any) => {
 };
 
 // 分页列表
+const route = useRoute();
 const getAllList = async () => {
   const data = await allList({
     pageSize: page.pageSize,
     current: page.current,
+    tags: route.query.id ? route.query.id : "",
     // types: "前端",
   });
   allArticleList.value = data.list as Articles[];
   page.total = data.total;
 };
+
+watch(
+  () => route.query,
+  (oldVal, newVal) => {
+    console.log(oldVal, newVal);
+    getAllList();
+  },
+  {
+    deep: true,
+  }
+);
 
 // 热门推荐
 let newList = ref([] as Articles[]);
@@ -89,6 +102,7 @@ const getCollectList = async () => {
 };
 
 const store = mainStore();
+
 const { token, types } = storeToRefs(store);
 onMounted(() => {
   getAllList();

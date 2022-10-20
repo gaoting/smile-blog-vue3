@@ -18,7 +18,7 @@ export const mainStore = defineStore("typeList", {
         { id: 12, name: "rollup", desc: "" },
         { id: 13, name: "linux", desc: "" },
         { id: 14, name: "工具/软件", desc: "" },
-        { id: 15, name: "读书笔记", desc: "" },
+        { id: 15, name: "go", desc: "" },
         { id: 16, name: "编译原理", desc: "" },
         { id: 17, name: "面试题", desc: "" },
         { id: 18, name: "笔试题", desc: "" },

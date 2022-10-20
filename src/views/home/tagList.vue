@@ -20,6 +20,7 @@
 import { onMounted, reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { mainStore } from "@/store/typeList";
+import { useRouter } from "vue-router";
 
 const colorList = reactive([
   "#e18094",
@@ -45,8 +46,10 @@ const rand = (arr: Array<string>) => {
   return arr[index];
 };
 const emit = defineEmits(["tagMsg"]);
+const router = useRouter()
 const tagMsg = (data: string) => {
-  emit("tagMsg", data);
+  // emit("tagMsg", data);
+  router.push({ path: "frondPage", query: { id: data.id } });
 };
 let cardList = ref();
 onMounted(() => {
@@ -58,7 +61,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .content-box .cont-right .card {
-
   h3 {
     display: inline-block;
   }
