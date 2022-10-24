@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "buildTest": "vite build",
     "build": "vite build && ./app --env test",
     "preview": "vite preview"
   },

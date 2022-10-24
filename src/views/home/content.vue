@@ -1,6 +1,6 @@
 <template>
   <div class="content-box flex">
-    <div class="cont-left">
+    <div class="content-left-box">
       <div class="article-box">
         <div class="article-title">{{ newData.title }}</div>
 
@@ -93,10 +93,10 @@
         </div>
         <div class="footer-msg flex">
           <p>
-            分类： <span>{{ newData.types }}</span>
+            分类： <span>{{ store.typesObj[newData.types] }}</span>
           </p>
           <p>
-            标签： <span>{{ store.typesObj[item.tags] }}</span>
+            标签： <span>{{ store.tagsObj[newData.tags] }}</span>
           </p>
         </div>
 
@@ -233,7 +233,7 @@ const getRightsList = async (id?: number) => {
   newData.value = result.data;
   console.log(newData.value);
   newData.value.lookNum ? (newData.value.lookNum += 1) : 1;
-  newData.value.tags = newData.value.tags ? setObj(newData.value.tags) : "";
+  // newData.value.tags = newData.value.tags ? setObj(newData.value.tags) : "";
   nextTick(() => {
     if (newData.value.activeKey == "2") {
       let doms = document.querySelector(".content-text");
@@ -424,12 +424,14 @@ onMounted(() => {
 <style scoped lang="scss">
 .article-box {
   background: #fff;
-  padding: 10px 20px;
+  padding: 24px;
   border-radius: 4px;
+  // width: calc(100% - 16px);
 
   .article-title {
     font-size: 32px;
     text-align: center;
+    margin-bottom: 32px;
   }
 
   .msg-title {

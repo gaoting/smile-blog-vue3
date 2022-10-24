@@ -166,7 +166,8 @@ onMounted(() => {
 }
 .diary-bg {
   background: rgb(255 255 255 / 30%);
-  width: 60%;
+  width: 70%;
+  min-width: 1000px;
   margin: 24px auto;
 }
 :deep(ul.ant-timeline) {

@@ -14,20 +14,19 @@
           placeholder="标签"
           v-model:value="formState.tags"
           show-search
-          :options="options"
-          :filter-option="filterOption"
+          :options="tagsOptions"
+          :filter-option="filterTagsOption"
         ></a-select>
       </a-col>
       <a-col :span="5">
-        <a-radio-group
-          v-model:value="formState.types"
-          button-style="solid"
+        <a-select
           size="large"
-        >
-          <a-radio-button value="前端">前端</a-radio-button>
-          <a-radio-button value="后端">后端</a-radio-button>
-          <a-radio-button value="阅读">阅读</a-radio-button>
-        </a-radio-group>
+          placeholder="分类"
+          v-model:value="formState.types"
+          show-search
+          :options="typeOptions"
+          :filter-option="filterTypesOption"
+        ></a-select>
       </a-col>
       <a-col :span="5" class="flex-row-end">
         <a-button @click="router.go(-1)" size="large">返回</a-button>
@@ -71,7 +70,7 @@ const wrapperCol = reactive({ span: 20 });
 interface Articles {
   author: string;
   tags: number;
-  types: string;
+  types: number;
   title: string;
   description: string;
   content: string;
@@ -86,7 +85,7 @@ interface Options {
 let formState: UnwrapRef<Articles> = ref({
   author: "smile",
   tags: null,
-  types: "前端",
+  types: null,
   title: "",
   description: "",
   content: "",
@@ -102,24 +101,31 @@ const handleUploadImage = (event, insertImage, files) => {
 const onSubmit = async () => {
   if (route.query.id) {
     const res = await updateArticle(formState.value);
-    message.success("文章更新成功");
+    if (res.code == 200) {
+      message.success("文章更新成功");
+    }
   } else {
     let doms = document.querySelectorAll(".v-md-editor__preview-wrapper img");
     formState.value.picture = doms[0]?.getAttribute("src") || "";
 
-    formState.value.content = detail.value;
+    formState.value.desc =
+      formState.value.content.length > 120
+        ? formState.value.content.slice(0, 120)
+        : formState.value.content;
     const res = await createArticle(formState.value);
-    message.success("文章创建成功");
-    formState.value = {
-      author: "smile",
-      tags: null,
-      types: "",
-      title: "",
-      description: "",
-      content: "",
-      activeKey: activeKey.value,
-      picture: "",
-    };
+    if (res.code === 200) {
+      message.success("文章创建成功");
+      formState.value = {
+        author: "smile",
+        tags: null,
+        types: null,
+        title: "",
+        description: "",
+        content: "",
+        activeKey: activeKey.value,
+        picture: "",
+      };
+    }
   }
 };
 
@@ -127,10 +133,16 @@ const handleChangeEditor = (content: any) => {
   detail.value = content;
 };
 
-let options: Array<Options> = reactive([]);
-const filterOption = (input: string, option: any) => {
+let tagsOptions: Array<Options> = reactive([]);
+let typeOptions: Array<Options> = reactive([]);
+
+const filterTagsOption = (input: string, option: any) => {
   console.log(input, option);
-  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+};
+const filterTypesOption = (input: string, option: any) => {
+  console.log(input, option);
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 
 // 请求详情
@@ -148,7 +160,14 @@ onMounted(() => {
   console.log(store.types);
   store.types.forEach((v: any) => {
     let obj = { label: v.name, value: v.id };
-    options.push(obj);
+    if (obj.value) {
+      typeOptions.push(obj);
+    }
+  });
+  store.tags.forEach((v: any) => {
+    let obj = { label: v.name, value: v.id };
+
+    tagsOptions.push(obj);
   });
 
   if (route.query.id) {

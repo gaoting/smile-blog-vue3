@@ -54,8 +54,7 @@ const tagMsg = (data: string) => {
 let cardList = ref();
 onMounted(() => {
   const store = mainStore();
-  cardList.value = store.types;
-  console.log(store.typesObj);
+  cardList.value = store.tags;
 });
 </script>
 

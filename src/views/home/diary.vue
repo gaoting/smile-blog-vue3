@@ -1,40 +1,45 @@
 <template>
   <div class="diary">
-    <div class="diaryBox" v-if="adminButton">
-      <a-textarea
-        v-model:value="diaryContent"
-        :rows="3"
-        style="margin-bottom: 12px"
-      ></a-textarea>
-      <a-typography-text type="secondary"
-        >已输入{{ diaryContent.length }}个字</a-typography-text
-      >
+    <div class="diary-bg">
+      <div class="diaryBox" v-if="adminButton">
+        <a-textarea
+          v-model:value="diaryContent"
+          :rows="5"
+          style="margin-bottom: 12px"
+        ></a-textarea>
+        <a-typography-text type="secondary"
+          >已输入{{ diaryContent.length }}个字</a-typography-text
+        >
 
-      <a-button type="primary" size="large" @click="submit">提交</a-button>
+        <a-button type="primary" size="large" @click="submit">提交</a-button>
+      </div>
+      <a-timeline v-if="newData">
+        <a-timeline-item color="green" v-for="item in newData" :key="item.id">
+          <div class="content">
+            {{ item.content }}
+          </div>
+          <div class="flex bottom">
+            <p>
+              {{ moment(item.createTime).format("YYYY-MM-DD hh:mm:ss") }}
+            </p>
+            <span
+              @click="sendData(item.id, item.loveNum)"
+              style="cursor: pointer"
+            >
+              <heart-filled
+                :style="{ color: !trasy && loveId == item.id ? 'hotpink' : '' }"
+              />
+              {{ item.loveNum }}
+            </span>
+          </div>
+        </a-timeline-item>
+      </a-timeline>
+      <Pagination
+        :page="page"
+        class="right"
+        @onShowSizeChange="onShowSizeChange"
+      ></Pagination>
     </div>
-    <a-timeline v-if="newData">
-      <a-timeline-item color="green" v-for="item in newData" :key="item.id">
-        <div class="content">
-          {{ item.content }}
-        </div>
-        <div class="flex bottom">
-          <p>
-            {{ moment(item.createTime).format("YYYY-MM-DD hh:mm:ss") }}
-          </p>
-          <span @click="sendData(item.id, item.loveNum)" style="cursor: pointer;">
-            <heart-filled
-              :style="{ color: !trasy && loveId == item.id ? 'hotpink' : '' }"
-            />
-            {{ item.loveNum }}
-          </span>
-        </div>
-      </a-timeline-item>
-    </a-timeline>
-    <Pagination
-      :page="page"
-      class="right"
-      @onShowSizeChange="onShowSizeChange"
-    ></Pagination>
   </div>
 </template>
 
@@ -128,12 +133,16 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .diary {
-  background: #fff;
-  padding: 24px 20%;
-  background: url('../../assets/img/wuhou.png') no-repeat center;
+  background: url("../../assets/img/wuhou.png") no-repeat center;
   background-size: 1920px 844px;
   overflow-y: auto;
   height: calc(100vh - 98px);
+  .diary-bg {
+    // background: rgb(255 255 255 / 30%);
+    width: 70%;
+    min-width: 1000px;
+    margin: 24px auto;
+  }
   .diaryBox {
     margin-bottom: 40px;
   }

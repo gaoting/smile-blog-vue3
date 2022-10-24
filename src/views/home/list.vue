@@ -1,6 +1,6 @@
 <template>
-  <div class="cont-left">
-    <ul v-if="allArticleList && allArticleList.length">
+  <div class="cont-left" v-if="allArticleList && allArticleList.length">
+    <ul>
       <li v-for="item in allArticleList" :key="item.id" class="flex">
         <div :class="item.types !== '读书笔记' ? 'articleImg' : 'bookImg'">
           <img
@@ -23,10 +23,10 @@
           </p>
           <div class="flex text-list">
             <div class="flex">
-              <span>分类：{{ item.types}}</span>
+              <span>分类：{{ store.typesObj[item.types] }}</span>
               <span>
                 <tags-two-tone two-tone-color="#69CFC8" />
-                {{ store.typesObj[item.tags] }}
+                {{ store.tagsObj[item.tags] }}
               </span>
               <span>
                 <eye-outlined :style="{ color: '#02bfbb' }" />
@@ -48,11 +48,11 @@
     </ul>
     <Pagination
       :page="page"
-      v-if="allArticleList.length > 1"
       class="right"
       @onShowSizeChange="onShowSizeChange"
     ></Pagination>
   </div>
+  <div class="cont-empty" v-else>菩提本无树，明镜亦非台。本来无一物，何处惹尘埃。</div>
 </template>
 
 <script lang="ts" setup>
@@ -161,7 +161,6 @@ const onShowSizeChange = (data: any) => {
 };
 
 const store = mainStore();
-
 </script>
 
 <style scoped>

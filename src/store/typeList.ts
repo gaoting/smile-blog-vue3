@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const mainStore = defineStore("typeList", {
   state: () => {
     return {
-      types: [
+      tags: [
         { id: 1, name: "vue", desc: "vue2 / vue3的学习笔记" },
         { id: 2, name: "JavaScript", desc: "" },
         { id: 3, name: "typescript", desc: "" },
@@ -23,7 +23,13 @@ export const mainStore = defineStore("typeList", {
         { id: 17, name: "面试题", desc: "" },
         { id: 18, name: "笔试题", desc: "" },
       ],
-      // typesObj: {},
+      types: [
+        { id: 0, name: "全部" },
+        { id: 1, name: "前端" },
+        { id: 2, name: "后端" },
+        { id: 3, name: "阅读" },
+        { id: 4, name: "其他" },
+      ],
       token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
       userInfo: localStorage.getItem("userName")
         ? localStorage.getItem("userName")
@@ -31,6 +37,13 @@ export const mainStore = defineStore("typeList", {
     };
   },
   getters: {
+    tagsObj(state) {
+      let obj = {};
+      this.tags.forEach((v) => {
+        obj = { ...obj, [v.id]: v.name };
+      });
+      return obj;
+    },
     typesObj(state) {
       let obj = {};
       this.types.forEach((v) => {

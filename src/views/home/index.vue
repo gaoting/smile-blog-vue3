@@ -20,11 +20,13 @@
     </div>
 
     <div class="content-box flex">
+       <div class="content-left-box">
       <List
         :page="page"
         :allArticleList="allArticleList"
         @onShowSizeChange="onShowSizeChange"
       ></List>
+       </div>
 
       <div class="cont-right">
         <div class="card card1">

@@ -11,11 +11,69 @@
     </a-card> -->
   </div>
   <div class="content-box flex">
-    <List
-      :page="page"
-      :allArticleList="allArticleList"
-      @onShowSizeChange="onShowSizeChange"
-    ></List>
+    <div class="content-left-box">
+      <a-tabs
+        v-model:activeKey="activeKey"
+        type="card"
+        @change="changeTab"
+        v-if="!route.query.id"
+      >
+        <a-tab-pane key="0" tab="全部">
+          <List
+            :page="page"
+            :allArticleList="allArticleList"
+            @onShowSizeChange="onShowSizeChange"
+          ></List>
+        </a-tab-pane>
+        <a-tab-pane key="1" tab="前端">
+          <List
+            :page="page"
+            :allArticleList="allArticleList"
+            @onShowSizeChange="onShowSizeChange"
+          ></List>
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="后端">
+          <List
+            :page="page"
+            :allArticleList="allArticleList"
+            @onShowSizeChange="onShowSizeChange"
+          ></List>
+        </a-tab-pane>
+        <a-tab-pane key="4" tab="其他">
+          <List
+            :page="page"
+            :allArticleList="allArticleList"
+            @onShowSizeChange="onShowSizeChange"
+          ></List>
+        </a-tab-pane>
+
+        <template #rightExtra>
+          <a-button
+            @click="addArticle"
+            type="primary"
+            style="margin-bottom: 8px"
+            v-if="adminButton"
+            ><edit-outlined />新建文章</a-button
+          >
+        </template>
+      </a-tabs>
+      <template v-else>
+        <div class="top-title flex-between">
+          <h2>
+            <span>{{ store.tagsObj[route.query.id] }}</span>
+          </h2>
+          <a-button @click="addArticle" type="primary" v-if="adminButton">
+            <edit-outlined />
+            新建文章
+          </a-button>
+        </div>
+        <List
+          :page="page"
+          :allArticleList="allArticleList"
+          @onShowSizeChange="onShowSizeChange"
+        ></List>
+      </template>
+    </div>
 
     <div class="cont-right">
       <TagList></TagList>
@@ -30,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted, watch } from "vue";
+import { reactive, ref, onMounted, watch, computed } from "vue";
 import Articles from "../interface/article";
 import { allList, searchList } from "../../common/axios";
 import List from "./list.vue";
@@ -39,11 +97,23 @@ import TagList from "./tagList.vue";
 import { useRoute, useRouter } from "vue-router";
 import { mainStore } from "../../store/typeList";
 import { storeToRefs } from "pinia";
+import { TabsProps } from "..";
+import { EditOutlined } from "@ant-design/icons-vue";
+
+const tabPosition = ref<TabsProps["tabPosition"]>("top");
+const activeKey = ref("0");
 
 let page = reactive({
   current: 1,
   total: 0,
   pageSize: 10,
+});
+
+const adminButton = computed(() => {
+  return (
+    localStorage.getItem("userName") &&
+    localStorage.getItem("userName") === "admin"
+  );
 });
 
 // 分页交互
@@ -55,24 +125,34 @@ const onShowSizeChange = (ctx: any) => {
   getAllList();
 };
 
+const changeTab = () => {
+  router.push({ path: "/frondPage" });
+};
+
 // 分页列表
 const route = useRoute();
 const getAllList = async () => {
   const data = await allList({
     pageSize: page.pageSize,
     current: page.current,
-    tags: route.query.id ? route.query.id : "",
-    // types: "前端",
+    tags: route.query.id ? route.query.id : null,
+    types: +activeKey.value ? +activeKey.value : null,
   });
   allArticleList.value = data.list as Articles[];
   page.total = data.total;
 };
 
+const router = useRouter();
+const addArticle = () => {
+  router.push({ path: "articleAdd" });
+};
+
 watch(
-  () => route.query,
+  [() => route.query, activeKey],
   (oldVal, newVal) => {
     console.log(oldVal, newVal);
     getAllList();
+    // activeKey.value = "0";
   },
   {
     deep: true,
@@ -83,7 +163,6 @@ watch(
 let newList = ref([] as Articles[]);
 const getsearchList = async () => {
   const params = {
-    // types: "前端",
     orderByDesc: ["lookNum"],
   };
   const result = await searchList(params);
@@ -94,7 +173,6 @@ const getsearchList = async () => {
 let collectList = ref([] as Articles[]);
 const getCollectList = async () => {
   const params = {
-    // types: "前端",
     orderByDesc: ["loveNum"],
   };
   const result = await searchList(params);
@@ -128,5 +206,25 @@ onMounted(() => {
   // overflow: hidden;
   // background-image: url('../../assets/img/bb.jpg');
   background-size: cover;
+}
+
+.top-title {
+  // background: #fff;
+  padding: 2px 0px 4px 6px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #5dc2ad;
+  h2 {
+    background: #5dc2ad;
+    color: #fff;
+    text-align: center;
+    padding: 0px 32px;
+    transform: skewX(-20deg);
+
+    span {
+      transform: skewX(20deg);
+      display: inline-block;
+      padding-bottom: 4px;
+    }
+  }
 }
 </style>

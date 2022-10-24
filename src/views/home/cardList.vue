@@ -1,5 +1,8 @@
 <template>
-  <div class="card2 card">
+  <div
+    class="card2 card"
+    v-if="props.header.title != '我的收藏' || loveList && loveList.length > 0"
+  >
     <div class="flex card-title">
       <h3>
         <img src="../../assets/img/f14.png" alt="" class="animal" />
@@ -12,7 +15,6 @@
     <ul v-if="loveList && loveList.length > 0">
       <li v-for="(item, index) in loveList" :key="item.id" class="flex">
         <a :href="`/content?id=${item.id}`" class="flex">
-      
           <span class="point"></span>
           <p>{{ item.title }}</p>
         </a>
@@ -41,7 +43,6 @@
     <ul v-else-if="props.header.title == '收藏最多'">
       <li v-for="(item, index) in newList" :key="item.id" class="flex">
         <a :href="`/content?id=${item.id}`" class="flex">
-    
           <span class="point"></span>
           <p>{{ item.title }}</p>
         </a>

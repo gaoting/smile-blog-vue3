@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
 const path = require("path");
-import prismjs from 'vite-plugin-prismjs';
+import prismjs from "vite-plugin-prismjs";
 
 function pathResolve(dir) {
   return resolve(__dirname, ".", dir);
@@ -12,7 +12,7 @@ export default defineConfig({
   base: "",
   plugins: [
     prismjs({
-      languages: 'all',
+      languages: "all",
     }),
     vue(),
   ],
@@ -29,6 +29,23 @@ export default defineConfig({
     outDir: "gaoting666",
     assetsDir: "assets",
     minify: "terser", // 混淆器
+    terserOptions:{  // 去除生产环境的console和debugger
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }
+    // cssCodeSplit: false,  // 控制css是否拆分
+    // rollupOptions: {  // 控制js是否拆分
+    //   output: {
+    //     manualChunks(id) {
+    //       if (id.includes("smile-blog-vue3")) {
+    //         // 把 smile-blog-vue3 文件里面的文件都打包到 src.js 中
+    //         return "src";
+    //       }
+    //     },
+    //   },
+    // },
   },
   server: {
     cors: true,
