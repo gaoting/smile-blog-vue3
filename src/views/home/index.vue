@@ -130,6 +130,7 @@ const getAllList = async () => {
   allArticleList.value = data.list as Articles[];
   page.total = data.total;
   articleNum.value = data.total;
+
 };
 
 // const _this: any = getCurrentInstance()?.appContext.config.globalProperties;
