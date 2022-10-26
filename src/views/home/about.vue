@@ -1,7 +1,5 @@
 <template>
   <div class="about">
-    <img src="../../assets/img/about.jpg" alt="" />
-
     <h1>关于我</h1>
     <a-divider>about me</a-divider>
     <div class="about-list flex">
@@ -30,6 +28,7 @@
         </ol>
       </div>
     </div>
+    <!-- <img src="../../assets/img/xbb1.jpg" alt="" /> -->
   </div>
 </template>
 
@@ -38,16 +37,14 @@
 
 <style scoped lang="scss">
 .about {
-  padding-bottom: 80px;
-  img {
-    display: block;
-    margin: auto;
-    width: 100%;
-  }
+  padding-top: 48px;
+  background: url('../../assets/img/flo.jpeg') repeat-x left bottom #f6f6f6;
+  background-size: 305px 266px;
+  height: calc(100vh - 96px);
   h1 {
     display: block;
     text-align: center;
-    margin: 32px auto -24px;
+    margin: 0 auto;
   }
   .about-list {
     max-width: 1400px;

@@ -4,14 +4,16 @@
       <div class="diaryBox" v-if="adminButton">
         <a-textarea
           v-model:value="diaryContent"
-          :rows="5"
+          :rows="4"
           style="margin-bottom: 12px"
         ></a-textarea>
-        <a-typography-text type="secondary"
-          >已输入{{ diaryContent.length }}个字</a-typography-text
-        >
+        <div class="flex-between">
+          <a-typography-text type="secondary" style="color: #fff;">
+            已输入{{ diaryContent.length }}个字
+          </a-typography-text>
 
-        <a-button type="primary" size="large" @click="submit">提交</a-button>
+          <a-button type="primary" size="large" @click="submit">提交</a-button>
+        </div>
       </div>
       <a-timeline v-if="newData">
         <a-timeline-item color="green" v-for="item in newData" :key="item.id">
@@ -133,14 +135,14 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .diary {
-  background: url("../../assets/img/wuhou.png") no-repeat center;
-  background-size: 1920px 844px;
+  background: url("../../assets/img/a11.jpg") no-repeat center;
+  background-size: 1962px 900px;
   overflow-y: auto;
   height: calc(100vh - 98px);
   .diary-bg {
     // background: rgb(255 255 255 / 30%);
-    width: 70%;
-    min-width: 1000px;
+    width: 60%;
+    min-width: 900px;
     margin: 24px auto;
   }
   .diaryBox {
