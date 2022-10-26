@@ -30,6 +30,7 @@ export const mainStore = defineStore("typeList", {
         { id: 3, name: "阅读" },
         { id: 4, name: "其他" },
       ],
+      bannerList: Array.from({ length: 10 }, (v, i) => `a${i + 1}.jpg`),
       token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
       userInfo: localStorage.getItem("userName")
         ? localStorage.getItem("userName")

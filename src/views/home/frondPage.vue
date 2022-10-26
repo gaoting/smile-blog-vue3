@@ -211,7 +211,7 @@ onMounted(() => {
 .top-title {
   // background: #fff;
   padding: 2px 0px 4px 6px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   border-bottom: 2px solid #5dc2ad;
   h2 {
     background: #5dc2ad;

@@ -426,7 +426,7 @@ onMounted(() => {
   background: #fff;
   padding: 24px;
   border-radius: 4px;
-  // width: calc(100% - 16px);
+  // width: calc(100% - 24px);
 
   .article-title {
     font-size: 32px;
@@ -442,7 +442,7 @@ onMounted(() => {
     justify-content: space-between;
 
     h5 {
-      font-size: 17px;
+      font-size: 16px;
       color: #333;
       line-height: 1.4em;
       font-weight: bolder;
@@ -464,7 +464,7 @@ onMounted(() => {
   }
 
   .myMsg {
-    padding: 16px;
+    padding: 24px;
     margin: 32px 0;
     border-radius: 4px;
     align-items: center;
@@ -472,7 +472,7 @@ onMounted(() => {
 
     .msg-content {
       width: calc(100% - 100px);
-      padding: 0 16px;
+      padding: 0 24px;
       box-sizing: border-box;
       color: #666;
 
@@ -505,13 +505,13 @@ onMounted(() => {
   }
 
   .next-page {
-    padding: 16px 0;
+    padding: 24px 0;
     justify-content: space-between;
     font-size: 15px;
     color: #7d818a;
     border-top: 1px solid #f2f2f2;
 
-    // margin: 16px 0;
+    // margin: 24px 0;
     span {
       & > .anticon {
         margin-right: 4px;
@@ -562,7 +562,7 @@ onMounted(() => {
       }
 
       &:before {
-        bottom: -16px;
+        bottom: -24px;
         border-top-color: #fff;
       }
 
@@ -588,7 +588,7 @@ onMounted(() => {
         //  background: rgb(105 207 200 / 45%);
         color: #019997;
         border-radius: 4px;
-        padding: 6px 16px;
+        padding: 6px 24px;
       }
     }
   }
@@ -598,9 +598,9 @@ div#permiss {
   background: #fff;
   border-radius: 4px;
   h2 {
-    padding: 8px 16px;
+    padding: 8px 24px;
     border-bottom: 1px solid #f2f2f2;
-    // margin-bottom: 16px;
+    // margin-bottom: 24px;
   }
   span.anticon.anticon-unordered-list {
     color: #999;

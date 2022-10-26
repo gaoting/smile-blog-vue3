@@ -52,7 +52,9 @@
       @onShowSizeChange="onShowSizeChange"
     ></Pagination>
   </div>
-  <div class="cont-empty" v-else>菩提本无树，明镜亦非台。本来无一物，何处惹尘埃。</div>
+  <div class="cont-empty" v-else>
+    菩提本无树，明镜亦非台。本来无一物，何处惹尘埃。
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -100,7 +102,7 @@ const props = defineProps({
     },
   },
 });
-
+const store = mainStore();
 const router = useRouter();
 
 const goUrl = (id: number) => {
@@ -119,26 +121,11 @@ const state = toRaw(props);
 
 // 随机图片
 let imgStr = ref("");
-const imgList: Array<string> = reactive([
-  "bg48.jpg",
-  "a1.jpg",
-  "a2.jpg",
-  "a3.jpg",
-  "a4.jpg",
-  "a5.jpg",
-]);
-const randomStr = (arr: Array<string>) => {
-  let newArr: Array<string> = [];
-  while (arr.length > 0) {
-    let randomIndex = Math.random() * arr.length;
-    newArr.push(arr[parseInt(randomIndex + "")]);
-    arr.splice(randomIndex, 1);
-  }
-  return newArr[0];
-};
-const getAssetsImages = (imgList: Array<string>) => {
+
+const randomStr = items => items[Math.random() * items.length | 0];
+const getAssetsImages = () => {
   let imgUrl = new URL(
-    `../../assets/img/${randomStr(imgList)}`,
+    `../../assets/img/${randomStr(store.bannerList)}`,
     import.meta.url
   ).href;
   return imgUrl;
@@ -160,7 +147,7 @@ const onShowSizeChange = (data: any) => {
   emit("onShowSizeChange", state.page);
 };
 
-const store = mainStore();
+
 </script>
 
 <style scoped>

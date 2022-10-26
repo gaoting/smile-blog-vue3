@@ -9,6 +9,7 @@ import { message } from "ant-design-vue";
 import Articles from "../views/interface/article";
 
 const http: AxiosInstance = axios.create({
+  timeout: 60000,
   baseURL:
     process.env.NODE_ENV == "development"
       ? "http://localhost:3300/api"

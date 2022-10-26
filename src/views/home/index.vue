@@ -20,13 +20,13 @@
     </div>
 
     <div class="content-box flex">
-       <div class="content-left-box">
-      <List
-        :page="page"
-        :allArticleList="allArticleList"
-        @onShowSizeChange="onShowSizeChange"
-      ></List>
-       </div>
+      <div class="content-left-box">
+        <List
+          :page="page"
+          :allArticleList="allArticleList"
+          @onShowSizeChange="onShowSizeChange"
+        ></List>
+      </div>
 
       <div class="cont-right">
         <div class="card card1">
@@ -130,7 +130,6 @@ const getAllList = async () => {
   allArticleList.value = data.list as Articles[];
   page.total = data.total;
   articleNum.value = data.total;
-
 };
 
 // const _this: any = getCurrentInstance()?.appContext.config.globalProperties;
@@ -203,6 +202,8 @@ const imgList: Array<string> = reactive([
   "a3.jpg",
   "a4.jpg",
   "a5.jpg",
+  "a6.jpg",
+  "a7.jpg",
 ]);
 
 function randomStr(arr: any) {

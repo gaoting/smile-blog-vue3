@@ -55,7 +55,7 @@ a.pointer {
 .content-box {
   width: 1400px;
   margin: auto;
-  padding: 16px 0;
+  padding: 24px 0;
   justify-content: space-between;
 
   ul.ant-pagination.right {
@@ -63,7 +63,7 @@ a.pointer {
   }
 
   .content-left-box {
-    width: calc(74% - 16px);
+    width: calc(74% - 24px);
   }
 
   .cont-left {
@@ -74,9 +74,9 @@ a.pointer {
 
       li {
         background: #fff;
-        padding: 20px;
+        padding: 24px;
         border-radius: 4px;
-        margin-bottom: 16px;
+        margin-bottom: 24px;
         height: 176px;
         // border-bottom: 2px solid pink;
 
@@ -97,7 +97,7 @@ a.pointer {
       background: #fff;
       border-radius: 4px;
       overflow: hidden;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
     }
 
     img.animal {
@@ -135,7 +135,7 @@ a.pointer {
         align-items: center;
         justify-content: center;
         width: 100%;
-        padding: 16px;
+        padding: 24px;
       }
 
       .card-box {
@@ -166,7 +166,7 @@ a.pointer {
       .card-msg {
         & > p {
           color: #019997;
-          padding: 0 20px 16px;
+          padding: 0 20px 24px;
           text-align: center;
           // text-indent: 2em;
         }
@@ -216,7 +216,7 @@ a.pointer {
 
     .card-title {
       border-bottom: 1px solid #f2f2f2;
-      padding: 0px 16px;
+      padding: 0px 24px;
       margin-bottom: 8px;
       justify-content: space-between;
       align-items: center;
@@ -236,7 +236,7 @@ a.pointer {
 
     .friend {
       ul {
-        padding: 0 16px;
+        padding: 0 24px;
 
         li {
           padding: 6px;
@@ -246,7 +246,7 @@ a.pointer {
 
     .card2 {
       ul {
-        padding: 0 16px;
+        padding: 0 24px;
 
         li {
           padding: 7px 0;
@@ -342,7 +342,7 @@ a.pointer {
 
   .bookImg {
     width: 240px;
-    height: 134px;
+    height: 130px;
     overflow: hidden;
 
     & > img {
@@ -354,7 +354,7 @@ a.pointer {
 
   .articleImg {
     width: 200px;
-    height: 134px;
+    height: 130px;
     overflow: hidden;
   }
 
@@ -377,8 +377,8 @@ a.pointer {
     display: flex;
     flex-wrap: wrap;
     align-content: space-between;
-    padding: 2px 0 10px 16px;
-    height: 148px;
+    padding: 2px 0 0 24px;
+    height: 130px;
     overflow: hidden;
 
     & > p {
@@ -506,7 +506,7 @@ button.ant-btn.ant-btn-success {
 .article-content {
   & > p {
     background: #f2f2f2;
-    padding: 16px;
+    padding: 24px;
     border-radius: 4px;
     // text-indent: 2em;
     line-height: 26px;
@@ -554,7 +554,7 @@ button.ant-btn.ant-btn-success {
   & > div {
     width: 150px;
     border: 1px solid #02bfbb;
-    padding: 6px 16px;
+    padding: 6px 24px;
     text-align: center;
     justify-content: center;
     align-items: center;

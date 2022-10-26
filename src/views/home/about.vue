@@ -47,7 +47,7 @@
   h1 {
     display: block;
     text-align: center;
-    margin: 32px auto -16px;
+    margin: 32px auto -24px;
   }
   .about-list {
     max-width: 1400px;

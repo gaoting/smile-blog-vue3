@@ -129,7 +129,7 @@ nav {
     margin: 10px 0;
     li {
       // width: 100px;
-      padding: 0 16px;
+      padding: 0 24px;
       text-align: center;
       height: 40px;
       line-height: 40px;

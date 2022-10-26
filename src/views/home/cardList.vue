@@ -31,7 +31,7 @@
         </a>
         <!-- <span style="">
           <fire-filled
-            style="color: #f9768e; font-size: 16px"
+            style="color: #f9768e; font-size: 24px"
             v-if="index < 3"
           />
           {{ item.lookNum }}

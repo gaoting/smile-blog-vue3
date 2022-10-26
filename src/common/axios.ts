@@ -1,7 +1,7 @@
+import { mainStore } from './../store/typeList';
 import { post, get, update, remove } from "./http";
 import Articles from "@/views/interface/article";
 
-const imgList = ["bg48.jpg", "a1.jpg", "a2.jpg", "a3.jpg", "a4.jpg", "a5.jpg"];
 // 全部列表(分页)
 export const allList = async (data: any) => {
   let arr: any = await get("/article/list", data);
@@ -18,7 +18,7 @@ export const allList = async (data: any) => {
         ...v,
         picture: v.picture
           ? v.picture
-          : new URL(`../assets/img/${randomItem(imgList)}`, import.meta.url)
+          : new URL(`../assets/img/${randomItem(mainStore().bannerList)}`, import.meta.url)
               .href,
       };
 

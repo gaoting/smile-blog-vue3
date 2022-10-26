@@ -184,7 +184,7 @@ onMounted(() => {
 .content {
   color: #777;
   background: #f9f9f9;
-  padding: 16px;
+  padding: 24px;
   border-radius: 7px;
   line-height: 1.75em;
 }

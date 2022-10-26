@@ -41,10 +41,7 @@ const colorList = reactive([
   "#e3a7b5",
   "#2dc3bb",
 ]);
-const rand = (arr: Array<string>) => {
-  let index = Math.floor(Math.random() * arr.length);
-  return arr[index];
-};
+const rand= items => items[Math.random() * items.length | 0];
 const emit = defineEmits(["tagMsg"]);
 const router = useRouter()
 const tagMsg = (data: string) => {
@@ -65,7 +62,7 @@ onMounted(() => {
   }
   ul.flex {
     flex-wrap: wrap;
-    padding: 16px;
+    padding: 12px 20px;
 
     li {
       list-style-type: none;

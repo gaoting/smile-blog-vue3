@@ -47,7 +47,7 @@ const goback = () => {
   height: 40px;
   text-align: center;
   line-height: 48px;
-  right: 16px;
+  right: 24px;
   bottom: 60px;
   color: #8590a6;
   background: #fff;
