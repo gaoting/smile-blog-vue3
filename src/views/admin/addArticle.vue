@@ -99,10 +99,15 @@ const handleUploadImage = (event, insertImage, files) => {
 };
 
 const onSubmit = async () => {
+  const imgs = document.querySelector(".vuepress-markdown-body img");
+
+  formState.value.picture = imgs ? imgs.src : "";
+
   if (route.query.id) {
     const res = await updateArticle(formState.value);
     if (res.code == 200) {
       message.success("文章更新成功");
+      router.go(-1)
     }
   } else {
     let doms = document.querySelectorAll(".v-md-editor__preview-wrapper img");

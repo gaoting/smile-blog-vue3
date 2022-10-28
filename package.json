@@ -1,4 +1,3 @@
-
 {
   "name": "vue-blog",
   "private": true,
@@ -7,6 +6,7 @@
     "dev": "vite",
     "buildTest": "vite build",
     "build": "vite build && ./app --env test",
+    "new": "plop",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -45,6 +45,7 @@
     "pinia": "^2.0.13",
     "pinia-persistedstate-plugin": "^0.1.0",
     "pinia-plugin-persist": "^1.0.0",
+    "plop": "^3.1.1",
     "postcss": "^8.4.12",
     "prismjs": "^1.28.0",
     "sass": "^1.50.0",

@@ -394,7 +394,7 @@ const handleAnchorClick = (
   console.log(anchor, index, indent);
 
   const heading = preview.value.$el.querySelector(
-    `[result-v-md-line="${index}"]`
+    `[data-v-md-line="${index}"]`
   );
   console.log(preview.value, heading);
   if (heading) {
