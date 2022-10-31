@@ -62,7 +62,6 @@ const props = defineProps({
 });
 
 let detail = ref("");
-let activeKey = ref("1");
 
 const labelCol = reactive({ style: { width: "150px" } });
 const wrapperCol = reactive({ span: 20 });
@@ -74,7 +73,6 @@ interface Articles {
   title: string;
   description: string;
   content: string;
-  activeKey: string;
   picture: string;
 }
 interface Options {
@@ -89,7 +87,6 @@ let formState: UnwrapRef<Articles> = ref({
   title: "",
   description: "",
   content: "",
-  activeKey: activeKey.value,
   picture: "",
 });
 
@@ -103,20 +100,19 @@ const onSubmit = async () => {
 
   formState.value.picture = imgs ? imgs.src : "";
 
+  const doms = document.querySelector(".vuepress-markdown-body p");
+  formState.value.description = doms ? doms.innerText : "";
+
   if (route.query.id) {
     const res = await updateArticle(formState.value);
     if (res.code == 200) {
       message.success("文章更新成功");
-      router.go(-1)
+      router.go(-1);
     }
   } else {
-    let doms = document.querySelectorAll(".v-md-editor__preview-wrapper img");
-    formState.value.picture = doms[0]?.getAttribute("src") || "";
+    // let doms = document.querySelectorAll(".v-md-editor__preview-wrapper img");
+    // formState.value.picture = doms[0]?.getAttribute("src") || "";
 
-    formState.value.desc =
-      formState.value.content.length > 120
-        ? formState.value.content.slice(0, 120)
-        : formState.value.content;
     const res = await createArticle(formState.value);
     if (res.code === 200) {
       message.success("文章创建成功");
@@ -127,7 +123,7 @@ const onSubmit = async () => {
         title: "",
         description: "",
         content: "",
-        activeKey: activeKey.value,
+
         picture: "",
       };
     }

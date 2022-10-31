@@ -98,11 +98,12 @@ const routes = [
 const routerConfig = {
   history: createWebHistory(),
   routes,
-  // scrollBehavior(to: any, from: any) {
-  //   if (to.path !== from.path) {
-  //     return { top: 0 };
-  //   }
-  // },
+  scrollBehavior(to, from, savedPosition) {
+    return {
+      el: "#main",
+      top: 0,
+    };
+  },
 };
 
 const router = createRouter(routerConfig);

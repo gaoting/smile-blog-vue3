@@ -16,9 +16,7 @@
           </h4>
           <p v-if="item.description">
             {{
-              item.activeKey == "1"
-                ? textHtml(item.description)
-                : item.description
+            item.description
             }}
           </p>
           <div class="flex text-list">

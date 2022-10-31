@@ -54,8 +54,7 @@
         <!-- 内容 -->
         <div class="article-content">
           <p>{{ newData.description }}</p>
-          <div class="content-text" v-if="newData.activeKey == '2'"></div>
-          <div v-if="newData.activeKey == '1'">
+          <div>
             <v-md-editor
               v-model="newData.content"
               mode="preview"
@@ -127,7 +126,7 @@
     <div class="cont-right">
       <a-affix :offset-top="top">
         <TagList></TagList>
-        <div class="navigation" v-if="newData.activeKey == '1'">
+        <div class="navigation">
           <div class="navigation-content" id="permiss">
             <h2>大纲 <UnorderedListOutlined /></h2>
             <div class="permiss-box">
@@ -148,13 +147,6 @@
           </div>
         </div>
       </a-affix>
-      <CardList
-        v-if="newData.activeKey == '2'"
-        :header="{ title: '我的收藏', url: '/' }"
-        @click="handleCreate"
-        :timer="timer"
-      ></CardList>
-      <CardList :newList="newList" v-if="newData.activeKey == '2'"></CardList>
     </div>
   </div>
 </template>
@@ -207,7 +199,6 @@ let newData = ref({
   loveNum: 0,
 
   picture: "",
-  activeKey: "",
 
   preId: 0,
   nextId: 0,
@@ -235,13 +226,6 @@ const getRightsList = async (id?: number) => {
   newData.value.lookNum ? (newData.value.lookNum += 1) : 1;
   // newData.value.tags = newData.value.tags ? setObj(newData.value.tags) : "";
   nextTick(() => {
-    if (newData.value.activeKey == "2") {
-      let doms = document.querySelector(".content-text");
-      if (doms) {
-        doms.innerHTML += newData.value.content;
-      }
-    }
-
     let desc = document.querySelector(".article-content>b");
 
     if (desc) {

@@ -12,7 +12,6 @@ interface Articles {
   loveNum: number;
 
   picture: string;
-  activeKey: string;
 
   preId: number;
   nextId: number;

@@ -48,7 +48,7 @@ export default defineComponent({
       state.pageSize = pageSize1;
       state.current = current1;
       const parent = { ...context };
-
+      window.scrollTo(0, 980);
       parent.emit("onShowSizeChange", {
         current: state.current,
         pageSize: state.pageSize,

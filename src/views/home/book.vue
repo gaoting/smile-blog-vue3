@@ -22,7 +22,6 @@ interface Articles {
   title: string;
   description: string;
   content: string;
-  activeKey: string;
   picture: string;
   img: string;
   url: string;
