@@ -121,7 +121,7 @@ const route = useRouter();
 const reload: any = inject("reload");
 
 const onFinish = async () => {
-  const { userName, pwd, remember } = formState;
+  const { userName, pwd, remember,userInfo } = formState;
   const res = await login({ userName, pwd });
 
   if (res.code === 200) {
@@ -130,12 +130,12 @@ const onFinish = async () => {
     //   state.token = res.token
     // })
     store.changeToken(res.token);
-    store.getLoginInfo({ userName, pwd });
+    store.getLoginInfo({ userName, pwd, userInfo: res.userInfo });
 
     localStorage.setItem("token", res.token);
     localStorage.setItem("userName", res.userName);
     if (remember) {
-      localStorage.setItem("userInfo", JSON.stringify({ userName, pwd }));
+      localStorage.setItem("userInfo", JSON.stringify({ userName, pwd, userInfo: res.userInfo }));
     }
 
     route.push({ path: "/" });

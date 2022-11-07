@@ -9,11 +9,10 @@ lerna-debug.log*
 
 node_modules
 *.local
-dist/
-dist.zip
+
 smile_blog_front
-gaoting666
-gaoting666.zip
+client
+client.zip
 
 # Editor directories and files
 .vscode/*

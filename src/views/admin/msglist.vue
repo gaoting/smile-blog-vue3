@@ -31,7 +31,7 @@
         <template #renderItem="{ item }">
           <a-list-item>
             <a-comment
-              :author="item.userName"
+              :author="`${item.userName} · ${item.city}`"
               :avatar="item.avatar"
               :content="item.content"
               :datetime="dayjs(item.createTime).fromNow()"
@@ -58,6 +58,7 @@ import {
   nextTick,
   getCurrentInstance,
   computed,
+  inject,
 } from "vue";
 import {
   messageboardList,
@@ -65,17 +66,21 @@ import {
   messageboardLove,
 } from "../../common/axios";
 import Diary from "./../interface/diary";
-import moment from "moment";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import photo from "../../assets/img/photo.png";
 import photo1 from "../../assets/img/photo1.png";
 import { message } from "ant-design-vue";
+import { useRouter } from "vue-router";
 
+const reload: any = inject("reload");
 const newData = ref([] as Array<Diary>);
 const getRightsList = async () => {
-  const res = await messageboardList(page);
+  const res = await messageboardList({
+    pageSize: page.pageSize,
+    current: page.current,
+  });
   if (res.code === 200) {
     console.log(res);
     page.total = res.total;
@@ -94,23 +99,32 @@ const adminButton: string = computed(() => {
 });
 
 const diaryContent: string = ref("");
-
+const router = useRouter();
 const submit = async () => {
   if (!diaryContent.value) {
     message.error("请先输入内容。。。");
     return;
   }
+  let userinfo =
+    localStorage.getItem("userInfo") &&
+    JSON.parse(localStorage.getItem("userInfo")).userInfo
+      ? JSON.parse(localStorage.getItem("userInfo")).userInfo
+      : {};
   const res = await messageboardAdd({
     content: diaryContent.value,
     avatar: localStorage.getItem("userName") === "admin" ? photo : photo1,
     userName: localStorage.getItem("userName")
       ? localStorage.getItem("userName")
       : "",
+    ip: userinfo.ip ? userinfo.ip : "",
+    city: userinfo.city ? userinfo.city : "",
   });
-  console.log(res);
+
   if (res.code == 200) {
     diaryContent.value = "";
-    getRightsList();
+    setTimeout(() => {
+      getRightsList();
+    }, 500);
   }
 };
 
@@ -146,6 +160,7 @@ const comments = ref([]);
 const submitting = ref(false);
 
 const onShowSizeChange = (data: any) => {
+  console.log(data);
   page.pageSize = data.pageSize;
   page.current = data.current;
   getRightsList();

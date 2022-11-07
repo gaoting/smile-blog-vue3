@@ -48,7 +48,7 @@
   }
   .about-list {
     max-width: 1400px;
-    margin: auto;
+    margin: 60px auto;
     justify-content: space-between;
     & > div {
       width: 49%;

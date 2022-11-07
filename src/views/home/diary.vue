@@ -66,12 +66,12 @@ import { message } from "ant-design-vue";
 const newData = ref([] as Array<Diary>);
 
 const getRightsList = async () => {
-  let params = {
-    current: 1,
-    pageSize: 20,
-  };
-  const data = await diaryAll(params);
+  const data = await diaryAll({
+    pageSize: page.pageSize,
+    current: page.current,
+  });
   console.log(data);
+   page.total = data.total;
   newData.value = data.list;
 };
 

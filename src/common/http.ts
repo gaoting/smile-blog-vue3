@@ -21,14 +21,14 @@ http.interceptors.request.use(
     console.log(localStorage.getItem("token"));
 
     if (localStorage.getItem("token")) {
-      config.headers['Authorization'] =
+      config.headers["Authorization"] =
         "Bearer " + localStorage.getItem("token");
     }
 
     if (config.url === "/api/article/upload") {
-      config.headers['Accept'] = "multipart/form-data";
+      config.headers["Accept"] = "multipart/form-data";
     } else if (config.method === "post") {
-      config.headers['Content-Type'] = "application/json";
+      config.headers["Content-Type"] = "application/json";
     }
 
     return config;
@@ -47,6 +47,34 @@ http.interceptors.response.use(
     return data;
   },
   (error) => {
+    if (error.response) {
+      switch (error.response.code) {
+        case 401:
+          localStorage.clear();
+          invalid = setTimeout(() => {
+            message.error("验证过期或失败，请重新登录");
+          }, 600);
+          router.replace({
+            path: "/login",
+          });
+          break;
+        case 404:
+          message.error("网络请求不存在");
+          break;
+        case 502:
+          message.error("网络出故障了，稍后再试吧~");
+          break;
+        default:
+          message.error(error.response.message);
+      }
+    } else {
+      // 请求超时或者网络有问题
+      if (error.message.includes("timeout")) {
+        message.error("请求超时！请检查网络是否正常");
+      } else {
+        message.error("请求失败，请检查网络是否已连接");
+      }
+    }
     return Promise.reject(error);
   }
 );

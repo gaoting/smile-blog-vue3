@@ -32,8 +32,8 @@ export const mainStore = defineStore("typeList", {
       ],
       bannerList: Array.from({ length: 10 }, (v, i) => `a${i + 1}.jpg`),
       token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
-      userInfo: localStorage.getItem("userName")
-        ? localStorage.getItem("userName")
+      userInfo: localStorage.getItem("userInfo")
+        ? localStorage.getItem("userInfo")
         : "",
     };
   },

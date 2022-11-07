@@ -30,10 +30,10 @@
 
       <div class="cont-right">
         <div class="card card1">
-          <img src="../../assets/img/photo.png" alt="" class="photo" />
+          <img src="/src/assets/img/photo.png" alt="" class="photo" />
 
           <div class="flex blog-name">
-            <img src="../../assets/img/xh.png" alt="" class="animal" />
+            <img src="/src/assets/img/xh.png" alt="" class="animal" />
             <h3>Smile Blog</h3>
           </div>
           <div class="card-msg">
@@ -41,15 +41,19 @@
             <ul class="flex">
               <li class="flex">
                 <span>{{ articleNum }}</span>
-                <span> 文章数量</span>
+                <span> 文章数</span>
+              </li>
+              <li class="flex">
+                <span>{{ messagesNum }}</span>
+                <span> 留言条数</span>
+              </li>
+              <li class="flex">
+                <span>{{flowNum}}</span>
+                <span> 访问数</span>
               </li>
               <li class="flex">
                 <span>{{ runDay }}</span>
                 <span> 运行天数</span>
-              </li>
-              <li class="flex">
-                <span>4577</span>
-                <span> 浏览人数</span>
               </li>
             </ul>
           </div>
@@ -65,14 +69,19 @@
         <div class="card friend">
           <div class="flex card-title"><h3>友情链接</h3></div>
 
-          <div class="flex-wrap">
+          <div class="flex-wrap friend-list">
             <a
               :href="item.url"
               v-for="(item, index) in friendList"
               :key="index"
               target="_blank"
-              >{{ item.name }}</a
             >
+              <img :src="item.photo" alt="" />
+              <span>
+                <h5>{{ item.name }}</h5>
+                <p>{{ item.desc }}</p>
+              </span>
+            </a>
           </div>
         </div>
       </div>
@@ -120,13 +129,17 @@ const onShowSizeChange = (ctx: any) => {
 };
 
 let allArticleList = ref([] as Articles[]);
+let flowNum = ref(0)
 let articleNum = ref(0);
+let messagesNum = ref(0)
 const getAllList = async () => {
   const data = await allList({
     pageSize: page.pageSize,
     current: page.current,
   });
   console.log(data);
+  flowNum.value = data.flowNum
+  messagesNum.value = data.messagesNum
   allArticleList.value = data.list as Articles[];
   page.total = data.total;
   articleNum.value = data.total;
@@ -229,8 +242,24 @@ const getAssetsImages = (name: string) => {
 };
 
 const friendList = reactive([
-  { url: "https://itsuki.cn/", name: "五木的博客" },
-  { url: "https://lxchuan12.gitee.io/", name: "若川的博客" },
+  {
+    url: "https://itsuki.cn/",
+    name: "五木的博客",
+    photo: getAssetsImages("wumu.jpeg"),
+    desc: "喜欢code和run的字节跳动前端攻城狮",
+  },
+  {
+    url: "https://lxchuan12.gitee.io/",
+    name: "若川的博客",
+    photo: getAssetsImages("rc.jpg"),
+    desc: "vue3源码学习系列大佬",
+  },
+  {
+    url: "https://myblog.wallleap.cn/#/",
+    name: "wallleap的博客",
+    photo: getAssetsImages("awa.jpg"),
+    desc: "97年的二次元小鲜肉前端er",
+  },
 ]);
 
 const currentInstance = getCurrentInstance();
@@ -309,8 +338,34 @@ onMounted(() => {
   .flex-wrap {
     padding: 8px 10px;
     a {
-      display: inline-block;
+      display: flex;
       padding: 4px 10px;
+      margin: 8px auto;
+      align-items: end;
+      img {
+        width: 40px;
+        display: inline-block;
+        height: 40px;
+        border-radius: 100%;
+        margin-right: 16px;
+      }
+      span {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        h5 {
+          font-size: 14px;
+          color: #02bfbb;
+        }
+        p {
+          color: #8590a6;
+          font-size: 13px;
+          width: 100%;
+        }
+      }
+      &:hover {
+        background-image: linear-gradient(270deg, #def3ee, #fff);
+      }
     }
   }
 }

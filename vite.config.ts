@@ -26,7 +26,7 @@ export default defineConfig({
   },
   build: {
     target: "modules",
-    outDir: "gaoting666",
+    outDir: "client",
     assetsDir: "assets",
     minify: "terser", // 混淆器
     terserOptions:{  // 去除生产环境的console和debugger
