@@ -98,3 +98,8 @@ export const messageboardList = (data: any) => {
 export const messageboardLove = (data: any) => {
   return post("/messageboard/updateNum", data);
 };
+
+// 统计访问
+export const getFlowNum = () => {
+  return post("/center");
+};

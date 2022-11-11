@@ -79,12 +79,12 @@ http.interceptors.response.use(
   }
 );
 
-export const get = (url: string, params: any) => {
+export const get = (url: string, params?: any) => {
   return http.get(url, { params });
 };
 
-export const post = (url: string, data: any) => {
-  return http.post(url, data);
+export const post = (url: string, data?: any) => {
+  return data ? http.post(url, data) : http.post(url);
 };
 
 export const update = (url: string, data: any) => {

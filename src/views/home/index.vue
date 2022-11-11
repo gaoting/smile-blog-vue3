@@ -48,7 +48,7 @@
                 <span> 留言条数</span>
               </li>
               <li class="flex">
-                <span>{{flowNum}}</span>
+                <span>{{ flowNum }}</span>
                 <span> 访问数</span>
               </li>
               <li class="flex">
@@ -99,7 +99,7 @@ import {
   getCurrentInstance,
 } from "vue";
 import Articles from "../interface/article";
-import { allList, searchList } from "../../common/axios";
+import { allList, searchList, getFlowNum } from "../../common/axios";
 import List from "./list.vue";
 import CardList from "./cardList.vue";
 import TagList from "./tagList.vue";
@@ -129,23 +129,24 @@ const onShowSizeChange = (ctx: any) => {
 };
 
 let allArticleList = ref([] as Articles[]);
-let flowNum = ref(0)
+let flowNum = ref(0);
 let articleNum = ref(0);
-let messagesNum = ref(0)
+let messagesNum = ref(0);
 const getAllList = async () => {
   const data = await allList({
     pageSize: page.pageSize,
     current: page.current,
   });
   console.log(data);
-  flowNum.value = data.flowNum
-  messagesNum.value = data.messagesNum
+  messagesNum.value = data.messagesNum;
   allArticleList.value = data.list as Articles[];
   page.total = data.total;
   articleNum.value = data.total;
 };
-
-// const _this: any = getCurrentInstance()?.appContext.config.globalProperties;
+const getflowNum = async () => {
+  const data = await getFlowNum();
+  flowNum.value = data.data;
+};
 
 const runDay = computed(() => {
   const nowTime = JSON.parse(
@@ -275,7 +276,7 @@ onMounted(() => {
   getAllList();
   getsearchList();
   getCollectList();
-  console.log(token.value, "tttttttt222");
+  getflowNum();
   nextTick(() => {
     title.value = randomStr(textList);
     banner.value = getAssetsImages(randomStr(imgList));
