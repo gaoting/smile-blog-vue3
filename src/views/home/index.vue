@@ -261,6 +261,18 @@ const friendList = reactive([
     photo: getAssetsImages("awa.jpg"),
     desc: "97年的二次元小鲜肉前端er",
   },
+  {
+    url: "https://api.aa1.cn/",
+    name: "夏柔分享的API",
+    photo: getAssetsImages("xiarou.png"),
+    desc: "一个API免费分享的网站",
+  },
+   {
+    url: "http://www.wpon.cn/",
+    name: "夏柔的博客",
+    photo: getAssetsImages("xiarou.png"),
+    desc: "各种分享都有的网站",
+  },
 ]);
 
 const currentInstance = getCurrentInstance();

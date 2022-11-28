@@ -1,4 +1,4 @@
-import { mainStore } from "./../store/typeList";
+// import { mainStore } from "./../store/typeList";
 import { createRouter, createWebHistory, RouterOptions } from "vue-router";
 import { storeToRefs } from "pinia";
 

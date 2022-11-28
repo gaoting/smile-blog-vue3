@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import HeaderCom from "./views/home/header.vue";
 import FooterCom from "./views/home/footer.vue";
+// import res_components from "../src/test/";
 
 import { ref, provide, nextTick, onMounted, watch } from "vue";
 
@@ -13,7 +14,9 @@ provide("reload", () => {
   });
 });
 
-
+// onMounted(()=>{
+//   console.log(res_components);
+// })
 </script>
 
 <template>
@@ -21,7 +24,7 @@ provide("reload", () => {
   <div class="continaer">
     <router-view v-if="isRouterActive"></router-view>
   </div>
-
+  <!-- <Index1 /> -->
   <FooterCom></FooterCom>
 </template>
 

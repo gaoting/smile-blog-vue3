@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 
-export const mainStore = defineStore("typeList", {
+export const mainStore = defineStore({
+  id: "typeList",
   state: () => {
     return {
       tags: [
@@ -36,6 +37,9 @@ export const mainStore = defineStore("typeList", {
         ? localStorage.getItem("userInfo")
         : "",
     };
+  },
+  persist: {
+    enabled: true,
   },
   getters: {
     tagsObj(state) {

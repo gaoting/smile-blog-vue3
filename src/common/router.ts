@@ -1,7 +1,8 @@
-import { mainStore } from "./../store/typeList";
+import pinia from "../store/index";
 import { createRouter, createWebHistory, RouterOptions } from "vue-router";
-import { storeToRefs } from "pinia";
+import { mainStore } from "./../store/typeList";
 
+const store = mainStore(pinia);
 const routes = [
   {
     path: "/",
@@ -108,14 +109,21 @@ const routerConfig = {
 
 const router = createRouter(routerConfig);
 
-// router.beforeEach((to, from) => {
-//   if (to.meta.requiresAuth) {
-//     return {
-//       path: "/login",
-//       query: { redirect: to.fullPath },
-//     };
-//   }
-// });
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some((item) => item.meta.requiresAuth)) {
+    if (to.path === "/login") return next();
+
+    if (!store.token) {
+      return next({
+        path: "/login",
+        replace: true,
+      });
+    }
+    next();
+  } else {
+    next();
+  }
+});
 
 declare module "vue-router" {
   interface RouteMeta {

@@ -3,11 +3,11 @@ import { createPinia } from "pinia";
 
 import { createPersistedState } from "pinia-persistedstate-plugin";
 
-const store = createPinia();
-store.use(createPersistedState());
+const pinia = createPinia();
+pinia.use(createPersistedState());
 
 export function setupStore(app: App<Element>) {
-  app.use(store);
+  app.use(pinia);
 }
 
-export { store };
+export default pinia ;

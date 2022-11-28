@@ -175,7 +175,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .box {
-  background: url(/src/assets/img/bbb2.jpg) no-repeat;
+  background: url('/src/assets/img/a10.jpg') no-repeat;
   width: 100%;
   height: calc(100vh - 98px);
   background-size: cover;

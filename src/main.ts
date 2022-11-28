@@ -8,7 +8,7 @@ import "./assets/css/public.scss";
 import Utils from "./common/utils";
 import moment from "moment";
 import { createPinia } from "pinia";
-import piniaPluginPersist from "pinia-plugin-persist";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 import VMdEditor from "@kangc/v-md-editor";
 import "@kangc/v-md-editor/lib/style/base-editor.css";
@@ -48,7 +48,7 @@ VMdPreview.use(vuepressTheme, {
 const app = createApp(App);
 
 const pinia = createPinia();
-pinia.use(piniaPluginPersist);
+pinia.use(piniaPluginPersistedstate);
 
 const testFun = () => {
   console.log("ttttttttttttttt");
