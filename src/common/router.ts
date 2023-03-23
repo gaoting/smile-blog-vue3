@@ -7,7 +7,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/home/index.vue"),
+    component: () => import(/* webpackChunkName: "home" */ "../views/home/index.vue"),
     meta: {
       requiresAuth: false,
     },
@@ -15,7 +15,7 @@ const routes = [
   {
     path: "/frondPage",
     name: "FrondPage",
-    component: () => import("../views/home/frondPage.vue"),
+    component: () => import(/* webpackChunkName: "frondPage" */ "../views/home/frondPage.vue"),
     meta: {
       requiresAuth: false,
     },
@@ -24,7 +24,7 @@ const routes = [
   {
     path: "/book",
     name: "Book",
-    component: () => import("../views/home/book.vue"),
+    component: () => import(/* webpackChunkName: "book" */ "../views/home/book.vue"),
     meta: {
       requiresAuth: false,
     },
@@ -32,7 +32,7 @@ const routes = [
   {
     path: "/content",
     name: "Content",
-    component: () => import("../views/home/content.vue"),
+    component: () => import(/* webpackChunkName: "content" */ "../views/home/content.vue"),
     meta: {
       requiresAuth: false,
     },
@@ -40,7 +40,7 @@ const routes = [
   {
     path: "/diary",
     name: "Diary",
-    component: () => import("../views/home/diary.vue"),
+    component: () => import( /* webpackChunkName: "diary" */ "../views/home/diary.vue"),
     meta: {
       requiresAuth: false,
     },
@@ -49,7 +49,7 @@ const routes = [
   {
     path: "/about",
     name: "About",
-    component: () => import("../views/home/about.vue"),
+    component: () => import(/* webpackChunkName: "about" */ "../views/home/about.vue"),
     meta: {
       requiresAuth: false,
     },
@@ -57,7 +57,7 @@ const routes = [
   {
     path: "/test",
     name: "Test",
-    component: () => import("../views/test/index.vue"),
+    component: () => import(/* webpackChunkName: "test" */ "../views/test/index.vue"),
     meta: {
       requiresAuth: false,
     },
@@ -65,7 +65,7 @@ const routes = [
   {
     path: "/test1",
     name: "Test1",
-    component: () => import("../views/test1/index.vue"),
+    component: () => import(/* webpackChunkName: "test1" */ "../views/test1/index.vue"),
     meta: {
       requiresAuth: false,
     },
@@ -73,7 +73,7 @@ const routes = [
   {
     path: "/articleAdd",
     name: "AddArticle",
-    component: () => import("../views/admin/addArticle.vue"),
+    component: () => import(/* webpackChunkName: "articleAdd" */ "../views/admin/addArticle.vue"),
     meta: {
       requiresAuth: true,
     },
@@ -81,15 +81,23 @@ const routes = [
   {
     path: "/msglist",
     name: "Msglist",
-    component: () => import("../views/admin/msglist.vue"),
+    component: () => import(/* webpackChunkName: "msglist" */ "../views/admin/msglist.vue"),
     meta: {
       requiresAuth: false,
     },
   },
   {
+    path: "/chatRoom",
+    name: "ChatRoom",
+    component: () => import(/* webpackChunkName: "chatRoom" */ "../views/admin/chatRoom.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/login",
     name: "Login",
-    component: () => import("../views/admin/login.vue"),
+    component: () => import(/* webpackChunkName: "login" */ "../views/admin/login.vue"),
     meta: {
       requiresAuth: false,
     },
@@ -111,7 +119,7 @@ const router = createRouter(routerConfig);
 
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some((item) => item.meta.requiresAuth)) {
-    if (to.path === "/login") return next();
+    if (to.path === "/login") return next(vm=>alert(vm));
 
     if (!store.token) {
       return next({

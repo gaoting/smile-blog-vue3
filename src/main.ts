@@ -26,12 +26,8 @@ import "@kangc/v-md-editor/lib/plugins/emoji/emoji.css";
 import createTodoListPlugin from "@kangc/v-md-editor/lib/plugins/todo-list/index";
 import "@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css";
 import Prism from "prismjs";
-// highlightjs
 import hljs from "highlight.js";
-// import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn';
-// import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css';
-
-// VMdEditor.use(createMermaidPlugin());
+import Socketio from "./plugins/Socket.io";
 
 VMdEditor.use(vuepressTheme, {
   Prism,
@@ -47,12 +43,21 @@ VMdPreview.use(vuepressTheme, {
 
 const app = createApp(App);
 
+// piniaPersist(持久化)
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 
 const testFun = () => {
   console.log("ttttttttttttttt");
 };
+
+app.use(Socketio, {
+  connection: "http://localhost:3300",
+  options: {
+    autoConnect: false, //关闭自动连接
+    // ...其它选项
+  },
+});
 
 // 获取原型
 const prototype = app.config.globalProperties;

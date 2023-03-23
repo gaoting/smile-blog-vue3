@@ -1,5 +1,5 @@
 export default function (plop) {
-  plop.setPartial("myTitlePartial", "<h1>{{titleCase name}}</h1>");
+  plop.setPartial('myTitlePartial', '<h1>{{titleCase name}}</h1>');
   plop.setGenerator("controller", {
     description: " this is a plopfile test file",
     prompts: [
@@ -20,10 +20,10 @@ export default function (plop) {
         message: "输入api地址模块名",
       },
       {
-        type: "input",
-        name: "menu",
-        message: "输入路由名称",
-      },
+        type: 'input',
+        name: 'menu',
+        message: '输入路由名称',
+      }
     ],
     actions: (data) => {
       const name = "{{name}}";
@@ -31,6 +31,7 @@ export default function (plop) {
       const text = "{{text}}";
       const api = "{{api}}";
       const menu = "{{menu}}";
+
 
       const actions = [
         {
@@ -61,11 +62,12 @@ export default function (plop) {
           data: {
             name,
             path,
-            menu,
+            menu
           },
         },
       ];
       return actions;
     },
   });
+
 }

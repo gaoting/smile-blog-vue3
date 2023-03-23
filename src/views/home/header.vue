@@ -51,7 +51,7 @@ const navigation = reactive([
   { name: "阅读", href: "/book", current: false },
   { name: "日志", href: "/diary", current: false },
   { name: "留言板", href: "/msglist", current: false },
-
+  { name: "聊天室", href: "/chatRoom", current: false },
   { name: "关于我", href: "/about", current: false },
 ]);
 
@@ -125,7 +125,7 @@ nav {
     }
   }
   ul {
-    width: 600px;
+    min-width: 600px;
     margin: 10px 0;
     li {
       // width: 100px;
