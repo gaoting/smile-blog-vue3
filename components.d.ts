@@ -33,9 +33,11 @@ declare module '@vue/runtime-core' {
     ATimeline: typeof import('ant-design-vue/es')['Timeline']
     ATimelineItem: typeof import('ant-design-vue/es')['TimelineItem']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
+    AUpload: typeof import('ant-design-vue/es')['Upload']
     HomeOutlined: typeof import('@ant-design/icons-vue')['HomeOutlined']
     Pagination: typeof import('./src/components/Pagination.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UploadOutlined: typeof import('@ant-design/icons-vue')['UploadOutlined']
   }
 }

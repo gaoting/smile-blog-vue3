@@ -39,6 +39,7 @@
         >
       </a-col>
     </a-row>
+
     <v-md-editor
       v-model="formState.content"
       :disabled-menus="[]"
@@ -49,9 +50,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, toRaw, UnwrapRef, onMounted } from "vue";
-// import TinymceEditor from "@/components/TinymceEditor/index.vue";
-import { createArticle, findById, updateArticle } from "../../common/axios";
+import {
+  createArticle,
+  findById,
+  updateArticle,
+  upload,
+} from "../../common/axios";
 import { message } from "ant-design-vue";
 import { storeToRefs } from "pinia";
 import { mainStore } from "@/store/typeList";
@@ -90,9 +94,49 @@ let formState: UnwrapRef<Articles> = ref({
   picture: "",
 });
 
-const handleUploadImage = (event, insertImage, files) => {
+const route = useRoute();
+const router = useRouter();
+const store = mainStore();
+const { types: any } = storeToRefs(store);
+
+const API = ref("");
+
+onMounted(() => {
+  API.value =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3300/"
+      : "http://gaoting666.cn:3300/";
+  store.types.forEach((v: any) => {
+    let obj = { label: v.name, value: v.id };
+    if (obj.value) {
+      typeOptions.push(obj);
+    }
+  });
+  store.tags.forEach((v: any) => {
+    let obj = { label: v.name, value: v.id };
+
+    tagsOptions.push(obj);
+  });
+
+  if (route.query.id) {
+    getDetail(route.query.id);
+  }
+});
+
+const handleUploadImage = async (event, insertImage, files) => {
   // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
-  console.log(event, insertImage, files);
+  console.log(files);
+  // console.log('[ files.file ] >', files[0])
+  // // 构建FormData对象,通过该对象存储要上传的文件
+  const formData = new FormData();
+  formData.append("file", files[0]);
+  console.log("[ formData ] >", formData);
+  const res = await upload(formData);
+  if (res.code === 200) {
+    insertImage({
+      url: API.value + res.result.url,
+    });
+  }
 };
 
 const onSubmit = async () => {
@@ -151,30 +195,6 @@ const getDetail = async (id: number | string) => {
   const res = await findById({ id: +id });
   formState.value = { ...formState.value, ...res.data };
 };
-
-const route = useRoute();
-const router = useRouter();
-const store = mainStore();
-const { types: any } = storeToRefs(store);
-
-onMounted(() => {
-  console.log(store.types);
-  store.types.forEach((v: any) => {
-    let obj = { label: v.name, value: v.id };
-    if (obj.value) {
-      typeOptions.push(obj);
-    }
-  });
-  store.tags.forEach((v: any) => {
-    let obj = { label: v.name, value: v.id };
-
-    tagsOptions.push(obj);
-  });
-
-  if (route.query.id) {
-    getDetail(route.query.id);
-  }
-});
 </script>
 
 <style scoped lang="scss">
@@ -194,7 +214,9 @@ onMounted(() => {
 :deep(.ant-form-item) {
   margin-bottom: 0;
 }
-:deep(.ant-select.ant-select-single.ant-select-show-arrow.ant-select-show-search) {
+:deep(
+    .ant-select.ant-select-single.ant-select-show-arrow.ant-select-show-search
+  ) {
   width: 100%;
 }
 .flex-row-end {

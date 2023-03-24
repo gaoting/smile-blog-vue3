@@ -103,3 +103,8 @@ export const messageboardLove = (data: any) => {
 export const getFlowNum = () => {
   return post("/center");
 };
+
+// upload
+export const upload = (formData: any) => {
+  return post("/upload", formData);
+};

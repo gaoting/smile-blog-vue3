@@ -18,6 +18,7 @@ const http: AxiosInstance = axios.create({
 
 http.interceptors.request.use(
   (config: any) => {
+    console.log('[ config ] >', config)
     console.log(localStorage.getItem("token"));
 
     if (localStorage.getItem("token")) {
@@ -25,7 +26,7 @@ http.interceptors.request.use(
         "Bearer " + localStorage.getItem("token");
     }
 
-    if (config.url === "/api/article/upload") {
+    if (config.url === "/upload" || config.url === "/api/article/upload") {
       config.headers["Accept"] = "multipart/form-data";
     } else if (config.method === "post") {
       config.headers["Content-Type"] = "application/json";
