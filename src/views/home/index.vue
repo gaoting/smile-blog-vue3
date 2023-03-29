@@ -59,6 +59,34 @@
           </div>
           <!-- <div class="card-box"></div> -->
         </div>
+        <div class="card flex card-weather">
+          <ul style="margin-right: 8px">
+            <li>
+              <environment-two-tone two-tone-color="#04b7ac" style="font-size: 16px;"/>
+            </li>
+            <li>
+              <cloud-two-tone two-tone-color="#04b7ac" style="font-size: 16px;"/>
+            </li>
+            <!-- <li >
+              <environment-two-tone />
+            </li>
+             <li >
+              <environment-two-tone />
+            </li>
+             <li >
+              <environment-two-tone />
+            </li>
+             <li >
+              <environment-two-tone />
+            </li> -->
+          </ul>
+          <ul>
+            <li v-for="(item, i) in weather" :key="i">
+              {{ i > 0 ? item : "" }}
+            </li>
+          </ul>
+          <img :src="weather[0]" alt="" v-if="weather[0]" />
+        </div>
         <TagList></TagList>
         <CardList :header="{ title: '我的收藏', url: '/' }"></CardList>
         <CardList :newList="newList"></CardList>
@@ -132,6 +160,7 @@ let allArticleList = ref([] as Articles[]);
 let flowNum = ref(0);
 let articleNum = ref(0);
 let messagesNum = ref(0);
+let weather = ref([]);
 const getAllList = async () => {
   const data = await allList({
     pageSize: page.pageSize,
@@ -142,6 +171,7 @@ const getAllList = async () => {
   allArticleList.value = data.list as Articles[];
   page.total = data.total;
   articleNum.value = data.total;
+  weather.value = data.weather;
 };
 const getflowNum = async () => {
   const data = await getFlowNum();
@@ -267,7 +297,7 @@ const friendList = reactive([
     photo: getAssetsImages("xiarou.png"),
     desc: "一个API免费分享的网站",
   },
-   {
+  {
     url: "http://www.wpon.cn/",
     name: "夏柔的博客",
     photo: getAssetsImages("xiarou.png"),
@@ -380,6 +410,20 @@ onMounted(() => {
         background-image: linear-gradient(270deg, #def3ee, #fff);
       }
     }
+  }
+}
+.card.card-weather {
+  padding: 18px 0 2px 24px;
+  line-height: 1.75rem;
+  position: relative;
+  background: #f8fcfb;
+  color: #34adac;
+  background-image: linear-gradient(to bottom right, #fff, #fdfdfd, #7cddf9);
+  & > img {
+    width: 120px;
+    position: absolute;
+    bottom: 4px;
+    right: 0;
   }
 }
 @keyframes shine {

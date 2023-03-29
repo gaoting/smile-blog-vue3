@@ -62,14 +62,14 @@ const routes = [
       requiresAuth: false,
     },
   },
-  {
-    path: "/test1",
-    name: "Test1",
-    component: () => import(/* webpackChunkName: "test1" */ "../views/test1/index.vue"),
-    meta: {
-      requiresAuth: false,
-    },
-  },
+  // {
+  //   path: "/test1",
+  //   name: "Test1",
+  //   component: () => import(/* webpackChunkName: "test1" */ "../views/test1/index.vue"),
+  //   meta: {
+  //     requiresAuth: false,
+  //   },
+  // },
   {
     path: "/articleAdd",
     name: "AddArticle",
