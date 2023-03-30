@@ -422,8 +422,8 @@ onMounted(() => {
   & > img {
     width: 120px;
     position: absolute;
-    bottom: 4px;
-    right: 0;
+    bottom: 34px;
+    right: 6px;
   }
 }
 @keyframes shine {
