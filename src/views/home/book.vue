@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
 import { allList } from "../../common/axios";
 interface Articles {
   author: string;

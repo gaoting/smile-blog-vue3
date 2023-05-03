@@ -45,7 +45,8 @@
       :disabled-menus="[]"
       @upload-image="handleUploadImage"
       height="800px"
-    ></v-md-editor>
+    >
+    </v-md-editor>
   </div>
 </template>
 

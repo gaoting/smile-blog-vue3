@@ -10,7 +10,7 @@ export const mainStore = defineStore({
         { id: 3, name: "typescript", desc: "" },
         { id: 4, name: "node.js", desc: "" },
         { id: 5, name: "nest.js", desc: "" },
-        { id: 6, name: "ECMAScript 6", desc: "" },
+        { id: 6, name: "ECMAScript", desc: "" },
         { id: 7, name: "MySql", desc: "" },
         { id: 8, name: "css", desc: "" },
         { id: 9, name: "vite", desc: "" },
@@ -23,6 +23,10 @@ export const mainStore = defineStore({
         { id: 16, name: "编译原理", desc: "" },
         { id: 17, name: "面试题", desc: "" },
         { id: 18, name: "笔试题", desc: "" },
+        { id: 19, name: "react (native)", desc: "" },
+        { id: 20, name: "jest", desc: "" },
+        { id: 21, name: "算法", desc: "" },
+
       ],
       types: [
         { id: 0, name: "全部" },

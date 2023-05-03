@@ -152,31 +152,10 @@
 </template>
 
 <script setup lang="ts">
-import {
-  onMounted,
-  ref,
-  nextTick,
-  getCurrentInstance,
-  reactive,
-  computed,
-} from "vue";
-import { useRoute, useRouter } from "vue-router";
+
 import { findById, searchList, updateNum } from "../../common/axios";
 import Articles from "../interface/article";
-import CardList from "./cardList.vue";
-import TagList from "./tagList.vue";
-import { message } from "ant-design-vue";
-import {
-  HeartOutlined,
-  RightCircleFilled,
-  LeftCircleFilled,
-  CheckCircleFilled,
-  LikeOutlined,
-  PayCircleOutlined,
-  UnorderedListOutlined,
-  HighlightOutlined,
-  EditOutlined,
-} from "@ant-design/icons-vue";
+
 import moment from "moment";
 import { storeToRefs } from "pinia";
 import { mainStore } from "@/store/typeList";
