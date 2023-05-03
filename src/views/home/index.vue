@@ -303,6 +303,18 @@ const friendList = reactive([
     photo: getAssetsImages("xiarou.png"),
     desc: "各种分享都有的网站",
   },
+{
+    url: "https://varlet.gitee.io/varlet-ui/#/en-US/index",
+    name: "varlet 移动端UI库",
+    photo: getAssetsImages("varlet_icon.png"),
+    desc: "vue3写的移动端ui库，尤大大推荐",
+  },
+  {
+    url: "https://relaxed-adny.netlify.app/",
+    name: "小波的前端基建",
+    photo: getAssetsImages("xiaobo.png"),
+    desc: "小波同学的rust梦想基地",
+  },
 ]);
 
 const currentInstance = getCurrentInstance();
