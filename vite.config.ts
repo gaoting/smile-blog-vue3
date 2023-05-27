@@ -32,8 +32,19 @@ export default defineConfig({
     vue(),
     //自动引入vue的ref、toRefs、onmounted等，无需在页面中再次引入
     AutoImport({
-      imports: ["vue", "vue-router"],
-      dts: './auto-imports.d.ts'
+      imports: ['vue', 'vue-router', 'pinia'],
+        include: [
+          /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+          /\.vue$/,
+          /\.vue\?vue/, // .vue
+          /\.md$/ // .md
+        ],
+        eslintrc: {
+          enabled: false,
+          filepath: './.eslintrc-auto-import.json', // 解决eslint报错问题
+          globalsPropValue: true
+        },
+        dts: './auto-imports.d.ts'
     }),
     // 自动导入组件
     Components({

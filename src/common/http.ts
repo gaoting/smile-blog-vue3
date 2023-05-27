@@ -1,12 +1,5 @@
-import axios, {
-  AxiosPromise,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError,
-} from "axios";
+import axios, { AxiosInstance } from "axios";
 import { message } from "ant-design-vue";
-import Articles from "../views/interface/article";
 
 const http: AxiosInstance = axios.create({
   timeout: 60000,
@@ -18,8 +11,8 @@ const http: AxiosInstance = axios.create({
 
 http.interceptors.request.use(
   (config: any) => {
-    console.log('[ config ] >', config)
-    console.log(localStorage.getItem("token"));
+    // console.log("[ config ] >", config);
+    // console.log(localStorage.getItem("token"));
 
     if (localStorage.getItem("token")) {
       config.headers["Authorization"] =

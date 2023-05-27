@@ -1,12 +1,13 @@
-import { mainStore } from './../store/typeList';
-import { post, get, update, remove } from "./http";
-import Articles from "@/views/interface/article";
+import { post, get, update } from "./http";
+import Articles from "../views/interface/article";
+import { mainStore } from "../store/typeList";
 
 // 全部列表(分页)
 export const allList = async (data: any) => {
   let arr: any = await get("/article/list", data);
-  let array:any = JSON.parse(JSON.stringify(arr));
+  let array: any = JSON.parse(JSON.stringify(arr));
   array.list = [];
+  const store = mainStore();
 
   if (arr && arr.list) {
     arr.list.forEach((v: Articles) => {
@@ -18,8 +19,10 @@ export const allList = async (data: any) => {
         ...v,
         picture: v.picture
           ? v.picture
-          : new URL(`../assets/img/${randomItem(mainStore().bannerList)}`, import.meta.url)
-              .href,
+          : new URL(
+              `../assets/img/${randomItem(store.bannerList)}`,
+              import.meta.url
+            ).href,
       };
 
       array.list.push(a);

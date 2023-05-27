@@ -1,7 +1,7 @@
 <template>
   <div
     class="card2 card"
-    v-if="props.header.title != '我的收藏' || loveList && loveList.length > 0"
+    v-if="props.header.title != '我的收藏' || (loveList && loveList.length > 0)"
   >
     <div class="flex card-title">
       <h3>
@@ -13,7 +13,7 @@
 
     <!-- 我的收藏 -->
     <ul v-if="loveList && loveList.length > 0">
-      <li v-for="(item, index) in loveList" :key="item.id" class="flex">
+      <li v-for="item in loveList" :key="item.id" class="flex">
         <a :href="`/content?id=${item.id}`" class="flex">
           <span class="point"></span>
           <p>{{ item.title }}</p>
@@ -41,7 +41,7 @@
 
     <!-- 收藏最多 -->
     <ul v-else-if="props.header.title == '收藏最多'">
-      <li v-for="(item, index) in newList" :key="item.id" class="flex">
+      <li v-for="item in newList" :key="item.id" class="flex">
         <a :href="`/content?id=${item.id}`" class="flex">
           <span class="point"></span>
           <p>{{ item.title }}</p>
@@ -57,25 +57,15 @@
 
 <script setup lang="ts">
 import Articles from "../interface/article";
-import {
-  FireFilled,
-  HeartFilled,
-  StarFilled,
-  FieldNumberOutlined,
-} from "@ant-design/icons-vue";
 
-const timeStr = (date: string) => {
-  return date?.substring(0, 10);
-};
+// const timeStr = (date: string) => {
+//   return date?.substring(0, 10);
+// };
 
 const props = defineProps({
-  newList: { type: Array as PropType<Articles[]>, default: () => [] },
+  newList: { type: Array, default: () => [] },
   header: { type: Object, default: { title: "热门推荐", url: "/" } },
   timer: { type: Number, default: 0 },
-});
-
-let state = reactive({
-  ...props,
 });
 
 // 获取我的收藏
@@ -86,12 +76,10 @@ const getLove = () => {
     if (data) {
       // console.log(JSON.parse(data));
       let arr = JSON.parse(data).reverse();
-      if (arr.length > 10) {
-        loveList.value = arr.splice(0, 10);
-      } else {
-        loveList.value = arr;
-      }
-      console.log(loveList.value);
+
+      arr.length > 10
+        ? (loveList.value = arr.splice(0, 10))
+        : (loveList.value = arr);
     }
   }
 };
@@ -106,10 +94,7 @@ const getLove = () => {
 
 watch(
   () => props.timer,
-  (newVal, oldVal) => {
-    console.log(newVal, oldVal);
-    getLove();
-  }
+  () => getLove()
 );
 
 onMounted(() => {
@@ -117,5 +102,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

@@ -41,9 +41,6 @@ export const mainStore = defineStore({
         : "",
     };
   },
-  persist: {
-    enabled: true,
-  },
   getters: {
     tagsObj(state) {
       let obj = {};
@@ -53,7 +50,6 @@ export const mainStore = defineStore({
       return obj;
     },
     typesObj(state) {
-      console.log(state.types);
       let obj = {};
       state.types.forEach((v) => {
         obj = { ...obj, [v.id]: v.name };

@@ -1,4 +1,3 @@
-
 <template>
   <nav class="flex flex-end">
     <div class="flex">
@@ -39,38 +38,41 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "@vue/reactivity";
-import { UserOutlined } from "@ant-design/icons-vue";
-import { onMounted, inject, watch, nextTick, getCurrentInstance } from "vue";
-import { useRouter } from "vue-router";
-import { DownOutlined } from "@ant-design/icons-vue";
+import { mainStore } from "../../store/typeList";
 
 const navigation = reactive([
   { name: "首页", href: "/", current: true },
   { name: "编程", href: "/frondPage", current: false },
-  { name: "阅读", href: "/book", current: false },
+  // { name: "阅读", href: "/book", current: false },
   { name: "日志", href: "/diary", current: false },
   { name: "留言板", href: "/msglist", current: false },
-  { name: "聊天室", href: "/chatRoom", current: false },
+  // { name: "聊天室", href: "/chatRoom", current: false },
   { name: "关于我", href: "/about", current: false },
 ]);
-
+const reload: any = inject("reload");
 const route = useRouter();
+const store = mainStore();
+
 const loginOut = () => {
   localStorage.clear();
-
+  store.changeToken("");
   route.push({ path: "login" });
   reload();
-  console.log("ttsstststs");
 };
 
 let user = reactive({
-  isLogin: localStorage.getItem("token") ? true : false,
-  userName: localStorage.getItem("userName")
-    ? localStorage.getItem("userName")
-    : "",
+  isLogin: computed(() => (localStorage.getItem("token") ? true : false)),
+  userName: computed(() =>
+    localStorage.getItem("userName") ? localStorage.getItem("userName") : ""
+  ),
 });
-const reload: any = inject("reload");
+
+watch(
+  () => user.isLogin,
+  () => {
+    reload();
+  }
+);
 
 const checkNav = (index: number, url: string) => {
   nextTick(() => {
@@ -80,17 +82,14 @@ const checkNav = (index: number, url: string) => {
       route.push({ path: url });
       domlist.forEach = Array.prototype.forEach;
 
-      domlist.forEach((v: any) => {
-        v.className = "";
-      });
+      domlist.forEach((v: any) => v.className = "");
 
       domlist[index].className = "actived";
     }
   });
 };
 
-let menu_item = ref(null);
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 onMounted(() => {
   nextTick(() => {
     if (proxy.$refs && proxy.$refs["nav-li"]) {

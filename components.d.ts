@@ -35,6 +35,7 @@ declare module '@vue/runtime-core' {
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     CheckCircleFilled: typeof import('@ant-design/icons-vue')['CheckCircleFilled']
     CloudTwoTone: typeof import('@ant-design/icons-vue')['CloudTwoTone']
+    DownOutlined: typeof import('@ant-design/icons-vue')['DownOutlined']
     EditOutlined: typeof import('@ant-design/icons-vue')['EditOutlined']
     EnvironmentTwoTone: typeof import('@ant-design/icons-vue')['EnvironmentTwoTone']
     HeartOutlined: typeof import('@ant-design/icons-vue')['HeartOutlined']
@@ -48,5 +49,6 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UnorderedListOutlined: typeof import('@ant-design/icons-vue')['UnorderedListOutlined']
+    UserOutlined: typeof import('@ant-design/icons-vue')['UserOutlined']
   }
 }

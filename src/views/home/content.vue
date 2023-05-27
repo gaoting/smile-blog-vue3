@@ -152,17 +152,12 @@
 </template>
 
 <script setup lang="ts">
-
 import { findById, searchList, updateNum } from "../../common/axios";
-import Articles from "../interface/article";
 
 import moment from "moment";
 import { storeToRefs } from "pinia";
-import { mainStore } from "@/store/typeList";
+import { mainStore } from "../../store/typeList";
 
-const props = defineProps({
-  id: Number,
-});
 const top = ref<number>(60);
 let getId = ref(0);
 const route = useRoute();
@@ -189,13 +184,6 @@ let newData = ref({
 // const _this: any = ref(getCurrentInstance()?.appContext.config.globalProperties);
 
 const store = mainStore();
-const { types: any } = storeToRefs(store);
-const setObj = (id: number) => {
-  console.log(id);
-  let arr = store.types.find((v: any) => v.id == id);
-  console.log(id, store.types, arr.name);
-  return arr.name;
-};
 
 // 获取详情   设置content description 标签转译
 const getRightsList = async (id?: number) => {
@@ -259,7 +247,6 @@ const goLove = (bool: boolean) => {
   } else {
     let arr = [] as any;
     arr.push(newData.value);
-    console.log(arr);
     localStorage.setItem("myLove", JSON.stringify(arr));
     love.value = true;
     sendData(1);
@@ -267,12 +254,11 @@ const goLove = (bool: boolean) => {
   handleCreate();
 };
 
-const adminButton = computed(() => {
-  return (
+const adminButton = computed(
+  () =>
     localStorage.getItem("userName") &&
     localStorage.getItem("userName") === "admin"
-  );
-});
+);
 
 // 调用接口
 const sendData = async (num: number) => {

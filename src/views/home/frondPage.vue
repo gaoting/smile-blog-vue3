@@ -1,15 +1,4 @@
 <template>
-  <div class="flex page-header">
-    <!-- <img src="../../assets/img/banner.jpg" alt="" /> -->
-    <!-- <a-card hoverable v-for="item in types" :key="item.id">
-      <template #cover>
-        <h1 font-family="mFont">{{item.name}}</h1>
-      </template>
-      <a-card-meta title="">
-        <template #description>{{item.desc}}</template>
-      </a-card-meta>
-    </a-card> -->
-  </div>
   <div class="content-box flex">
     <div class="content-left-box">
       <a-tabs
@@ -17,6 +6,7 @@
         type="card"
         @change="changeTab"
         v-if="!route.query.id"
+        :loading="loading"
       >
         <a-tab-pane key="0" tab="全部">
           <List
@@ -60,7 +50,7 @@
       <template v-else>
         <div class="top-title flex-between">
           <h2>
-            <span>{{ store.tagsObj[route.query.id] }}</span>
+            <span>{{ title }}</span>
           </h2>
           <a-button @click="addArticle" type="primary" v-if="adminButton">
             <edit-outlined />
@@ -88,7 +78,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted, watch, computed } from "vue";
 import Articles from "../interface/article";
 import { allList, searchList } from "../../common/axios";
 import List from "./list.vue";
@@ -96,12 +85,12 @@ import CardList from "./cardList.vue";
 import TagList from "./tagList.vue";
 import { useRoute, useRouter } from "vue-router";
 import { mainStore } from "../../store/typeList";
-import { storeToRefs } from "pinia";
-import { TabsProps } from "..";
-import { EditOutlined } from "@ant-design/icons-vue";
 
-const tabPosition = ref<TabsProps["tabPosition"]>("top");
 const activeKey = ref("0");
+const title = computed(() =>
+  route.query?.id ? store.tagsObj[+route.query?.id] : ""
+);
+let loading = ref(false);
 
 let page = reactive({
   current: 1,
@@ -132,6 +121,7 @@ const changeTab = () => {
 // 分页列表
 const route = useRoute();
 const getAllList = async () => {
+  loading.value = true;
   const data = await allList({
     pageSize: page.pageSize,
     current: page.current,
@@ -140,6 +130,7 @@ const getAllList = async () => {
   });
   allArticleList.value = data.list as Articles[];
   page.total = data.total;
+  loading.value = false;
 };
 
 const router = useRouter();
@@ -147,17 +138,7 @@ const addArticle = () => {
   router.push({ path: "articleAdd" });
 };
 
-watch(
-  [() => route.query, activeKey],
-  (oldVal, newVal) => {
-    console.log(oldVal, newVal);
-    getAllList();
-    // activeKey.value = "0";
-  },
-  {
-    deep: true,
-  }
-);
+watch([() => route.query, activeKey], () => getAllList());
 
 // 热门推荐
 let newList = ref([] as Articles[]);
@@ -181,7 +162,6 @@ const getCollectList = async () => {
 
 const store = mainStore();
 
-const { token, types } = storeToRefs(store);
 onMounted(() => {
   getAllList();
   getsearchList();
@@ -202,9 +182,6 @@ onMounted(() => {
   color: #fff;
 }
 .page-header {
-  // height: 220px;
-  // overflow: hidden;
-  // background-image: url('../../assets/img/bb.jpg');
   background-size: cover;
 }
 
