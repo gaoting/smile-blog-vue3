@@ -25,3 +25,5 @@ client.zip
 *.sln
 *.sw
 .vscode/extensions.json
+client/*
+gaoting666/*

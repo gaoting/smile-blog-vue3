@@ -59,7 +59,7 @@ const route = useRouter();
 const loginOut = () => {
   localStorage.clear();
 
-  route.push({ path: "/login" });
+  route.push({ path: "login" });
   reload();
   console.log("ttsstststs");
 };

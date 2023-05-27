@@ -26,7 +26,6 @@ export const mainStore = defineStore({
         { id: 19, name: "react (native)", desc: "" },
         { id: 20, name: "jest", desc: "" },
         { id: 21, name: "算法", desc: "" },
-
       ],
       types: [
         { id: 0, name: "全部" },
@@ -35,7 +34,7 @@ export const mainStore = defineStore({
         { id: 3, name: "阅读" },
         { id: 4, name: "其他" },
       ],
-      bannerList: Array.from({ length: 10 }, (v, i) => `a${i + 1}.jpg`),
+      bannerList: Array.from({ length: 10 }, (_v, i) => `a${i + 1}.jpg`),
       token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
       userInfo: localStorage.getItem("userInfo")
         ? localStorage.getItem("userInfo")
@@ -48,14 +47,15 @@ export const mainStore = defineStore({
   getters: {
     tagsObj(state) {
       let obj = {};
-      this.tags.forEach((v) => {
+      state.tags.forEach((v) => {
         obj = { ...obj, [v.id]: v.name };
       });
       return obj;
     },
     typesObj(state) {
+      console.log(state.types);
       let obj = {};
-      this.types.forEach((v) => {
+      state.types.forEach((v) => {
         obj = { ...obj, [v.id]: v.name };
       });
       return obj;
