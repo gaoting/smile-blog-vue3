@@ -22,6 +22,13 @@ function pathResolve(dir) {
 }
 
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        charset: false
+      }
+    }
+  },
   base: "",
   plugins: [
     prismjsPlugin({
