@@ -15,7 +15,7 @@ import ViteImages from 'vite-plugin-vue-images'
 // setup语法糖name增强，使vue3语法糖支持name属性。vue3语法糖默认是没有name属性的，在我们使用keep-alive的时候需要用到name。
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 // 监听文件修改，自动重启vite服务
-import ViteRestart from 'vite-plugin-restart'
+// import ViteRestart from 'vite-plugin-restart'
 
 function pathResolve(dir) {
   return resolve(__dirname, ".", dir);
