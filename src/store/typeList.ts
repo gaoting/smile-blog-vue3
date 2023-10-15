@@ -1,5 +1,10 @@
 import { defineStore } from "pinia";
 
+interface ObjType {
+  id: number;
+  name: string;
+}
+
 export const mainStore = defineStore({
   id: "typeList",
   state: () => {
@@ -42,16 +47,16 @@ export const mainStore = defineStore({
     };
   },
   getters: {
-    tagsObj(state) {
+    tagsObj: (state) => {
       let obj = {};
       state.tags.forEach((v) => {
         obj = { ...obj, [v.id]: v.name };
       });
       return obj;
     },
-    typesObj(state) {
+    typesObj() {
       let obj = {};
-      state.types.forEach((v) => {
+      this.types.forEach((v) => {
         obj = { ...obj, [v.id]: v.name };
       });
       return obj;

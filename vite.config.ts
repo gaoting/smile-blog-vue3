@@ -54,9 +54,9 @@ export default defineConfig({
       ],
     }),
     // vite自动重启
-    ViteRestart({
-      restart: ["my.config.[jt]s"],
-    }),
+    // ViteRestart({
+    //   restart: ["my.config.[jt]s"],
+    // }),
     // setup可添加name
     vueSetupExtend(),
     // 图片自动导入
