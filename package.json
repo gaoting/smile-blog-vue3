@@ -5,8 +5,8 @@
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
-    "buildTest": "vite build",
-    "build": "vite build && ./app --env test",
+    "build": "vite build",
+    "buildProd": "vite build && ./app --env test",
     "new": "plop",
     "preview": "vite preview",
     "plop": "plop"
