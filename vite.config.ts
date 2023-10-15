@@ -103,7 +103,7 @@ export default defineConfig({
   },
   server: {
     cors: true,
-    open: true,
+    open: false,
     host: "localhost",
     port: 9999,
     proxy: {
